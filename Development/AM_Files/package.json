@@ -1,0 +1,29 @@
+{
+  "name": "AM",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www/app.js"
+  },
+  "dependencies": {
+    "async": "^2.0.1",
+    "body-parser": "~1.15.1",
+    "bower": "^1.7.9",
+    "connect-redis": "^3.1.0",
+    "cookie-parser": "~1.4.3",
+    "dateformat": "^1.0.12",
+    "debug": "~2.2.0",
+    "express": "~4.13.4",
+    "express-handlebars": "^3.0.0",
+    "express-jwt": "^5.1.0",
+    "express-session": "^1.14.1",
+    "hbs": "~4.0.0",
+    "http": "0.0.0",
+    "jsonwebtoken": "^7.1.9",
+    "morgan": "~1.7.0",
+    "mysql": "^2.11.1",
+    "regex": "^0.1.1",
+    "serve-favicon": "~2.3.0",
+    "v8-profiler": "^5.6.5"
+  }
+}

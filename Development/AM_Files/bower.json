@@ -1,0 +1,13 @@
+{
+  "name": "AM",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Ahmed Mater"
+  ],
+  "license": "MIT",
+  "homepage": "home",
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
