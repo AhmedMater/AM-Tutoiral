@@ -12,7 +12,7 @@ var exports = module.exports = {
         database: 'am'
     }),
 
-    selectQuery: function (attributes, fromTable, conditions, conditionsValue, orderBy, order, limit) {
+    selectQuery: function (attributes, fromTable, conditions, orderBy, order, limit) {
         var SQL_Query = "SELECT ";
 
         for(var i=0; i<attributes.length; i++)
@@ -25,7 +25,7 @@ var exports = module.exports = {
             SQL_Query += " WHERE ";
 
             for(var i=0; i<conditions.length; i++)
-                SQL_Query += conditions[i] + " = '" + conditionsValue[i] + "' AND ";
+                SQL_Query += conditions[i].name + " = '" + conditions[i].value + "' AND ";
 
             SQL_Query = SQL_Query.substring(0, SQL_Query.length-5);
         }
@@ -34,18 +34,19 @@ var exports = module.exports = {
         return SQL_Query;
     },
 
-    insertQuery: function (insertTable, attributes, attributesValue) {
+    insertQuery: function (insertTable, attributes) {
         var SQL_Query = "Insert INTO " + insertTable + " (";
+        var _attributes = "(";
+        var values = "(";
 
-        for(var i=0; i<attributes.length; i++)
-            SQL_Query += attributes[i] + ", ";
+        for(var i=0; i<attributes.length; i++) {
+            _attributes += attributes[i].name + ", ";
+            values += attributes[i].value + ", ";
+        }
 
-        SQL_Query = SQL_Query.substring(0, SQL_Query.length-2) + ") VALUES (";
+        SQL_Query = _attributes.substring(0, SQL_Query.length-2) + ") VALUES "
+            + values.substring(0, SQL_Query.length-2) + ")";
 
-        for(var i=0; i<attributesValue.length; i++)
-            SQL_Query += attributesValue[i] + ", ";
-
-        SQL_Query = SQL_Query.substring(0, SQL_Query.length-2) + ")";
         return SQL_Query;
     }
 };
