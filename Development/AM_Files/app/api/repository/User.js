@@ -114,10 +114,14 @@ var exports = module.exports = {
         try {
             Logger.debug(config.FOLDERS_NAMES.repository, fn_names.isUserFound, 'Started');
 
-            var query =
-                "SELECT id " +
-                "FROM users " +
-                "WHERE userName = \'" + userName + "\' OR email = \'" + email + "\';";
+            var attributes = ['id'];
+            var conditions = [  {name: 'user_name', value: "'" + userName + "'"},
+                                {name: 'email', value: "'" + email + "'", logic: 'OR'}   ];
+
+            var query = database.selectQuery(attributes, 'users', conditions, null, null, null);
+                //"SELECT id " +
+                //"FROM users " +
+                //"WHERE userName = \'" + userName + "\' OR email = \'" + email + "\';";
 
             database.connection.query(query, function (err, rows, fields) {
                 if (err != null)

@@ -22,15 +22,17 @@ var exports = module.exports = {
 
         SQL_Query += " FROM " + fromTable;
         if(conditions != null){
-            SQL_Query += " WHERE ";
+            SQL_Query += " WHERE " + conditions[0].name + " = " + conditions[0].value;
 
-            for(var i=0; i<conditions.length; i++)
-                SQL_Query += conditions[i].name + " = '" + conditions[i].value + "' AND ";
+            for(var i=1; i<conditions.length; i++)
+                SQL_Query += conditions[i].logic + ' ' + conditions[i].name + " = " + conditions[i].value;
 
             SQL_Query = SQL_Query.substring(0, SQL_Query.length-5);
         }
 
-        SQL_Query += " ORDER BY " +  orderBy + order;
+        if(orderBy != null)
+            SQL_Query += " ORDER BY " +  orderBy + order;
+
         return SQL_Query;
     },
 
