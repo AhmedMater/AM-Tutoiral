@@ -32,7 +32,14 @@ var exports = module.exports = {
         home: "/",
         login: "/login",
         register: "/register",
-        userCheck: '/user/checkUserName?'
+        users: '/users?',
+        userCheck: '/user/checkUserName?',
+        userProfile: '/user/:id/profile',
+        userSettings: '/user/:id/settings?',
+        logout: '/logout',
+        courses: '/courses?',
+        articles: '/articles?',
+        questions: '/questions?'
     },
 
     Services:{ // SUB_FOLDERS.services = ../services

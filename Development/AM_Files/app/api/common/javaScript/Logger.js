@@ -30,8 +30,8 @@ exports.info = function(fn_name, message) {
     fs.appendFile(LogFilePath, logMsg, 'utf8');
 };
 
-exports.error = function(folder, fn_name, error) {
+exports.error = function(folder, fn_name, errorMsg) {
     var logMsg = AM_SYSTEM + " " + dateFormat(new Date(), datePattern) + " [Error]: "
-        + folder + " - " + fn_name + ": " + error.message + "\n";
+        + folder + " - " + fn_name + ": " + errorMsg + "\n";
     fs.appendFile(LogFilePath, logMsg, 'utf8');
 };

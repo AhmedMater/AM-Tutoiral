@@ -11,51 +11,41 @@
         <div id="login" class="tab-pane active">
             <form action="/login" method="POST" class="form-signin">
 
-                <div class="form-group row" id="main_userNameDiv">
-                    <label class="control-label col-lg-6 col-lg-offset-3 has-success text-center">Enter your Username and Password</label>
+                <div class="row">
+                    <div class="col-lg-offset-4 col-lg-4">
+                        <div class="form-group " id="main_userNameDiv">
+                            <label class="control-label has-success text-center">Enter your Username and Password</label>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group row" id="main_userNameDiv">
-                    <label class="control-label col-lg-2 col-lg-offset-3 text-center">User name *</label>
-
-                    <div class="col-lg-3">
-                        <input type="text" id="userName" name="userName" placeholder="Enter your User name" class="form-control" />
-
+                <!-- Username Field -->
+                <div class="row">
+                    <div class="col-lg-offset-4 col-lg-3">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="userName" name="userName"
+                                   placeholder="Enter your User name"  />
+                        </div>
                     </div>
                 </div>
 
                 <!-- Password Field -->
-                <div class="form-group row">
-                    <label class="control-label col-lg-2 col-lg-offset-3 text-center">Password *</label>
+                <div class="row">
+                    <div class="col-lg-offset-4 col-lg-3">
+                        <div class="form-group ">
 
-                    <div class="col-lg-3">
-                        <input type="password" id="password" name="password" placeholder="Enter your Password" class="form-control" />
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-lg-12">
-                        <div class="form-actions" style="text-align:center">
-                            <a class="btn text-muted text-center btn-metis-1" href="/forgetPassword"> Forget Your Password</a>
+                            <input type="password" id="password" name="password" placeholder="Enter your Password" class="form-control" />
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <div class="col-lg-12">
-                        <div class="form-actions" style="text-align:center">
-                            <input type="submit" id="submitBtn" value="Login" class="btn btn-primary btn-md" />
-                        </div>
-                        <a class="btn text-muted text-center btn-metis-4" href="/register"> Sign Up</a>
+                <!-- Forget Password and Login Field -->
+                <div class="row">
+                    <div class="col-lg-offset-4 col-lg-3">
+                        <a class="btn btn-danger" href="/forgetPassword"> Forget Your Password</a>
+                        <input type="submit" id="submitBtn" value="Login" class="btn btn-success" />
                     </div>
                 </div>
             </form>
         </div>
-
-
-    <!--<div class="text-center">-->
-        <!--<ul class="list-inline">-->
-            <!--<li><a class="text-muted btn btn-primary btn-md" href="/login" data-toggle="tab">Login</a></li>-->
-        <!--</ul>-->
-    <!--</div>-->
 </div>

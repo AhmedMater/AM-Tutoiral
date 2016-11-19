@@ -3,7 +3,7 @@
  */
 
 var config = require('../../configuration');
-var database = require(config.Repository._DBConnection);
+var database = require(config.Repository._DBConnection).connection;
 var Exceptions = require(config.Common.Exceptions);
 var Logger = require(config.Common.Logger);
 
@@ -16,19 +16,17 @@ var fn_names = {
 var exports = module.exports = {
 
     insertUser: function(userData, callback) {
-        try {
-            Logger.debug(config.FOLDERS_NAMES.repository, fn_names.insertUser, 'Started');
 
 //exports.insertUser = function(userName, password, email, userRoleID, firstName, lastName, gender,
 //                              university, college, job, country, dateOfBirth, mailSubscribe, callback) {
-            var query = 'INSERT INTO users SET ?';
+        var query = 'INSERT INTO users SET ?';
 
-            database.connection.query(query, userData, function (err, rows, fields) {
-                if (err != null)
-                    throw new Exceptions.dbException(fn_names.insertUser, err.message);
-
+        database.query(query, userData, function (err, rows, fields) {
+            if (err != null)
+                Logger.error(config.FOLDERS_NAMES.repository,fn_names.insertUser,err.message);
+            else
                 callback(null, true);
-            });
+        });
 
             //var query = 'INSERT INTO users (user_name, password, email, user_role, first_name, last_name, mail_subscribe, gender ';
             //
@@ -55,45 +53,39 @@ var exports = module.exports = {
             //
             //    callback(null, true);
             //});
-            Logger.debug(config.FOLDERS_NAMES.repository, fn_names.insertUser, 'Ended');
-        } catch (e){
-            Logger.error(config.FOLDERS_NAMES.repository,fn_names.insertUser,e);
-            throw new Exceptions.dbException(fn_names.insertUser,e.message);
-        }
     },
 
     getUser: function(userName, password, callback) {
-        try {
-            Logger.debug(config.FOLDERS_NAMES.repository, fn_names.getUser, 'Started');
+        if (userName == null || password == null)
+            Logger.error(config.FOLDERS_NAMES.repository,fn_names.getUser,"Username or Password is null");
 
-            if (userName == null)
-                throw new Exceptions.dbException(fn_names.getUser, 'User Name = null');
-            else if (password == null)
-                throw new Exceptions.dbException(fn_names.getUser, 'Password = null');
+        var query =
+            "SELECT " +
+                "user.id userID, user_name, first_name, last_name, role.id AS roleID, role.name AS roleName, email," +
+                "profile_pic " +
+            "FROM " +
+                "users user LEFT JOIN lookup_user_role role ON user.user_role = role.id " +
+            "WHERE " +
+                "user_name = \'" + userName + "\' " +
+                "AND password = \'" + password + "\';";
 
-            var query =
-                "SELECT "
-                + "user.id userID, user_name, first_name, last_name, role.id AS roleID, role.name AS roleName, email " +
-                "FROM "
-                + "users user LEFT JOIN lookup_user_role role ON user.user_role = role.id " +
-                "WHERE "
-                + "user_name = \'" + userName + "\' AND password = \'" + password + "\';";
-
-            database.connection.query(query, function (err, rows, fields) {
-                if (err != null)
-                    throw new Exceptions.dbException(fn_names.getUser, err.message);
-
+        database.query(query, function (err, rows, fields) {
+            if (err != null) {
+                Logger.error(config.FOLDERS_NAMES.repository, fn_names.getUser, err.message);
+            } else {
                 var result;
                 if (rows[0] != null) {
                     result = {
                         userID: rows[0].userID,
                         userName: rows[0].user_name,
-                        fullName: rows[0].first_name + ' ' + rows[0].last_name,
+                        firstName: rows[0].first_name,
+                        lastName: rows[0].last_name,
                         userRole: {
-                            id: rows[0].roleID,
-                            name: rows[0].roleName
+                            roleID: rows[0].roleID,
+                            roleName: rows[0].roleName
                         },
-                        email: rows[0].email
+                        email: rows[0].email,
+                        userPic: rows[0].profile_pic
                     };
                     Logger.info(fn_names.getUser, 'User data is retrieved');
                 } else {
@@ -102,30 +94,22 @@ var exports = module.exports = {
                 }
 
                 callback(null, result);
-            });
-            Logger.debug(config.FOLDERS_NAMES.repository, fn_names.getUser, 'Ended');
-        } catch (e){
-            Logger.error(config.FOLDERS_NAMES.repository,fn_names.getUser,e);
-            throw new Exceptions.dbException(fn_names.getUser,e.message);
-        }
+            }
+        });
+
     },
 
     isUserFound: function(userName, email, callback){
-        try {
-            Logger.debug(config.FOLDERS_NAMES.repository, fn_names.isUserFound, 'Started');
+        var query =
+            "SELECT " +
+                "id FROM users " +
+            "WHERE " +
+                "user_name = \'" + userName + "\' OR email = \'" + email + "\';";
 
-            var attributes = ['id'];
-            var conditions = [  {name: 'user_name', value: "'" + userName + "'"},
-                                {name: 'email', value: "'" + email + "'", logic: 'OR'}   ];
-
-            var query = database.selectQuery(attributes, 'users', conditions, null, null, null);
-                //"SELECT id " +
-                //"FROM users " +
-                //"WHERE userName = \'" + userName + "\' OR email = \'" + email + "\';";
-
-            database.connection.query(query, function (err, rows, fields) {
-                if (err != null)
-                    throw new Exceptions.dbException(fn_names.isUserFound, err.message);
+        database.query(query, function (err, rows, fields) {
+            if (err != null) {
+                Logger.error(config.FOLDERS_NAMES.repository, fn_names.isUserFound, err.message);
+            } else {
 
                 if (rows[0] != null) {
                     Logger.info(fn_names.isUserFound, 'User is found in Database');
@@ -134,13 +118,7 @@ var exports = module.exports = {
                     Logger.info(fn_names.isUserFound, 'User isn\'t found in Database');
                     callback(null, false);
                 }
-            });
-            Logger.debug(config.FOLDERS_NAMES.repository, fn_names.isUserFound, 'Ended');
-        } catch (e){
-            Logger.error(config.FOLDERS_NAMES.repository,fn_names.isUserFound,e);
-            throw new Exceptions.dbException(fn_names.isUserFound,e.message);
-        }
+            }
+        });
     }
-
-
 };

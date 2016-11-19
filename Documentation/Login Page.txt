@@ -1,0 +1,17 @@
+
+	The Login Page will have:
+		1. 2 text fields for (username, password)
+		2. 2 buttons (forget passsword, login)
+		
+	The functionality of the page will be:
+		1. if the session has already user then redirect to the home page
+		2. after entering the user name and password and click login
+			2.1 if they are correct
+				2.1.1 save some user data in the session
+				2.1.2 redirect the user to the home page
+			2.2 if they aren't correct
+				2.2.1 redirect to the same page with error message that they are wrong
+				2.2.2 if the user try 5 times with wrong password the account will be locked
+				2.2.3 if the account is locked it will have to retrieve the password by email (forget password)
+				
+	

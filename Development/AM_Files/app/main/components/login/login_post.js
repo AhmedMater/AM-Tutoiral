@@ -24,7 +24,13 @@ exports.go = function(req,res) {
 
                 var session = req.session;
                 session.cookie.expires = false;
-                session.user = result;
+                session.user = {
+                    userID: result.userID,
+                    userName: result.userName,
+                    fullName: result.firstName + ' ' + result.lastName,
+                    userPicName: result.userPic,
+                    isAdmin: (result.userRole.roleName == 'Admin')
+                };
 
                 res.redirect(config.URL.home);
             } else {

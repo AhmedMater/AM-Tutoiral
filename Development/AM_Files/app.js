@@ -14,8 +14,9 @@ app.engine('.hbs', exphbs({defaultLayout: path.join(__dirname, '/app/api/common/
 app.use('/js', express.static(__dirname + '/public/javaScripts'));
 app.use('/css', express.static(__dirname + '/public/stylesheets'));
 app.use('/plugins', express.static(__dirname + '/public/plugins'));
-app.use('/images/profile', express.static(__dirname + '/public/images/profile'));
-app.use('/images/courses', express.static(__dirname + '/public/images/courses'));
+app.use('/profile', express.static(__dirname + '/public/images/profile'));
+app.use('/courses', express.static(__dirname + '/public/images/courses'));
+app.use('/users', express.static(__dirname + '/public/images/users'));
 
 app.set('view engine', 'hbs');
 // uncomment after placing your favicon in /public
@@ -68,7 +69,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
-module.exports = app;
+
+    module.exports = app;
 //app.listen(3000, function() {
 //    console.log('\nServer is running at localhost:3000');
 //});
