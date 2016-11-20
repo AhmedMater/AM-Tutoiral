@@ -1,3 +1,13 @@
 /**
  * Created by Ahmed Mater on 10/9/2016.
  */
+
+var exports = module.exports = {};
+var config = require('../../../configuration');
+
+exports.go = function(req, res) {
+
+    res.render(config.Views.allCourses, {
+        title: 'Courses'
+    });
+};

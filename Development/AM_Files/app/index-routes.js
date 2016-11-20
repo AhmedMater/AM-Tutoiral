@@ -44,6 +44,15 @@ exports.routing = function(app){
         router.go(req,res);
     });
 
+    app.get(config.URL.allCourses, function(req,res){
+        var router = require('./' + config.Routes.allCourses_get);
+        router.go(req,res);
+    });
+    app.post(config.URL.register, function(req,res){
+        var router = require('./' + config.Routes.register_post);
+        router.go(req,res);
+    });
+
     app.get(config.URL.userCheck, function(req,res){
         var router = require('./' + config.Routes.userNameCheck);
         router.go(req,res);
@@ -53,4 +62,4 @@ exports.routing = function(app){
         res.redirect(config.URL.home);
     });
 
-}
+};

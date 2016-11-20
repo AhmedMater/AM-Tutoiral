@@ -9,8 +9,18 @@ var exports = module.exports = {
     ForgetPassword:{
         SUCCESS: 'Success',
         FAIL: 'Fail'
+    },
+    CourseLevel: {
+        BEGINNER: 'Beginner',
+        MEDIUM: 'Medium',
+        ADVANCED: 'Advanced'
+    },
+    CourseType: {
+        ACADEMIC: 'Academic',
+        PRACTICAL: 'Practical'
+    },
+    ReferenceType:{
+        BOOK: 'Book',
+        COURSE: 'Course'
     }
 };
-
-
-//exports.ERROR_USER_ALREADY_EXISTS = 'User already exists in the database';
