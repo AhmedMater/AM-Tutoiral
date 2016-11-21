@@ -67,7 +67,7 @@
                             </ul>
                         </div>
 
-
+                        <!-- Articles Field -->
                         <div class="btn-group">
                             <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">Articles
                                 <span class="caret"></span>
@@ -79,6 +79,7 @@
                             </ul>
                         </div>
 
+                        <!-- Questions Field -->
                         <div class="btn-group">
                             <button data-toggle="dropdown" class="btn btn-danger dropdown-toggle">Questions
                                 <span class="caret"></span>
@@ -92,6 +93,7 @@
                         <a class="btn btn-warning" href="/aboutMe">About Me</a>
                         <a class="btn btn-info" href="/contactMe">Contact Me</a>
 
+                        <!-- Admin Field -->
                         {{#if isAdmin}}
                             <div class="btn-group">
                                 <button data-toggle="dropdown" class="btn btn-success dropdown-toggle">Admin
@@ -99,8 +101,8 @@
                                 </button>
                                 <ul class="dropdown-menu" >
                                     <li><a href="/users">Users</a></li>
-                                    <li><a href="/articles">Articles</a></li>
-                                    <li><a href="/courses">Courses</a></li>
+                                    <li><a href="/articles/new">Add new Article</a></li>
+                                    <li><a href="/courses/new">Add new Course</a></li>
                                     <li><a href="/questions">Questions</a></li>
                                     <li><a href="/suggestions">Suggestions</a></li>
                                 </ul>

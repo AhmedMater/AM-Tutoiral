@@ -44,12 +44,20 @@ exports.routing = function(app){
         router.go(req,res);
     });
 
-    app.get(config.URL.allCourses, function(req,res){
-        var router = require('./' + config.Routes.allCourses_get);
+    app.get(config.URL.addNewCourse, function(req,res){
+        var router = require('./' + config.Routes.addNewCourse_get);
         router.go(req,res);
     });
-    app.post(config.URL.register, function(req,res){
-        var router = require('./' + config.Routes.register_post);
+    app.post(config.URL.addNewCourse, function(req,res){
+        var router = require('./' + config.Routes.addNewCourse_post);
+        router.go(req,res);
+    });
+    app.get(config.URL.addNewChapter, function(req,res){
+        var router = require('./' + config.Routes.addNewChapter_get);
+        router.go(req,res);
+    });
+    app.get(config.URL.addNewLesson, function(req,res){
+        var router = require('./' + config.Routes.addNewLesson_get);
         router.go(req,res);
     });
 

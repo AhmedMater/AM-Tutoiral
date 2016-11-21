@@ -83,12 +83,20 @@ var exports = module.exports = {
         userSettings: '/user/:id/settings?',
         logout: '/logout',
 
-            // Course URLs
+            // all Course URLs
         allCourses: '/courses/all/',
-        addNewCourses: '/courses/new/',
+        addNewCourse: '/courses/new/',
         course: '/courses/:courseID/',
-        chapter: '/courses/:courseID/:chapterID',
-        lesson: '/courses/:courseID/:chapterID/:lessonID',
+
+            // all Chapters URLs
+        allChapters: '/chapters/:courseID/all/',
+        addNewChapter: '/chapters/:courseID/new/',
+        chapter: '/chapters/:courseID/:chapterID/',
+
+            // all Lessons URLs
+        allLessons: '/lessons/:courseID/:chapterID/all/',
+        addNewLesson: '/lessons/:courseID/:chapterID/new/',
+        lesson: '/lessons/:courseID/:chapterID/:lessonID',
 
         articles: '/articles?',
         questions: '/questions?'

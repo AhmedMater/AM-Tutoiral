@@ -9,4 +9,4 @@ exports.go = function(req,res) {
     res.render(config.Views.register_main, {
         title: "Sign Up"
     });
-}
+};
