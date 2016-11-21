@@ -10,17 +10,17 @@ var exports = module.exports = {
         SUCCESS: 'Success',
         FAIL: 'Fail'
     },
-    CourseLevel: {
-        BEGINNER: 'Beginner',
-        MEDIUM: 'Medium',
-        ADVANCED: 'Advanced'
-    },
-    CourseType: {
-        ACADEMIC: 'Academic',
-        PRACTICAL: 'Practical'
-    },
-    ReferenceType:{
-        BOOK: 'Book',
-        COURSE: 'Course'
-    }
+    CourseLevel: [
+        {name: 'Beginner', value: 'B' },
+        {name: 'Medium', value: 'M' },
+        {name: 'Advanced', value: 'A' }
+    ],
+    CourseType: [
+        {name: 'Academic', value: 'A' },
+        {name: 'Practical', value: 'P' }
+    ],
+    ReferenceType: [
+        {name: 'Book', value: 'B' },
+        {name: 'Course', value: 'C' }
+    ]
 };
