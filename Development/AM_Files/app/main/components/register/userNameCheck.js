@@ -13,7 +13,6 @@ exports.go = function(req,res) {
     async.series([
         function(next) {
             userService.isUserFound(userName, email, next);
-
         }], function(err, result) {
         res.send(result);
     });

@@ -109,6 +109,7 @@ var exports = module.exports = {
         database.query(query, function (err, rows, fields) {
             if (err != null) {
                 Logger.error(config.FOLDERS_NAMES.repository, fn_names.isUserFound, err.message);
+                callback(err, null);
             } else {
 
                 if (rows[0] != null) {
