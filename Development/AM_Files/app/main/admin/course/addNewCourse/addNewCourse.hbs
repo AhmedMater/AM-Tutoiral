@@ -47,7 +47,7 @@
                     <label class="control-label col-lg-2">Course Period *</label>
 
                     <div class="col-lg-3" id="userPeriodDiv">
-                        <input type="text" id="coursePeriod" name="coursePeriod" placeholder="Enter the Course Period (in hour)" class="form-control" />
+                        <input type="number" id="coursePeriod" name="coursePeriod" placeholder="Enter the Course Period (in hour)" class="form-control" />
 
                     </div>
                 </div>
@@ -88,71 +88,168 @@
                     </div>
                 </div>
 
-                <!-- Course Content Field -->
-                <div class="form-group" id="main_courseContentDiv">
-                    <label class="control-label col-lg-2">Course Content *</label>
+                <!-- Course Description Field -->
+                <div class="form-group" id="main_courseDescriptionDiv">
+                    <label class="control-label col-lg-2">Course Description: </label>
 
-                    <div class="col-lg-7" id="courseContentDiv">
-                        <input type="text" id="courseContent" name="courseContent"
-                               placeholder="Enter the Course Content" class="form-control" />
-
-                    </div>
-
-                    <div class="col-lg-1" id="courseContentPlusDiv">
-                        <button type="button" class="btn btn-success btn-circle">
-                            <i class="icon-plus"></i>
-                        </button>
+                    <div class="col-lg-7" id="courseDescriptionDiv">
+                        <textarea id="autosize" class="form-control" style="overflow: hidden;
+                                word-wrap: break-word; resize: horizontal; height: 174px;"></textarea>
                     </div>
                 </div>
 
-                <!-- Course Objective Field -->
-                <div class="form-group" id="main_courseObjectiveDiv">
-                    <label class="control-label col-lg-2">Course Objective *</label>
+            </div>
 
-                    <div class="col-lg-7" id="courseObjectiveDiv">
+        </div>
+
+        <!-- Course Objective Fields -->
+        <div class="box">
+            <header>
+                <h5>Course Objectives</h5>
+                <div class="toolbar">
+                    <ul class="nav">
+                        <li>
+                            <div class="btn-group">
+                                <a class="accordion-toggle btn btn-xs minimize-box" data-toggle="collapse"
+                                   href="#courseObjectiveCollapse">
+                                    <i class="icon-chevron-up"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+            <div id="courseObjectiveCollapse" class="accordion-body collapse in body">
+
+                <div class="form-group" id="main_courseObjective1Div">
+                    <label class="control-label col-lg-1">1</label>
+
+                    <div class="col-lg-7">
                         <input type="text" id="courseObjective" name="courseObjective"
                                placeholder="Enter the Course Objective" class="form-control" />
                     </div>
 
-                    <div class="col-lg-1" id="courseObjectivePlusDiv">
-                        <button type="button" class="btn btn-success btn-circle">
+                    <div class="col-lg-1">
+                        <button type="button" class="btn btn-success btn-circle" onclick="addNewCourseObjective()">
                             <i class="icon-plus"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Course Pre-Requisite Field -->
-                <div class="form-group" id="main_coursePreRequisiteDiv">
-                    <label class="control-label col-lg-2">Course Pre-Requisite</label>
+            </div>
+        </div>
 
-                    <div class="col-lg-2" id="coursePreRequisiteNameDiv" >
-                        <input type="text" class="form-control"  id="coursePreRequisiteName" name="coursePreRequisiteName"
-                            placeholder="Enter the Name" />
+        <!-- Course Content Field -->
+        <div class="box">
+            <header>
+                <h5>Course Content</h5>
+                <div class="toolbar">
+                    <ul class="nav">
+                        <li>
+                            <div class="btn-group">
+                                <a class="accordion-toggle btn btn-xs minimize-box" data-toggle="collapse"
+                                   href="#courseContentCollapse">
+                                    <i class="icon-chevron-up"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+            <div id="courseContentCollapse" class="accordion-body collapse in body">
+
+                <div class="form-group" id="main_courseContent1Div">
+                    <label class="control-label col-lg-1">1</label>
+
+                    <div class="col-lg-7">
+                        <input type="text" id="courseContent" name="courseContent"
+                               placeholder="Enter the Course Content" class="form-control" />
                     </div>
 
-                    <div class="col-lg-5" id="coursePreRequisiteURLDiv">
-                        <input type="text" class="form-control"  id="coursePreRequisiteURL" name="coursePreRequisiteURL"
-                               placeholder="Enter the URL" />
-                    </div>
-
-                    <div class="col-lg-1" id="coursePreRequisitePlusDiv">
-                        <button type="button" class="btn btn-success btn-circle">
+                    <div class="col-lg-1">
+                        <button type="button" class="btn btn-success btn-circle" onclick="addNewCourseContent()">
                             <i class="icon-plus"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Course References Field -->
-                <div class="form-group" id="main_courseReferenceDiv">
-                    <label class="control-label col-lg-2">Course References *</label>
+            </div>
+        </div>
 
-                    <div class="col-lg-2" id="courseReferenceNameDiv">
+        <!-- Course Pre-Requisite Field -->
+        <div class="box">
+            <header>
+                <h5>Course Pre-Requisite</h5>
+                <div class="toolbar">
+                    <ul class="nav">
+                        <li>
+                            <div class="btn-group">
+                                <a class="accordion-toggle btn btn-xs minimize-box" data-toggle="collapse"
+                                   href="#coursePreRequisiteCollapse">
+                                    <i class="icon-chevron-up"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+            <div id="coursePreRequisiteCollapse" class="accordion-body collapse in body">
+                <div class="form-group" id="main_coursePreRequisite1Div">
+                    <label class="control-label col-lg-1">1</label>
+
+                    <div class="col-lg-3">
+                        <input type="text" class="form-control" id="coursePreRequisiteName"
+                               name="coursePreRequisiteName" placeholder="Enter the Name" />
+                    </div>
+
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" id="coursePreRequisiteURL"
+                               name="coursePreRequisiteURL" placeholder="Enter the URL" />
+                    </div>
+
+                    <div class="col-lg-1">
+                        <button type="button" class="btn btn-success btn-circle" onclick="addNewCoursePreRequisite()">
+                            <i class="icon-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course References Field -->
+        <div class="box">
+            <header>
+                <h5>Course Reference</h5>
+                <div class="toolbar">
+                    <ul class="nav">
+                        <li>
+                            <div class="btn-group">
+                                <a class="accordion-toggle btn btn-xs minimize-box" data-toggle="collapse"
+                                   href="#courseReferenceCollapse">
+                                    <i class="icon-chevron-up"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+            <div id="courseReferenceCollapse" class="accordion-body collapse in body">
+
+                <div class="form-group" id="main_courseReference1Div">
+                    <label class="control-label col-lg-1">1</label>
+
+                    <div class="col-lg-3" id="courseReferenceNameDiv">
                         <input type="text" class="form-control"  id="courseReferenceName"
                                name="courseReferenceName" placeholder="Enter the Name" />
                     </div>
 
                     <div class="col-lg-2" id="courseReferenceDiv">
-                        <select name="courseReferenceType" placeholder="Type" id="courseReferenceType" class="form-control">
+                        <select name="courseReferenceType" placeholder="Type"
+                                id="courseReferenceType" class="form-control">
                             <option value="" disabled selected>Type</option>
                             {{#each referenceType}}
                                 <option value="{{value}}">{{name}}</option>
@@ -160,44 +257,38 @@
                         </select>
                     </div>
 
-                    <div class="col-lg-3" id="courseReferenceURLDiv">
-                        <input type="text" class="form-control"  id="courseReferenceURL" name="courseReferenceURL"
-                               placeholder="Enter the URL" />
+                    <div class="col-lg-4" id="courseReferenceURLDiv">
+                        <input type="text" class="form-control"  id="courseReferenceURL"
+                               name="courseReferenceURL" placeholder="Enter the URL" />
                     </div>
 
                     <div class="col-lg-1" id="courseReferencePlusDiv">
-                        <button type="button" class="btn btn-success btn-circle">
+                        <button type="button" class="btn btn-success btn-circle" onclick="addNewCourseReference()">
                             <i class="icon-plus"></i>
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Course Description Field -->
-                <div class="form-group" id="main_courseReferenceDiv">
-                    <label class="control-label col-lg-2">Course Description: </label>
-
-                    <div class="col-lg-7" id="courseReferenceNameDiv">
-                        <textarea id="autosize" class="form-control" style="overflow: hidden;
-                                word-wrap: break-word; resize: horizontal; height: 174px;"></textarea>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-offset-4 col-lg-4">
-                        <div class="form-group">
-                            <input type="submit" id="submitBtn" value="Submit" class="btn btn-primary btn-lg" />
-                            <input type="submit" id="submitBtn" value="Back" class="btn btn-danger btn-lg" />
-                        </div>
-                    </div>
+        <div class="row">
+            <div class="col-lg-offset-5 col-lg-4">
+                <div class="form-group">
+                    <input type="submit" id="submitBtn" value="Submit" class="btn btn-primary btn-lg" />
+                    <input type="submit" id="submitBtn" value="Back" class="btn btn-danger btn-lg" />
                 </div>
             </div>
-
         </div>
     </form>
 </div>
 
 
 <!-- PAGE LEVEL SCRIPTS -->
-<!--<script src="/js/formValidation.js"></script>-->
-<!--<script> $(function () { checkUserExist(); });   </script>-->
+<script src="/js/newCourseForm.js"></script>
+<script>
+//    $("#courseObjectivePlus").click(addNewCourseObjective());
+    $(function () {
+        checkCourseData();
+    });
+</script>
 <!--END PAGE LEVEL SCRIPTS -->
