@@ -73,9 +73,9 @@ var exports = module.exports = {
                 }],
             function(err, result) {
                 if(err != null)
-                    Logger.error(config.FOLDERS_NAMES.service,fn_names.isUserFound,err.message);
+                    Logger.error(config.FOLDERS_NAMES.service, fn_names.isUserFound, err.message);
 
-                next(null, result);
+                next(err, result);
             }
         );
 

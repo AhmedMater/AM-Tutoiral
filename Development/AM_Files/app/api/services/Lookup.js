@@ -9,12 +9,13 @@ var exports = module.exports = {
     getAllCourseLevels: function(){
         return SystemParameters.CourseLevel;
     },
-
     getAllCourseTypes: function(){
         return SystemParameters.CourseType;
     },
-
     getAllReferenceTypes: function(){
         return SystemParameters.ReferenceType;
+    },
+
+    loadLookupData: function(){
     }
 };

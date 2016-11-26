@@ -24,8 +24,8 @@ var exports = module.exports = {
         database.query(query, userData, function (err, rows, fields) {
             if (err != null)
                 Logger.error(config.FOLDERS_NAMES.repository,fn_names.insertUser,err.message);
-            else
-                callback(null, true);
+
+            callback(err, true);
         });
 
             //var query = 'INSERT INTO users (user_name, password, email, user_role, first_name, last_name, mail_subscribe, gender ';

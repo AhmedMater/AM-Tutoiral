@@ -7,35 +7,47 @@ var database = require(config.Repository._DBConnection).connection;
 var Exceptions = require(config.Common.Exceptions);
 var Logger = require(config.Common.Logger);
 
-var fn_names = {
-    getUserRole_byName: "getUserRole_byName",
-    getAllUserRules: "getAllUserRules"
-};
-
 var exports = module.exports = {
 
-    getAllUserRules: function(callback) {
-        var query = 'SELECT * FROM lookup_data_type;';
+    getAllLookupTypes: function(){
+        var query =
+            "SELECT " +
+                "lt.name lookupType, l.name lookupName, l.value lookupValue " +
+            "FROM " +
+                "lookup l " +
+                    "LEFT JOIN lookup_type lt ON l.type_id = lt.id";
+
         database.query(query, function (err, rows, fields) {
             if (err != null)
-                Logger.error(config.FOLDERS_NAMES.repository,fn_names.getAllUserRules,err.message);
+                Logger.error(config.FOLDERS_NAMES.repository, "getAllLookupTypes", err.message);
 
-            console.log(rows);
-            callback(null, rows);
+            callback(err, rows);
+        });
+    },
+
+    getAllUserRules: function(callback) {
+        var query = 'SELECT * FROM lookup LEFT JOIN lookup_type;';
+        database.query(query, function (err, rows, fields) {
+            if (err != null)
+                Logger.error(config.FOLDERS_NAMES.repository, "getAllUserRules", err.message);
+
+            callback(err, rows);
         });
     },
 
     getUserRole_byName: function(name, callback) {
 
         if(name == null)
-            Logger.error(config.FOLDERS_NAMES.repository, fn_names.getUserRole_byName, "Rule Name is null");
+            Logger.error(config.FOLDERS_NAMES.repository, "getUserRole_byName", "Rule Name is null");
 
 
         var query = "SELECT * FROM lookup_user_role WHERE name = '" + name + "';";
 
         database.query(query, function(err,rows,fields){
-            if(err != null)
-                Logger.error(config.FOLDERS_NAMES.repository,fn_names.getUserRole_byName,err.message);
+            if(err != null) {
+                Logger.error(config.FOLDERS_NAMES.repository, "getUserRole_byName", err.message);
+                callback(err, result);
+            }
 
             var result;
             if (rows[0] != null) {
@@ -45,13 +57,13 @@ var exports = module.exports = {
                     roleDescription: rows[0].description
                 };
 
-                Logger.info(fn_names.getUserRole_byName, 'The Role is retrieved');
+                Logger.info("getUserRole_byName", 'The Role is retrieved');
             } else {
                 result = null;
-                Logger.debug(config.FOLDERS_NAMES.repository, fn_names.getUserRole_byName, 'No such User Rule Found in Database');
+                Logger.debug(config.FOLDERS_NAMES.repository, "getUserRole_byName", 'No such User Rule Found in Database');
             }
 
-            callback(null, result);
+            callback(err, result);
         });
     }
 };

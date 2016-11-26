@@ -2,6 +2,10 @@
  * Created by Ahmed Mater on 10/22/2016.
  */
 var exports = module.exports = {
+    LookupNames:[
+        'User Role', 'Course Level', 'Course Type', 'Reference Type'
+    ],
+
     UserRole:{
         USER: 'User',
         ADMIN: 'Admin'
