@@ -6,7 +6,7 @@ var clearMessages = function(mainDivName, errorSpan){
     $(mainDivName).removeClass("has-success");
     $(mainDivName).removeClass("has-error");
     $(errorSpan).remove();
-}
+};
 var showErrorMessage = function(mainDivName, divName, errorSpan, message){
     clearMessages(mainDivName, '#' + errorSpan);
 
@@ -21,16 +21,16 @@ var showErrorMessage = function(mainDivName, divName, errorSpan, message){
 
     $("#submitBtn").attr("disabled", "disabled");
     $(divName).append(spanTag);
-}
+};
 var showSuccessMessage = function(mainDivName, errorSpan){
     clearMessages(mainDivName, '#' + errorSpan);
 
     $(mainDivName).addClass("has-success");
-}
+};
 
 var checkUserExist = function(){
     $("#submitBtn").attr("disabled", "disabled");
-    var userExistCheckURL = "http://localhost:3000/user/checkUserName";
+    var userExistCheckURL = "http://localhost:3002/user/checkUserName";
     var namePattern = /^[A-Za-z ]+$/;
 
     $( document ).change(function() {
@@ -176,4 +176,4 @@ var checkUserExist = function(){
             showSuccessMessage('#main_collegeDiv', 'collegeErrorSpan');
     });
 
-}
+};
