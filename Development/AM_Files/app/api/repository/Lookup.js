@@ -9,61 +9,97 @@ var SystemParameters = require(config.Common.SystemParameters);
 var Logger = require(config.Common.Logger);
 
 var exports = module.exports = {
-
-    getAllLookupTypes: function(){
+    getAllUserRoles: function(RepositoryCallBack) {
+        var fnName = "getAllUserRoles";
         var query =
             "SELECT " +
-                "lt.name lookupType, l.name lookupName, l.value lookupValue " +
+                "id, name, value " +
             "FROM " +
-                "lookup l " +
-                    "LEFT JOIN lookup_type lt ON l.type_id = lt.id";
+                "lookup_user_role ";
 
         database.query(query, function (err, rows, fields) {
-            if (err != null)
-                Logger.error(config.FOLDERS_NAMES.repository, "getAllLookupTypes", err.message);
+            if (err != null) {
+                Logger.error(config.FOLDERS_NAMES.repository, fnName, err.message);
+                return RepositoryCallBack(ErrMsg.createError(ErrMsg.DATABASE_ERROR, 400, err.message), null);
+            }
 
-            callback(err, rows);
-        });
-    },
+            var userRoles = [];
+            if(rows != null){
+                for(var i=0 ; i<rows.length; i++)
+                    userRoles.push({
+                        id: rows[i].id,
+                        name: rows[i].name,
+                        value: rows[i].value
+                    });
 
-    getAllUserRules: function(callback) {
-        var query = 'SELECT * FROM lookup LEFT JOIN lookup_type;';
-        database.query(query, function (err, rows, fields) {
-            if (err != null)
-                Logger.error(config.FOLDERS_NAMES.repository, "getAllUserRules", err.message);
+                Logger.info(fnName, ErrMsg.INFO_1);
+            } else
+                Logger.info(fnName, ErrMsg.INFO_2);
 
-            callback(err, rows);
+            RepositoryCallBack(err, userRoles);
         });
     },
 
     getUserRole_ByName: function(name, RepositoryCallBack) {
+        var fnName = "getUserRole_byName";
         var query =
             "SELECT " +
-                "l.id lookupID, lt.name lookupType, l.name lookupName, l.value lookupValue " +
+                "id, name, value " +
             "FROM " +
-                "lookup l " +
-                    "LEFT JOIN lookup_type lt ON l.type_id = lt.id " +
+                "lookup_user_role " +
             "WHERE " +
-                "l.name = \'" + name +"\' AND l.type_id = " + SystemParameters.UserRole.typeID + ";";
+                "name = " + database.escape(name) +";";
 
         database.query(query, function(err,rows,fields){
             if(err != null) {
-                Logger.error(config.FOLDERS_NAMES.repository, "getUserRole_byName", err.message);
-                return RepositoryCallBack(err, null);
+                Logger.error(config.FOLDERS_NAMES.repository, fnName, err.message);
+                return RepositoryCallBack(ErrMsg.createError(ErrMsg.DATABASE_ERROR, 400, err.message), null);
             }
 
             var userRole = null;
-            if (rows[0] != null) {
+            if (rows != null) {
                 userRole = {
-                    id: rows[0].lookupID,
-                    type: rows[0].lookupType,
-                    name: rows[0].lookupName,
-                    value: rows[0].lookupValue
+                    id: rows[0].id,
+                    name: rows[0].name,
+                    value: rows[0].value
                 };
 
-                Logger.info("getUserRole_byName", ErrMsg.INFO_1);
+                Logger.info(fnName, ErrMsg.INFO_1);
             } else
-                Logger.info("getUserRole_byName", ErrMsg.INFO_2);
+                Logger.info(fnName, ErrMsg.INFO_2);
+
+
+            RepositoryCallBack(err, userRole);
+        });
+    },
+
+    getUserRole_ByID: function(id, RepositoryCallBack) {
+        var fnName = "getUserRole_byID";
+        var query =
+            "SELECT " +
+                "id, name, value " +
+            "FROM " +
+                "lookup_user_role " +
+            "WHERE " +
+                "id = " + database.escape(id) +";";
+
+        database.query(query, function(err,rows,fields){
+            if(err != null) {
+                Logger.error(config.FOLDERS_NAMES.repository, fnName, err.message);
+                return RepositoryCallBack(ErrMsg.createError(ErrMsg.DATABASE_ERROR, 400, err.message), null);
+            }
+
+            var userRole = null;
+            if (rows != null) {
+                userRole = {
+                    id: rows[0].id,
+                    name: rows[0].name,
+                    value: rows[0].value
+                };
+
+                Logger.info(fnName, ErrMsg.INFO_1);
+            } else
+                Logger.info(fnName, ErrMsg.INFO_2);
 
 
             RepositoryCallBack(err, userRole);

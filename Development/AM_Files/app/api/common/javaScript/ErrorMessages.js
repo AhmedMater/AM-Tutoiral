@@ -23,8 +23,12 @@ var exports = module.exports = {
 
     INFO_1 : 'User Role is successfully retrieved',
     INFO_2 : 'This User Role isn\'t found in Database',
+
     INFO_3 : 'User Data are successfully retrieved',
     INFO_4 : 'This User isn\'t found in Database',
+
+    INFO_5 : 'All User Roles are successfully retrieved',
+    INFO_6 : 'Fail to Retrieve the User Roles',
 
     createError: function(name, code, message){
         var err = new Error(message);
