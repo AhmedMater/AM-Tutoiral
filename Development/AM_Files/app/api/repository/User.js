@@ -4,7 +4,7 @@
 
 var config = require('../../configuration');
 var database = require(config.Repository._DBConnection).connection;
-var Exceptions = require(config.Common.ErrorMessages);
+var ErrMsg = require(config.Common.ErrorMessages);
 var Logger = require(config.Common.Logger);
 
 var fn_names = {
@@ -32,14 +32,17 @@ var exports = module.exports = {
             country: userData.country,
             date_of_birth: userData.dateOfBirth.year + '-' + userData.dateOfBirth.month + '-' + userData.dateOfBirth.day
         }, function (err, rows, fields) {
-            if (err != null)
+            if (err != null) {
                 Logger.error(config.FOLDERS_NAMES.repository, "insertUser", err.message);
+                return RepositoryCallBack(ErrMsg.createError(ErrMsg.DATABASE_ERROR, 400, err.message), false);
+            }
 
-            RepositoryCallBack(err, null);
+            RepositoryCallBack(null, true);
         });
     },
 
-    getUser: function(userName, password, callback) {
+    getUser: function(userName, password, RepositoryCallBack) {
+        var fnName = "getUser";
         var query =
             "SELECT " +
                 "user.id userID, user_name, first_name, last_name, role.id AS roleID, role.name AS roleName, email," +
@@ -52,30 +55,27 @@ var exports = module.exports = {
 
         database.query(query, function (err, rows, fields) {
             if (err != null) {
-                Logger.error(config.FOLDERS_NAMES.repository, fn_names.getUser, err.message);
-            } else {
-                var result;
-                if (rows[0] != null) {
-                    result = {
-                        userID: rows[0].userID,
-                        userName: rows[0].user_name,
-                        firstName: rows[0].first_name,
-                        lastName: rows[0].last_name,
-                        userRole: {
-                            roleID: rows[0].roleID,
-                            roleName: rows[0].roleName
-                        },
-                        email: rows[0].email,
-                        userPic: rows[0].profile_pic
-                    };
-                    Logger.info(fn_names.getUser, 'User data is retrieved');
-                } else {
-                    result = null;
-                    Logger.debug(config.FOLDERS_NAMES.repository, fn_names.getUser, 'No such User found in Database');
-                }
-
-                callback(err, result);
+                Logger.error(config.FOLDERS_NAMES.repository, fnName, err.message);
+                return RepositoryCallBack(ErrMsg.createError(ErrMsg.DATABASE_ERROR, 400, err.message), null);
             }
+
+            var result = null;
+            if (rows[0] != null) {
+                result = {
+                    userID: rows[0].userID,
+                    userName: rows[0].user_name,
+                    firstName: rows[0].first_name,
+                    lastName: rows[0].last_name,
+                    userRole: userRole,
+                    email: rows[0].email,
+                    userPic: rows[0].profile_pic
+                };
+                Logger.info(fnName, ErrMsg.INFO_3);
+            } else
+                Logger.debug(config.FOLDERS_NAMES.repository, fnName, ErrMsg.INFO_4);
+
+            RepositoryCallBack(err, result);
+
         });
 
     },

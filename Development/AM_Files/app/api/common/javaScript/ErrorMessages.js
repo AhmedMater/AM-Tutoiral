@@ -21,8 +21,10 @@ var exports = module.exports = {
     ERROR_12 : 'Invalid Date',
     ERROR_13 : 'Invalid Day of Month',
 
-    INFO_1 : 'The User Role is successfully retrieved',
+    INFO_1 : 'User Role is successfully retrieved',
     INFO_2 : 'This User Role isn\'t found in Database',
+    INFO_3 : 'User Data are successfully retrieved',
+    INFO_4 : 'This User isn\'t found in Database',
 
     createError: function(name, code, message){
         var err = new Error(message);

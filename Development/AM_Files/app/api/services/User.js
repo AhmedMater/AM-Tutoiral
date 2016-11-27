@@ -93,10 +93,12 @@ var exports = module.exports = {
             }
         );
     },
-    login: function(userName, password, callback1){
+    login: function(userName, password, ReSTCallBack){
 
-        if(userName == null || password == null)
-            Logger.error(config.FOLDERS_NAMES.services,fn_names.login,"Username or Password is null");
+        if(userName == null || password == null) {
+            Logger.error(config.FOLDERS_NAMES.services, "login", ErrMsg.ERROR_1);
+            return ReSTCallBack(ErrMsg.createError(ErrMsg.SERVER_ERROR, 400, ErrMsg.ERROR_11), null);
+        }
 
         async.waterfall([
                 function(callback) {
@@ -104,9 +106,9 @@ var exports = module.exports = {
                 }],
             function(err, result) {
                 if(err != null)
-                    Logger.error(config.FOLDERS_NAMES.services,fn_names.login,err.message);
+                    Logger.error(config.FOLDERS_NAMES.services,"login",err.message);
 
-                callback1(err, result);
+                return ReSTCallBack(err, result);
             }
         );
     },
