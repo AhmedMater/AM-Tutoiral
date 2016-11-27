@@ -4,7 +4,7 @@
 
 var config = require('../../configuration');
 var database = require(config.Repository._DBConnection).connection;
-var Exceptions = require(config.Common.Exceptions);
+var Exceptions = require(config.Common.ErrorMessages);
 var Logger = require(config.Common.Logger);
 
 var fn_names = {
@@ -15,50 +15,31 @@ var fn_names = {
 
 var exports = module.exports = {
 
-    insertUser: function(userData, callback) {
+    insertUser: function(userData, RepositoryCallBack) {
 
-//exports.insertUser = function(userName, password, email, userRoleID, firstName, lastName, gender,
-//                              university, college, job, country, dateOfBirth, mailSubscribe, callback) {
-        var query = 'INSERT INTO users SET ?';
-
-        database.query(query, userData, function (err, rows, fields) {
+        database.query('INSERT INTO users SET ?', {
+            user_name: userData.userName,
+            password: userData.password,
+            email: userData.email,
+            user_role: userData.userRole,
+            first_name: userData.firstName,
+            last_name: userData.lastName,
+            gender: userData.gender,
+            mail_subscribe: userData.mailSubscribe,
+            university: userData.university,
+            college: userData.college,
+            job: userData.job,
+            country: userData.country,
+            date_of_birth: userData.dateOfBirth.year + '-' + userData.dateOfBirth.month + '-' + userData.dateOfBirth.day
+        }, function (err, rows, fields) {
             if (err != null)
-                Logger.error(config.FOLDERS_NAMES.repository,fn_names.insertUser,err.message);
+                Logger.error(config.FOLDERS_NAMES.repository, "insertUser", err.message);
 
-            callback(err, true);
+            RepositoryCallBack(err, null);
         });
-
-            //var query = 'INSERT INTO users (user_name, password, email, user_role, first_name, last_name, mail_subscribe, gender ';
-            //
-            //if(university != null) query += ', university';
-            //if(college != null) query += ', college';
-            //if(job != null) query += ', job';
-            //if(country != null) query += ', country';
-            //if(dateOfBirth != null) query += ', date_of_birth';
-            //
-            //query += ') VALUES (\'' + userName + '\', \'' + password + '\', \'' + email + "\', " + userRoleID + ', \''
-            //    + firstName + '\', \'' + lastName + '\', ' + mailSubscribe + ', \'' + gender;
-            //
-            //if(university != null) query += '\', \'' + university;
-            //if(college != null) query += '\', \'' + college;
-            //if(job != null) query += '\', \'' + job;
-            //if(country != null) query += '\', \'' + country;
-            //if(dateOfBirth != null) query += '\', \'' + dateOfBirth;
-            //
-            //query += '\');';
-            //
-            //DB.connection.query(query, function(err,rows,fields){
-            //    if(err != null)
-            //        throw Exceptions.dbException('insertUser', 'While Inserting new User: ' + err);
-            //
-            //    callback(null, true);
-            //});
     },
 
     getUser: function(userName, password, callback) {
-        if (userName == null || password == null)
-            Logger.error(config.FOLDERS_NAMES.repository,fn_names.getUser,"Username or Password is null");
-
         var query =
             "SELECT " +
                 "user.id userID, user_name, first_name, last_name, role.id AS roleID, role.name AS roleName, email," +
@@ -93,7 +74,7 @@ var exports = module.exports = {
                     Logger.debug(config.FOLDERS_NAMES.repository, fn_names.getUser, 'No such User found in Database');
                 }
 
-                callback(null, result);
+                callback(err, result);
             }
         });
 
@@ -107,19 +88,20 @@ var exports = module.exports = {
                 "user_name = \'" + userName + "\' OR email = \'" + email + "\';";
 
         database.query(query, function (err, rows, fields) {
+            var isFound = null;
             if (err != null) {
                 Logger.error(config.FOLDERS_NAMES.repository, fn_names.isUserFound, err.message);
-                callback(err, null);
             } else {
 
                 if (rows[0] != null) {
                     Logger.info(fn_names.isUserFound, 'User is found in Database');
-                    callback(null, true);
+                    isFound = true;
                 } else {
                     Logger.info(fn_names.isUserFound, 'User isn\'t found in Database');
-                    callback(null, false);
+                    isFound = false;
                 }
             }
+            callback(err, isFound);
         });
     }
 };

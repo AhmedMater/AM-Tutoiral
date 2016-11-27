@@ -45,33 +45,16 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render(path.join(__dirname, '/app/api/common/layout/error'), {
-            message: err.message,
-            error: err
-        });
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
+// Error Handler
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render(path.join(__dirname, '/app/api/common/layout/error'), {
     message: err.message,
-    error: {}
+    name: err.name,
+    status: err.status,
+    baseURL: req.originalUrl
   });
 });
 
 
-    module.exports = app;
-//app.listen(3000, function() {
-//    console.log('\nServer is running at localhost:3000');
-//});
-
+module.exports = app;

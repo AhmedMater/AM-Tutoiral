@@ -3,7 +3,6 @@
  */
 
 var async = require('async');
-var app = require('express')();
 
 var config = require('../../../configuration');
 var userService = require('../../' + config.Services.User);
@@ -40,4 +39,4 @@ exports.go = function(req,res) {
     );
 
 
-}
+};

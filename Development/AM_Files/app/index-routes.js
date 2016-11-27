@@ -21,49 +21,49 @@ exports.routing = function(app){
         next();
     });
 
-    app.get(config.URL.home, function(req,res){
+    app.get(config.URL.home, function(req, res, next){
         var router = require('./' + config.Routes.home_get);
-        router.go(req,res);
+        router.go(req,res, next);
     });
 
-    app.get(config.URL.login, function(req,res){
+    app.get(config.URL.login, function(req, res, next){
         var router = require('./' + config.Routes.login_get);
-        router.go(req,res);
+        router.go(req, res, next);
     });
-    app.post(config.URL.login, function(req,res){
+    app.post(config.URL.login, function(req, res, next){
         var router = require('./' + config.Routes.login_post);
-        router.go(req,res);
+        router.go(req, res, next);
     });
 
-    app.get(config.URL.register, function(req,res){
+    app.get(config.URL.register, function(req, res, next){
         var router = require('./' + config.Routes.register_get);
-        router.go(req,res);
+        router.go(req, res, next);
     });
-    app.post(config.URL.register, function(req,res){
+    app.post(config.URL.register, function(req, res, next){
         var router = require('./' + config.Routes.register_post);
-        router.go(req,res);
+        router.go(req, res, next);
     });
 
-    app.get(config.URL.addNewCourse, function(req,res){
+    app.get(config.URL.addNewCourse, function(req, res, next){
         var router = require('./' + config.Routes.addNewCourse_get);
-        router.go(req,res);
+        router.go(req, res, next);
     });
     app.post(config.URL.addNewCourse, function(req,res){
         var router = require('./' + config.Routes.addNewCourse_post);
-        router.go(req,res);
+        router.go(req, res, next);
     });
-    app.get(config.URL.addNewChapter, function(req,res){
+    app.get(config.URL.addNewChapter, function(req, res, next){
         var router = require('./' + config.Routes.addNewChapter_get);
-        router.go(req,res);
+        router.go(req, res, next);
     });
-    app.get(config.URL.addNewLesson, function(req,res){
+    app.get(config.URL.addNewLesson, function(req, res, next){
         var router = require('./' + config.Routes.addNewLesson_get);
-        router.go(req,res);
+        router.go(req, res, next);
     });
 
-    app.get(config.URL.userCheck, function(req,res){
+    app.get(config.URL.userCheck, function(req, res, next){
         var router = require('./' + config.Routes.userNameCheck);
-        router.go(req,res);
+        router.go(req, res, next);
     });
     app.get(config.URL.logout, function(req, res){
         req.session.user = null;

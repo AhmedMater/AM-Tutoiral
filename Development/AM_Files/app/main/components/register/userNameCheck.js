@@ -14,6 +14,9 @@ exports.go = function(req,res) {
         function(next) {
             userService.isUserFound(userName, email, next);
         }], function(err, result) {
-        res.send(result);
+        if(err != null)
+            res.status(400).send(err);
+        else
+            res.status(200).send(result);
     });
-}
+};

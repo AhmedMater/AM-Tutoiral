@@ -118,7 +118,7 @@ var exports = module.exports = {
     },
 
     Common: { // SUB_FOLDERS.javaScript = ../common/javaScript
-        Exceptions: SUB_FOLDERS.javaScript + "/Exceptions",
+        ErrorMessages: SUB_FOLDERS.javaScript + "/ErrorMessages",
         Logger: SUB_FOLDERS.javaScript + "/Logger",
         SystemParameters: SUB_FOLDERS.javaScript + "/System_Parameters",
         Sha256: SUB_FOLDERS.javaScript + "/Sha256"

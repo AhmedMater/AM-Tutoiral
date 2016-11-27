@@ -2,46 +2,68 @@
  * Created by Ahmed Mater on 10/7/2016.
  */
 
-var clearMessages = function(mainDivName, errorSpan){
-    $(mainDivName).removeClass("has-success");
-    $(mainDivName).removeClass("has-error");
-    $(errorSpan).remove();
+var clearMessages = function(mainDivID, spanID){
+    $(mainDivID).removeClass("has-success");
+    $(mainDivID).removeClass("has-error");
+    $(spanID).remove();
 };
-var showErrorMessage = function(mainDivName, divName, errorSpan, message){
-    clearMessages(mainDivName, '#' + errorSpan);
+var showErrorMessage = function(mainDivID, spanID, message){
+    clearMessages(mainDivID, '#' + spanID);
 
-    $(mainDivName).addClass("has-error");
+    var html =
+        "\n<div id=\"" + spanID + "\" class=\"form-group\">" +
+            "\n<span class=\"col-lg-offset-4 col-lg-6 text-danger\">" + message + "</span>" +
+        "\n</div>";
 
-    var spanTag = document.createElement("span");
-
-    $(spanTag).attr({
-        "id" : errorSpan,
-        "class": "help-block col-lg-12"
-    }).text(message);
-
+    $(mainDivID).addClass("has-error");
     $("#submitBtn").attr("disabled", "disabled");
-    $(divName).append(spanTag);
+    $(mainDivID).after(html);
 };
-var showSuccessMessage = function(mainDivName, errorSpan){
-    clearMessages(mainDivName, '#' + errorSpan);
+var showSuccessMessage = function(mainDivID, spanID){
+    clearMessages(mainDivID, '#' + spanID);
 
-    $(mainDivName).addClass("has-success");
+    $(mainDivID).addClass("has-success");
 };
 
+var baseURL = "http://localhost:3002";
 var checkUserExist = function(){
     $("#submitBtn").attr("disabled", "disabled");
-    var userExistCheckURL = "http://localhost:3002/user/checkUserName";
-    var namePattern = /^[A-Za-z ]+$/;
+    var userExistCheckURL = baseURL + "/user/checkUserName";
+    var namePattern = /^[A-Za-z ]{1,45}$/;
+    var passwordPattern = /^[A-Za-z0-9]{5,20}$/;
 
-    $( document ).change(function() {
-        if($('#userName').val() && $('#password').val() && $('#email').val()
-            && $('#firstName').val() && $('#lastName').val() && $('#gender').val())
-            $("#submitBtn").removeAttr("disabled");
+    var inputIDs = {
+        userName: '#userName',
+        password: '#password',
+        confirmPassword: '#confirmPassword',
+        email: '#email',
+        firstName: '#firstName',
+        lastName: '#lastName',
+        gender: '#gender',
+        submit: '#submitBtn',
+
+        dateOfBirth: {
+            day: '#day',
+            month: '#month',
+            year: '#year'
+        },
+        job: '#job',
+        university: '#university',
+        college: '#college'
+    };
+
+    $(document).change(function() {
+        if($(inputIDs.userName).val() && $(inputIDs.password).val() && $(inputIDs.confirmPassword).val()
+            && $(inputIDs.email).val() && $(inputIDs.firstName).val() && $(inputIDs.lastName).val()
+            && $(inputIDs.gender).val()) $(inputIDs.submit).removeAttr("disabled");
     });
 
-    $('#userName').change(function() {
+    $(inputIDs.userName).change(function(){
         var userNamePattern = /^[A-Za-z0-9\_\.\-]+$/;
-        var userNameValue = $('#userName').val();
+        var userNameValue = $(inputIDs.userName).val();
+
+        var mainDivID = '#main_userNameDiv';
+        var spanID = 'userErrorSpan';
 
         $.ajax({
             type: "GET",
@@ -52,39 +74,84 @@ var checkUserExist = function(){
 
                 var exist = result[0];
 
-                if(userNameValue == '')
-                    showErrorMessage('#main_userNameDiv', '#userNameDiv', 'userErrorSpan', 'Please Enter User name');
-                else if(!userNamePattern.test(userNameValue))
-                    showErrorMessage('#main_userNameDiv', '#userNameDiv', 'userErrorSpan', 'Only Letters, Numbers, _ , - and . are allowed');
-                else if(exist)
-                    showErrorMessage('#main_userNameDiv', '#userNameDiv', 'userErrorSpan', 'This User already Exists');
-                else
-                    showSuccessMessage('#main_userNameDiv', 'userErrorSpan');
+                var passed = false;
+                var errorMessage;
 
+                if(userNameValue == '')
+                    errorMessage = 'Please Enter User name';
+                else if(!userNamePattern.test(userNameValue))
+                    errorMessage = 'Only English Letters, Numbers, _ , - and . are allowed';
+                else if(exist)
+                    errorMessage = 'This User already Exists';
+                else
+                    passed =  true;
+
+                if(!passed)
+                    showErrorMessage(mainDivID, spanID, errorMessage);
+                else
+                    showSuccessMessage(mainDivID, spanID);
             },
             error: function(err){
-                console.log(err);
+                showErrorMessage(mainDivID, spanID, 'Server Error happen');
             }
         });
     });
-    $('#password').change(function(){
-        var passwordPattern = /^[A-Za-z0-9]{5,20}$/;
-        var passwordValue = $('#password').val();
+    $(inputIDs.password).change(function(){
+        var passwordValue = $(inputIDs.password).val();
 
+        var passed = false;
+        var errorMessage;
 
         if(passwordValue == '')
-            showErrorMessage('#main_passwordDiv', '#passwordDiv', 'passwordErrorSpan', 'Please Enter your Password');
+            errorMessage = 'Please Enter your Password';
         else if(passwordValue.length < 5 || passwordValue.length > 20)
-            showErrorMessage('#main_passwordDiv', '#passwordDiv', 'passwordErrorSpan', 'password has to be from 5 to 20 characters');
+            errorMessage = 'Password has to be from 5 to 20 characters';
         else if(!passwordPattern.test(passwordValue))
-            showErrorMessage('#main_passwordDiv', '#passwordDiv', 'passwordErrorSpan', 'password has to be Letters and Numbers only');
+            errorMessage = 'Password has to be English Letters and Numbers only';
         else
-            showSuccessMessage('#main_passwordDiv', 'passwordErrorSpan');
+            passed =  true;
 
+        var mainDivID = '#main_passwordDiv';
+        var spanID = 'passwordErrorSpan';
+
+        if(!passed)
+            showErrorMessage(mainDivID, spanID, errorMessage);
+        else
+            showSuccessMessage(mainDivID, spanID);
     });
-    $('#email').change(function() {
+    $(inputIDs.confirmPassword).change(function(){
+        var passwordPattern = /^[A-Za-z0-9]{5,20}$/;
+        var passwordValue = $(inputIDs.password).val();
+        var confirmPasswordValue = $(inputIDs.confirmPassword).val();
+
+        var passed = false;
+        var errorMessage;
+
+        if(confirmPasswordValue == '')
+            errorMessage = 'Please Confirm your Password';
+        else if(confirmPasswordValue.length < 5 || confirmPasswordValue.length > 20)
+            errorMessage = 'Password has to be from 5 to 20 characters';
+        else if(!passwordPattern.test(confirmPasswordValue))
+            errorMessage = 'Password has to be Letters and Numbers only';
+        else if(confirmPasswordValue != passwordValue)
+            errorMessage = 'Passwords don\'t Match';
+        else
+            passed =  true;
+
+        var mainDivID = '#main_confirmPasswordDiv';
+        var spanID = 'confirmPasswordErrorSpan';
+
+        if(!passed)
+            showErrorMessage(mainDivID, spanID, errorMessage);
+        else
+            showSuccessMessage(mainDivID, spanID);
+    });
+    $(inputIDs.email).change(function() {
         var emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        var emailValue = $('#email').val();
+        var emailValue = $(inputIDs.email).val();
+
+        var mainDivID = '#main_emailDiv';
+        var spanID = 'emailErrorSpan';
 
         $.ajax({
             type: "GET",
@@ -95,85 +162,173 @@ var checkUserExist = function(){
 
                 var exist = result[0];
 
-                if(emailValue == '')
-                    showErrorMessage('#main_emailDiv', '#emailDiv', 'emailErrorSpan', 'Please Enter Your Email');
-                else if(!emailPattern.test(emailValue))
-                    showErrorMessage('#main_emailDiv', '#emailDiv', 'emailErrorSpan', 'Please Enter Valid Email');
-                else if(exist)
-                    showErrorMessage('#main_emailDiv', '#emailDiv', 'emailErrorSpan', 'This Email already Exists');
-                else
-                    showSuccessMessage('#main_emailDiv', 'emailErrorSpan');
+                var passed = false;
+                var errorMessage;
 
+                if(emailValue == '')
+                    errorMessage = 'Please Enter Your Email';
+                else if(!emailPattern.test(emailValue))
+                    errorMessage = 'Invalid Email';
+                else if(exist)
+                    errorMessage = 'This Email already Exists';
+                else
+                    passed =  true;
+
+                if(!passed)
+                    showErrorMessage(mainDivID, spanID, errorMessage);
+                else
+                    showSuccessMessage(mainDivID, spanID);
             },
             error: function (err) {
-                console.log('fail: ' + err.message);
+                showErrorMessage(mainDivID, spanID, 'Server Error happen');
             }
         });
     });
-    $('#firstName').change(function(){
-        var firstNameValue = $('#firstName').val();
+    $(inputIDs.firstName).change(function(){
+        var firstNameValue = $(inputIDs.firstName).val();
+
+        var passed = false;
+        var errorMessage;
 
         if(firstNameValue.length == 0)
-            showErrorMessage('#main_firstNameDiv', '#firstNameDiv', 'firstNameErrorSpan', 'Please Enter your First Name');
+            errorMessage = 'Please Enter your First Name';
         else if(!namePattern.test(firstNameValue))
-            showErrorMessage('#main_firstNameDiv', '#firstNameDiv', 'firstNameErrorSpan', 'Enter Valid First Name');
+            errorMessage = 'Invalid First Name';
         else
-            showSuccessMessage('#main_firstNameDiv', 'firstNameErrorSpan');
+            passed =  true;
+
+        var mainDivID = '#main_firstNameDiv';
+        var spanID = 'firstNameErrorSpan';
+
+        if(!passed)
+            showErrorMessage(mainDivID, spanID, errorMessage);
+        else
+            showSuccessMessage(mainDivID, spanID);
     });
-    $('#lastName').change(function(){
-        var lastNameValue = $('#lastName').val();
+    $(inputIDs.lastName).change(function(){
+        var lastNameValue = $(inputIDs.lastName).val();
+
+        var passed = false;
+        var errorMessage;
 
         if(lastNameValue.length == 0)
-            showErrorMessage('#main_lastNameDiv', '#lastNameDiv', 'lastNameErrorSpan', 'Please Enter your Last Name');
+            errorMessage = 'Please Enter your Last Name';
         else if(!namePattern.test(lastNameValue))
-            showErrorMessage('#main_lastNameDiv', '#lastNameDiv', 'lastNameErrorSpan', 'Enter Valid First Name');
+            errorMessage = 'Invalid Last Name';
         else
-            showSuccessMessage('#main_lastNameDiv', 'lastNameErrorSpan');
+            passed =  true;
+
+        var mainDivID = '#main_lastNameDiv';
+        var spanID = 'lastNameErrorSpan';
+
+        if(!passed)
+            showErrorMessage(mainDivID, spanID, errorMessage);
+        else
+            showSuccessMessage(mainDivID, spanID);
     });
-    $('#gender').change(function(){
-        var genderPattern = /^male|female$/;
-        var genderValue = $('#gender').val();
+    $(inputIDs.gender).change(function(){
+        var genderPattern = /^(M|F)$/;
+        var genderValue = $(inputIDs.gender).val();
+
+        var passed = false;
+        var errorMessage;
 
         if(genderValue.length == 0)
-            showErrorMessage('#main_genderDiv', '#genderDiv', 'genderErrorSpan', 'Please Choose your Gender');
+            errorMessage = 'Please Choose your Gender';
         else if(!genderPattern.test(genderValue))
-            showErrorMessage('#main_genderDiv', '#genderDiv', 'genderErrorSpan', 'Choose valid Gender');
+            errorMessage = 'Invalid Gender';
         else
-            showSuccessMessage('#main_genderDiv', 'genderErrorSpan');
+            passed =  true;
+
+        var mainDivID = '#main_genderDiv';
+        var spanID = 'genderErrorSpan';
+
+        if(!passed)
+            showErrorMessage(mainDivID, spanID, errorMessage);
+        else
+            showSuccessMessage(mainDivID, spanID);
 
     });
-    $('#dateOfBirth').change(function(){
-        var dateOfBirthPattern = /^\d{4}[./-]\d{2}[./-]\d{2}$/;
-        var dateOfBirthValue = $('#dateOfBirth').val();
+    $(inputIDs.dateOfBirth.day).change(function(){
+        var dateOfBirthPattern = /^[0-9]{1,2}$/;
+        var dayValue = $(inputIDs.dateOfBirth.day).val();
+        var monthValue = $(inputIDs.dateOfBirth.month).val();
 
-        if(!dateOfBirthPattern.test(dateOfBirthValue))
-            showErrorMessage('#main_dateOfBirthDiv', '#dateOfBirthDiv', 'dateOfBirthErrorSpan', 'Enter Valid Date');
+        var mainDivID = '#main_dateOfBirthDiv';
+        var spanID = 'dateOfBirthErrorSpan';
+
+        if(!dateOfBirthPattern.test(dayValue) || dayValue < 1 || dayValue > 31)
+            showErrorMessage(mainDivID, spanID, 'Invalid Day Number');
+        else if( ((monthValue == 4 || monthValue == 6 || monthValue == 9 || monthValue == 11) && (dayValue > 30) ) ||
+         (monthValue == 2 && dayValue > 29) )
+            showErrorMessage(mainDivID, spanID, 'Invalid Day Number');
         else
-            showSuccessMessage('#main_dateOfBirthDiv', 'dateOfBirthErrorSpan');
+            showSuccessMessage(mainDivID, spanID);
     });
-    $('#job').change(function(){
-        var jobValue = $('#job').val();
+    $(inputIDs.dateOfBirth.month).change(function(){
+        var dateOfBirthPattern = /^[0-9]{1,2}$/;
+        var dayValue = $(inputIDs.dateOfBirth.day).val();
+        var monthValue = $(inputIDs.dateOfBirth.month).val();
+
+        var mainDivID = '#main_dateOfBirthDiv';
+        var spanID = 'dateOfBirthErrorSpan';
+
+        if(!dateOfBirthPattern.test(monthValue) || monthValue < 1 || monthValue > 12)
+            showErrorMessage(mainDivID, spanID, 'Invalid Month Number');
+        else if( ((monthValue == 4 || monthValue == 6 || monthValue == 9 || monthValue == 11) && (dayValue > 30) ) ||
+            (monthValue == 2 && dayValue > 29) )
+            showErrorMessage(mainDivID, spanID, 'Invalid Day Number');
+        else
+            showSuccessMessage(mainDivID, spanID);
+    });
+    $(inputIDs.dateOfBirth.year).change(function(){
+        var dateOfBirthPattern = /^[0-9]{4}$/;
+        var yearValue = $(inputIDs.dateOfBirth.year).val();
+        var dayValue = $(inputIDs.dateOfBirth.day).val();
+        var monthValue = $(inputIDs.dateOfBirth.month).val();
+
+        var mainDivID = '#main_dateOfBirthDiv';
+        var spanID = 'dateOfBirthErrorSpan';
+
+        if(!dateOfBirthPattern.test(yearValue) || yearValue < 0)
+            showErrorMessage(mainDivID, spanID, 'Invalid Year Number');
+        else if(dayValue == null || monthValue == null)
+            showErrorMessage(mainDivID, spanID, 'Choose Day and Month Values');
+        else
+            showSuccessMessage(mainDivID, spanID);
+    });
+    $(inputIDs.job).change(function(){
+        var jobValue = $(inputIDs.job).val();
+
+        var mainDivID = '#main_jobDiv';
+        var spanID = 'jobErrorSpan';
 
         if(!namePattern.test(jobValue))
-            showErrorMessage('#main_jobDiv', '#jobDiv', 'jobErrorSpan', 'Enter Valid Job');
+            showErrorMessage(mainDivID, spanID, 'Invalid Job Name');
         else
-            showSuccessMessage('#main_jobDiv', 'jobErrorSpan');
+            showSuccessMessage(mainDivID, spanID);
     });
-    $('#university').change(function(){
-        var universityValue = $('#university').val();
+    $(inputIDs.university).change(function(){
+        var universityValue = $(inputIDs.university).val();
+
+        var mainDivID = '#main_universityDiv';
+        var spanID = 'universityErrorSpan';
 
         if(!namePattern.test(universityValue))
-            showErrorMessage('#main_universityDiv', '#universityDiv', 'universityErrorSpan', 'Enter Valid University');
+            showErrorMessage(mainDivID, spanID, 'Invalid University Name');
         else
-            showSuccessMessage('#main_universityDiv', 'universityErrorSpan');
+            showSuccessMessage(mainDivID, spanID);
     });
-    $('#college').change(function(){
-        var collegeValue = $('#college').val();
+    $(inputIDs.college).change(function(){
+        var collegeValue = $(inputIDs.college).val();
+
+        var mainDivID = '#main_collegeDiv';
+        var spanID = 'collegeErrorSpan';
 
         if(!namePattern.test(collegeValue))
-            showErrorMessage('#main_collegeDiv', '#collegeDiv', 'collegeErrorSpan', 'Enter Valid College');
+            showErrorMessage(mainDivID, spanID, 'Invalid College Name');
         else
-            showSuccessMessage('#main_collegeDiv', 'collegeErrorSpan');
+            showSuccessMessage(mainDivID, spanID);
     });
 
 };

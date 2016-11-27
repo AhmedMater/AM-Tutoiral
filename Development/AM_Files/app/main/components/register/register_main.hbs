@@ -7,18 +7,21 @@
 <div class="inner">
     <div class="row">
         <div class="col-lg-12">
-            <h1> Sign Up for Free </h1>
+            <h1> Sign Up for AM-Tutorial </h1>
         </div>
     </div>
     <hr />
 
     <form action="/register" class="form-horizontal" id="inline-validate" method="post">
+        <div class="form-group">
+            <label class="control-label col-lg-offset-3 col-lg-4 text-success">All Fields with * are Required</label>
+        </div>
         <div class="row ">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10">
+            <div class="col-lg-offset-1 col-lg-10">
                 <div class="box">
                     <header>
                         <h5>Main Info</h5>
+
                         <div class="toolbar">
                             <ul class="nav">
                                 <li>
@@ -38,7 +41,7 @@
                         <div class="form-group" id="main_userNameDiv">
                             <label class="control-label col-lg-4">User name *</label>
 
-                            <div class="col-lg-6" id="userNameDiv">
+                            <div class="col-lg-6">
                                 <input type="text" id="userName" name="userName" placeholder="Enter your User name" class="form-control" />
 
                             </div>
@@ -48,8 +51,17 @@
                         <div class="form-group" id="main_passwordDiv">
                             <label class="control-label col-lg-4">Password *</label>
 
-                            <div class="col-lg-6" id="passwordDiv">
+                            <div class="col-lg-6">
                                 <input type="password" id="password" name="password" placeholder="Enter your Password" class="form-control col-lg-6" />
+                            </div>
+                        </div>
+
+                        <!-- Confirm Password Field -->
+                        <div class="form-group" id="main_confirmPasswordDiv">
+                            <label class="control-label col-lg-4">Confirm Password *</label>
+
+                            <div class="col-lg-6">
+                                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your Password" class="form-control col-lg-6" />
                             </div>
                         </div>
 
@@ -57,7 +69,7 @@
                         <div class="form-group" id="main_emailDiv">
                             <label class="control-label col-lg-4">E-mail *</label>
 
-                            <div class="col-lg-6" id="emailDiv">
+                            <div class="col-lg-6">
                                 <input type="email" id="email" name="email" placeholder="Enter your Email" class="form-control col-lg-6" />
                             </div>
                         </div>
@@ -67,8 +79,7 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10   ">
+            <div class="col-lg-offset-1 col-lg-10">
                 <div class="box">
                     <header>
                         <h5>Personal Info</h5>
@@ -91,7 +102,7 @@
                         <div class="form-group" id="main_firstNameDiv">
                             <label class="control-label col-lg-4">First name *</label>
 
-                            <div class="col-lg-6" id="firstNameDiv">
+                            <div class="col-lg-6">
                                 <input type="text" id="firstName" name="firstName" placeholder="Enter your First Name" class="form-control" />
                             </div>
                         </div>
@@ -100,7 +111,7 @@
                         <div class="form-group" id="main_lastNameDiv">
                             <label class="control-label col-lg-4">Last name *</label>
 
-                            <div class="col-lg-6" id="lastNameDiv">
+                            <div class="col-lg-6">
                                 <input type="text" id="lastName" name="lastName" placeholder="Enter your Last Name" class="form-control" />
                             </div>
                         </div>
@@ -108,11 +119,11 @@
                         <!-- Gender Field -->
                         <div class="form-group" id="main_genderDiv">
                             <label class="control-label col-lg-4">Gender *</label>
-                            <div class="col-lg-6" id="genderDiv">
+                            <div class="col-lg-6">
                                 <select name="gender" placeholder="Choose your Gender" id="gender" class="form-control">
                                     <option value="" disabled selected>Select Your Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
                                 </select>
                             </div>
                         </div>
@@ -121,8 +132,63 @@
                         <div class="form-group" id="main_dateOfBirthDiv">
                             <label class="control-label col-lg-4">Birth of Date</label>
 
-                            <div class="col-lg-6" id="dateOfBirthDiv">
-                                <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control col-lg-6" />
+                            <div class="col-lg-2">
+                                <select name="day" placeholder="Day" id="day" class="form-control">
+                                    <option value="" disabled selected>Day</option>
+                                    <option value="01">1</option>
+                                    <option value="02">2</option>
+                                    <option value="03">3</option>
+                                    <option value="04">4</option>
+                                    <option value="05">5</option>
+                                    <option value="06">6</option>
+                                    <option value="07">7</option>
+                                    <option value="08">8</option>
+                                    <option value="09">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                    <option value="24">24</option>
+                                    <option value="25">25</option>
+                                    <option value="26">26</option>
+                                    <option value="27">27</option>
+                                    <option value="28">28</option>
+                                    <option value="29">29</option>
+                                    <option value="30">30</option>
+                                    <option value="31">31</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <select name="month" placeholder="Month" id="month" class="form-control">
+                                    <option value="" disabled selected>Month</option>
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-2">
+                                <input type="number" id="year" name="year" placeholder="Year" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -131,8 +197,7 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-10">
+            <div class="col-lg-offset-1 col-lg-10">
                 <div class="box">
                     <header>
                         <h5>General Info</h5>
@@ -154,7 +219,7 @@
                         <div class="form-group" id="main_jobDiv">
                             <label class="control-label col-lg-4">Job</label>
 
-                            <div class="col-lg-6" id="jobDiv">
+                            <div class="col-lg-6">
                                 <input type="text" id="job" name="job" placeholder="Enter your Job" class="form-control" />
                             </div>
                         </div>
@@ -162,7 +227,7 @@
                         <div class="form-group" id="main_universityDiv">
                             <label class="control-label col-lg-4">University</label>
 
-                            <div class="col-lg-6" id="universityDiv">
+                            <div class="col-lg-6">
                                 <input type="text" id="university" name="university" placeholder="Enter your University" class="form-control" />
                             </div>
                         </div>
@@ -171,10 +236,11 @@
                         <div class="form-group" id="main_collegeDiv">
                             <label class="control-label col-lg-4">College</label>
 
-                            <div class="col-lg-6" id="collegeDiv">
+                            <div class="col-lg-6">
                                 <input type="text" id="college" name="college" placeholder="Enter your College"  class="form-control" />
                             </div>
                         </div>
+
                         <!-- Country Field -->
                         <div class="form-group">
                             <label class="control-label col-lg-4">Country</label>
@@ -423,25 +489,22 @@
                                 </select>
                             </div>
                         </div>
+
+                        <!-- Country Field -->
+                        <div class="form-group">
+                            <div class=" col-lg-offset-4 col-lg-6">
+                            <input class="uniform" type="checkbox" name="mailSubscribe" />
+                            <label class="control-label">Keep me updated with every new on E-Mail</label>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-lg-6 col-lg-offset-4">
-                <div class="checkbox ">
-                    <label>
-                        <input class="uniform" type="checkbox" name="mailSubscribe" />
-                        Keep me updated with every new on E-Mail
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="form-actions" style="text-align:center">
+            <div class="col-lg-offset-1 col-lg-10">
+                <div class="form-actions text-center">
                     <input type="submit" id="submitBtn" value="Sign Up" class="btn btn-primary btn-lg" />
                 </div>
             </div>
@@ -451,10 +514,6 @@
 
 
 <!-- PAGE LEVEL SCRIPTS -->
-<!--<script src="plugins/validationengine/js/jquery.validationEngine.js"></script>-->
-<!--<script src="plugins/validationengine/js/languages/jquery.validationEngine-en.js"></script>-->
-<!--<script src="plugins/jquery-validation-1.11.1/dist/jquery.validate.min.js"></script>-->
-<!--<script src="/js/validationInit.js"></script>-->
 <script src="/js/registerValidation.js"></script>
 <script>
     $(function () {

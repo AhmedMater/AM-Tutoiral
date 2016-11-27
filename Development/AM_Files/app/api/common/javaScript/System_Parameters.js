@@ -7,8 +7,11 @@ var exports = module.exports = {
     ],
 
     UserRole:{
-        USER: 'User',
-        ADMIN: 'Admin'
+        typeID: 1,
+        name: {
+            USER: 'User',
+            ADMIN: 'Admin'
+        }
     },
     ForgetPassword:{
         SUCCESS: 'Success',
@@ -26,5 +29,15 @@ var exports = module.exports = {
     ReferenceType: [
         {name: 'Book', value: 'B' },
         {name: 'Course', value: 'C' }
-    ]
+    ],
+
+    RegularExpression: {
+        userName: /^[A-Za-z0-9\_\.\-]+$/,
+        password: /^[A-Za-z0-9]{5,20}$/,
+        email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        gender: /^(M|F)/,
+        day_month: /^[0-9]{2}$/,
+        year: /^[0-9]{4}$/,
+        name: /^[A-Za-z ]+$/
+    }
 };

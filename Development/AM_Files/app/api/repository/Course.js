@@ -4,7 +4,7 @@
 
 var config = require('../../configuration');
 var database = require(config.Repository._DBConnection).connection;
-var Exceptions = require(config.Common.Exceptions);
+var Exceptions = require(config.Common.ErrorMessages);
 var Logger = require(config.Common.Logger);
 
 var fn_names = {

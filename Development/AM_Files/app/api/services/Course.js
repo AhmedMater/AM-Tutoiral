@@ -7,7 +7,7 @@ var async = require('async');
 var CourseRepository = require(config.Repository.Course);
 var LookupRepository = require(config.Repository.Lookup);
 
-var Exceptions = require(config.Common.Exceptions);
+var Exceptions = require(config.Common.ErrorMessages);
 var SystemParameters = require(config.Common.SystemParameters);
 var Logger = require(config.Common.Logger);
 
