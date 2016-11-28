@@ -1,22 +1,27 @@
 /**
  * Created by Ahmed Mater on 10/7/2016.
  */
+
+var config = configRequire();
 var async = require('async');
-var config = require('../../../configuration');
-var userService = require('../../' + config.Services.User);
-var exports = module.exports = {};
+var userService = serviceRequire('User');
 
-exports.go = function(req,res) {
+module.exports = {
+    go: function(req, res, next) {
 
-    var userName = req.query.userName;
-    var email = req.query.email;
-    async.series([
-        function(next) {
-            userService.isUserFound(userName, email, next);
-        }], function(err, result) {
-        if(err != null)
-            res.status(400).send(err);
-        else
-            res.status(200).send(result);
-    });
+        var userName = req.query.userName;
+        var email = req.query.email;
+
+        async.series([
+            function (RESTCallBack) {
+                userService.isUserFound(userName, email, RESTCallBack);
+            }],
+            function (err, result) {
+                if(err != null)
+                    next(err);
+                else
+                    res.status(200).send(result);
+            }
+        );
+    }
 };

@@ -1,0 +1,19 @@
+
+	The Page GUI will be a form:
+		1. Chapter Name input of max 100 char
+		2. Chapter Period input as numbers in hours 
+			2.1 Can't take negative numbers
+		3. YouTube Playlist URL input of max 120 char
+			3.1 Check if its valid Youtube Playlist URL
+		4. Chapter Objectives input of 100 char with Plus Button to add more Objectives
+		5. Chapter Content input of 100 Char with Plus Button to add more Contents		
+		6. Chapter Pre-Requisite input of 2 inputs with plus Button to add more References
+			6.1 pre-requisite name input of 100 char
+			6.2 pre-requisite URL input of 150 char
+		7. Description input of 200 char
+		
+		
+	Requirments of the Page:
+		1. Only Admins can access this page
+		2. all fields are required except the (Chapter pre-requisite, Description)
+		3. Plus buttons will take script to add html tags

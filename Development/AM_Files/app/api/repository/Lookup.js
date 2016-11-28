@@ -2,15 +2,17 @@
  * Created by Ahmed Mater on 10/2/2016.
  */
 
-var config = require('../../configuration');
-var database = require(config.Repository._DBConnection).connection;
-var ErrMsg = require(config.Common.ErrorMessages);
-var SystemParameters = require(config.Common.SystemParameters);
-var Logger = require(config.Common.Logger);
+var config = configRequire();
+var database = DBConnectionRequire();
 
-var exports = module.exports = {
+var ErrMsg = commonJSRequire('ErrorMessages');
+var SystemParameters = commonJSRequire('SystemParameters');
+var Logger = commonJSRequire('Logger');
+
+module.exports = {
     getAllUserRoles: function(RepositoryCallBack) {
         var fnName = "getAllUserRoles";
+
         var query =
             "SELECT " +
                 "id, name, value " +
@@ -32,14 +34,13 @@ var exports = module.exports = {
                         value: rows[i].value
                     });
 
-                Logger.info(fnName, ErrMsg.INFO_1);
+                Logger.info(fnName, ErrMsg.INFO_5);
             } else
-                Logger.info(fnName, ErrMsg.INFO_2);
+                Logger.info(fnName, ErrMsg.INFO_6);
 
             RepositoryCallBack(err, userRoles);
         });
     },
-
     getUserRole_ByName: function(name, RepositoryCallBack) {
         var fnName = "getUserRole_byName";
         var query =
@@ -72,7 +73,6 @@ var exports = module.exports = {
             RepositoryCallBack(err, userRole);
         });
     },
-
     getUserRole_ByID: function(id, RepositoryCallBack) {
         var fnName = "getUserRole_byID";
         var query =

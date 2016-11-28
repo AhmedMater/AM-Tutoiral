@@ -2,8 +2,7 @@
  * Created by Ahmed Mater on 10/2/2016.
  */
 
-
-var config = require('./configuration');
+var config = configRequire();
 var exports = module.exports = {};
 
 exports.routing = function(app){
@@ -22,47 +21,55 @@ exports.routing = function(app){
     });
 
     app.get(config.URL.home, function(req, res, next){
-        var router = require('./' + config.Routes.home_get);
+        var router = homeRequire('home_get');
         router.go(req,res, next);
     });
 
     app.get(config.URL.login, function(req, res, next){
-        var router = require('./' + config.Routes.login_get);
+        var router = componentsRequire('login/login_get');
         router.go(req, res, next);
     });
     app.post(config.URL.login, function(req, res, next){
-        var router = require('./' + config.Routes.login_post);
+        var router = componentsRequire('login/login_post');
         router.go(req, res, next);
     });
 
     app.get(config.URL.register, function(req, res, next){
-        var router = require('./' + config.Routes.register_get);
+        var router = componentsRequire('register/register_get');
         router.go(req, res, next);
     });
     app.post(config.URL.register, function(req, res, next){
-        var router = require('./' + config.Routes.register_post);
+        var router = componentsRequire('register/register_post');
         router.go(req, res, next);
     });
 
     app.get(config.URL.addNewCourse, function(req, res, next){
-        var router = require('./' + config.Routes.addNewCourse_get);
+        var router = adminRequire('course/addNewCourse/addNewCourse_get');
         router.go(req, res, next);
     });
-    app.post(config.URL.addNewCourse, function(req,res){
-        var router = require('./' + config.Routes.addNewCourse_post);
+    app.post(config.URL.addNewCourse, function(req, res, next){
+        var router = adminRequire('course/addNewCourse/addNewCourse_post');
         router.go(req, res, next);
     });
     app.get(config.URL.addNewChapter, function(req, res, next){
-        var router = require('./' + config.Routes.addNewChapter_get);
+        var router = adminRequire('course/addNewChapter/addNewChapter_get');
+        router.go(req, res, next);
+    });
+    app.post(config.URL.addNewChapter, function(req, res, next){
+        var router = adminRequire('course/addNewChapter/addNewChapter_post');
         router.go(req, res, next);
     });
     app.get(config.URL.addNewLesson, function(req, res, next){
-        var router = require('./' + config.Routes.addNewLesson_get);
+        var router = adminRequire('course/addNewLesson/addNewLesson_get');
+        router.go(req, res, next);
+    });
+    app.post(config.URL.addNewCourse, function(req, res, next){
+        var router = adminRequire('course/addNewLesson/addNewLesson_post');
         router.go(req, res, next);
     });
 
     app.get(config.URL.userCheck, function(req, res, next){
-        var router = require('./' + config.Routes.userNameCheck);
+        var router = componentsRequire('register/userNameCheck');
         router.go(req, res, next);
     });
     app.get(config.URL.logout, function(req, res){

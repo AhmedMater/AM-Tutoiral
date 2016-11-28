@@ -1,9 +1,12 @@
-var exports = module.exports = {};
-var config = require('../../configuration');
 
-exports.go = function(req,res){
-    res.render(config.Views.home, {
-        title: 'Home Page'
-    });
+var config = configRequire();
+var homeView = viewPath(config.Views.home);
+
+module.exports = {
+
+    go : function(req, res, next) {
+        res.render(homeView, {
+            title: 'Home Page'
+        });
+    }
 };
-

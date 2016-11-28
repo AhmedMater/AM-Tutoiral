@@ -2,10 +2,12 @@
  * Created by Ahmed Mater on 10/6/2016.
  */
 
-var config = require('../../configuration');
-var database = require(config.Repository._DBConnection).connection;
-var ErrMsg = require(config.Common.ErrorMessages);
-var Logger = require(config.Common.Logger);
+var config = configRequire();
+var database = DBConnectionRequire();
+
+var ErrMsg = commonJSRequire('ErrorMessages');
+var SystemParameters = commonJSRequire('SystemParameters');
+var Logger = commonJSRequire('Logger');
 
 var fn_names = {
     getUser: "getUser",

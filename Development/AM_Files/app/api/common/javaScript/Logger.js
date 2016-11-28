@@ -4,6 +4,7 @@
 
 var fs = require("fs");
 var dateFormat = require('dateformat');
+
 var LogFilePath = 'C:\\AMPro\\log.txt';
 var AM_SYSTEM = "AM-Logger";
 var datePattern = "yyyy-mm-dd HH:MM:ss";

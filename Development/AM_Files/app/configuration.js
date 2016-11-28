@@ -153,21 +153,31 @@ var exports = module.exports = {
     },
 
     Views:{
-        home: SUB_FOLDERS.home + "/home",
-        login: SUB_FOLDERS.login + "/login",
-        register_main: SUB_FOLDERS.register + "/register_main",
+        home: "home/home",
 
-        allCourses: SUB_FOLDERS.allCourses + "/allCourses",
-        allChapters: SUB_FOLDERS.allChapters + "/allChapters",
-        allLessons: SUB_FOLDERS.allLessons + "/allLessons",
+            // Components Views
+        login: "components/login/login",
+        register_main: "components/register/register_main",
+        register_successful: "components/register/register_successful",
+        forgetPassword_main: "components/forgetPassword/forgetPassword_main",
+        forgetPassword_successful: "components/forgetPassword/forgetPassword_successful",
 
-        courseDetails: SUB_FOLDERS.courseDetails + "/courseDetails",
-        chapterDetails: SUB_FOLDERS.chapterDetails + "/chapterDetails",
-        lessonDetails: SUB_FOLDERS.lessonDetails + "/lessonDetails",
+            // Admin Views
+        addNewCourse: "admin/course/addNewCourse/addNewCourse",
+        addNewChapter: "admin/course/addNewChapter/addNewChapter",
+        addNewLesson: "admin/course/addNewLesson/addNewLesson",
+        addNewArticle: "admin/article/addNewArticle/addNewArticle",
+        articleDetails: "admin/article/articleDetails/articleDetails",
+        question: "admin/question/question"
 
-        addNewCourse: SUB_FOLDERS.addNewCourse + "/addNewCourse",
-        addNewChapter: SUB_FOLDERS.addNewChapter + "/addNewChapter",
-        addNewLesson: SUB_FOLDERS.addNewLesson + "/addNewLesson"
+        //allCourses: SUB_FOLDERS.allCourses + "/allCourses",
+        //allChapters: SUB_FOLDERS.allChapters + "/allChapters",
+        //allLessons: SUB_FOLDERS.allLessons + "/allLessons",
+        //
+        //courseDetails: SUB_FOLDERS.courseDetails + "/courseDetails",
+        //chapterDetails: SUB_FOLDERS.chapterDetails + "/chapterDetails",
+        //lessonDetails: SUB_FOLDERS.lessonDetails + "/lessonDetails"
+
     },
 
     FOLDERS_NAMES : FOLDERS_NAMES

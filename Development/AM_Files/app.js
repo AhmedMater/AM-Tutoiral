@@ -27,12 +27,50 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Manage API Libraries
+global.serviceRequire = function(name) {
+    return require(__dirname + '/app/api/services/' + name);
+};
+global.repositoryRequire = function(name) {
+    return require(__dirname + '/app/api/repository/' + name);
+};
+global.commonJSRequire = function(name) {
+    return require(__dirname + '/app/api/common/javaScript/' + name);
+};
+
+// Manage Main Libraries
+global.adminRequire = function(name){
+    return require(__dirname + '/app/main/admin/' + name);
+};
+global.componentsRequire = function(name){
+    return require(__dirname + '/app/main/components/' + name);
+};
+global.coursesRequire = function(name){
+    return require(__dirname + '/app/main/courses/' + name);
+};
+global.homeRequire = function(name){
+    return require(__dirname + '/app/main/home/' + name);
+};
+global.userRequire = function(name){
+    return require(__dirname + '/app/main/user/' + name);
+};
+
+global.configRequire = function(){
+    return require(__dirname + '/app/configuration');
+};
+global.viewPath = function(name){
+    return (__dirname + '/app/main/' + name);
+};
+global.DBConnectionRequire = function() {
+    return require(__dirname + '/app/api/repository/_DBConnection').connection;
+};
+
 // Applying Sessions
-var security = require('./app/api/common/javaScript/Security');
+var security = commonJSRequire('Security');
 security.applySession(app);
 
 // Open the Log file
-var Logger = require('./app/api/common/javaScript/Logger');
+var Logger = commonJSRequire('Logger');
 Logger.openLogFile();
 
 var routes = require('./app/index-routes');
