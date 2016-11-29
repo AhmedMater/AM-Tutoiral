@@ -2,7 +2,7 @@
  * Created by Ahmed Mater on 10/2/2016.
  */
 
-var config = configRequire();
+var config = rootRequire('configuration');
 var exports = module.exports = {};
 
 exports.routing = function(app){
@@ -21,7 +21,7 @@ exports.routing = function(app){
     });
 
     app.get(config.URL.home, function(req, res, next){
-        var router = homeRequire('home_get');
+        var router = rootRequire('home_get');
         router.go(req,res, next);
     });
 

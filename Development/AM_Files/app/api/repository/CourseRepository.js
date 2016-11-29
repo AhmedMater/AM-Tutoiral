@@ -2,20 +2,14 @@
  * Created by Ahmed Mater on 11/20/2016.
  */
 
-var config = configRequire();
-var database = DBConnectionRequire();
+var config = rootRequire('configuration');
+var DB = rootRequire('AM-Database').connection();
 
-var ErrMsg = commonJSRequire('ErrorMessages');
-var SystemParameters = commonJSRequire('SystemParameters');
-var Logger = commonJSRequire('Logger');
+var ErrMsg = rootRequire('ErrorMessages');
+var SystemParam = rootRequire('SystemParameters');
+var Logger = rootRequire('Logger');
 
-var fn_names = {
-    getAllCourses: "getAllCourses",
-    getCourseByID: "getCourseByID",
-    getCourseByName: "getCourseByName"
-};
-
-var exports = module.exports = {
+module.exports = {
     getAllCourses: function(){
         var query =
             "SELECT " +
@@ -25,7 +19,7 @@ var exports = module.exports = {
             "WHERE " +
                 "user_name = \'" + userName + "\' OR email = \'" + email + "\';";
 
-        database.query(query, function (err, rows, fields) {
+        DB.query(query, function (err, rows, fields) {
             if (err != null) {
                 Logger.error(config.FOLDERS_NAMES.repository, fn_names.isUserFound, err.message);
             } else {

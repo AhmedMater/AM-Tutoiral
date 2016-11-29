@@ -2,24 +2,18 @@
  * Created by Ahmed Mater on 10/6/2016.
  */
 
-var config = configRequire();
-var database = DBConnectionRequire();
+var config = rootRequire('configuration');
+var DB = rootRequire('AM-Database').connection();
 
-var ErrMsg = commonJSRequire('ErrorMessages');
-var SystemParameters = commonJSRequire('SystemParameters');
-var Logger = commonJSRequire('Logger');
+var ErrMsg = rootRequire('ErrorMessages');
+var SystemParam = rootRequire('SystemParameters');
+var Logger = rootRequire('Logger');
 
-var fn_names = {
-    getUser: "getUser",
-    insertUser: "insertUser",
-    isUserFound: "isUserFound"
-};
-
-var exports = module.exports = {
+module.exports = {
 
     insertUser: function(userData, RepositoryCallBack) {
 
-        database.query('INSERT INTO users SET ?', {
+        DB.query('INSERT INTO users SET ?', {
             user_name: userData.userName,
             password: userData.password,
             email: userData.email,

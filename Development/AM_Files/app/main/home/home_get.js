@@ -1,11 +1,10 @@
 
-var config = configRequire();
-var homeView = viewPath(config.Views.home);
+var config = rootRequire('configuration');
 
 module.exports = {
 
     go : function(req, res, next) {
-        res.render(homeView, {
+        res.render('home', {
             title: 'Home Page'
         });
     }
