@@ -26,50 +26,50 @@ exports.routing = function(app){
     });
 
     app.get(config.URL.login, function(req, res, next){
-        var router = componentsRequire('login/login_get');
+        var router = rootRequire('login_get');
         router.go(req, res, next);
     });
     app.post(config.URL.login, function(req, res, next){
-        var router = componentsRequire('login/login_post');
+        var router = rootRequire('login_post');
         router.go(req, res, next);
     });
 
     app.get(config.URL.register, function(req, res, next){
-        var router = componentsRequire('register/register_get');
+        var router = rootRequire('register_get');
         router.go(req, res, next);
     });
     app.post(config.URL.register, function(req, res, next){
-        var router = componentsRequire('register/register_post');
+        var router = rootRequire('register_post');
         router.go(req, res, next);
     });
 
     app.get(config.URL.addNewCourse, function(req, res, next){
-        var router = adminRequire('course/addNewCourse/addNewCourse_get');
+        var router = rootRequire('addNewCourse_get');
         router.go(req, res, next);
     });
     app.post(config.URL.addNewCourse, function(req, res, next){
-        var router = adminRequire('course/addNewCourse/addNewCourse_post');
+        var router = rootRequire('addNewCourse_post');
         router.go(req, res, next);
     });
     app.get(config.URL.addNewChapter, function(req, res, next){
-        var router = adminRequire('course/addNewChapter/addNewChapter_get');
+        var router = rootRequire('addNewChapter_get');
         router.go(req, res, next);
     });
     app.post(config.URL.addNewChapter, function(req, res, next){
-        var router = adminRequire('course/addNewChapter/addNewChapter_post');
+        var router = rootRequire('addNewChapter_post');
         router.go(req, res, next);
     });
     app.get(config.URL.addNewLesson, function(req, res, next){
-        var router = adminRequire('course/addNewLesson/addNewLesson_get');
+        var router = rootRequire('addNewLesson_get');
         router.go(req, res, next);
     });
     app.post(config.URL.addNewCourse, function(req, res, next){
-        var router = adminRequire('course/addNewLesson/addNewLesson_post');
+        var router = rootRequire('addNewLesson_post');
         router.go(req, res, next);
     });
 
     app.get(config.URL.userCheck, function(req, res, next){
-        var router = componentsRequire('register/userNameCheck');
+        var router = rootRequire('userNameCheck');
         router.go(req, res, next);
     });
     app.get(config.URL.logout, function(req, res){
