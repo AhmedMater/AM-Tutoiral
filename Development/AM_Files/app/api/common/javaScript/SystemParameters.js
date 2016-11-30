@@ -29,11 +29,8 @@ module.exports = {
     ],
 
     UserRole:{
-        typeID: 1,
-        name: {
-            USER: 'User',
-            ADMIN: 'Admin'
-        }
+        USER: 'User',
+        ADMIN: 'Admin'
     },
     ForgetPassword:{
         SUCCESS: 'Success',

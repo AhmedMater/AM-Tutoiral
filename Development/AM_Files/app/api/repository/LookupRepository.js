@@ -129,9 +129,9 @@ module.exports = {
                         value: rows[i].value
                     });
 
-                Logger.info(fnName, ErrMsg.INFO_5);
+                Logger.info(fnName, ErrMsg.INFO_9);
             } else
-                Logger.info(fnName, ErrMsg.INFO_6);
+                Logger.info(fnName, ErrMsg.INFO_10);
 
             RepositoryCallBack(err, courseLevels);
         });
@@ -160,9 +160,9 @@ module.exports = {
                     value: rows[0].value
                 };
 
-                Logger.info(fnName, ErrMsg.INFO_1);
+                Logger.info(fnName, ErrMsg.INFO_11);
             } else
-                Logger.info(fnName, ErrMsg.INFO_2);
+                Logger.info(fnName, ErrMsg.INFO_12);
 
 
             RepositoryCallBack(err, courseLevel);
@@ -192,23 +192,22 @@ module.exports = {
                     value: rows[0].value
                 };
 
-                Logger.info(fnName, ErrMsg.INFO_1);
+                Logger.info(fnName, ErrMsg.INFO_11);
             } else
-                Logger.info(fnName, ErrMsg.INFO_2);
-
+                Logger.info(fnName, ErrMsg.INFO_12);
 
             RepositoryCallBack(err, courseLevel);
         });
     },
 
     getAllCourseTypes: function(RepositoryCallBack) {
-        var fnName = "getAllUserRoles";
+        var fnName = "getAllCourseTypes";
 
         var query =
             "SELECT " +
-            "id, name, value " +
+                "id, name, value " +
             "FROM " +
-            "lookup_user_role ";
+                "lookup_course_type ";
 
         DB.query(query, function (err, rows, fields) {
             if (err != null) {
@@ -216,31 +215,31 @@ module.exports = {
                 return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
             }
 
-            var userRoles = [];
+            var courseTypes = [];
             if(rows != null){
                 for(var i=0 ; i<rows.length; i++)
-                    userRoles.push({
+                    courseTypes.push({
                         id: rows[i].id,
                         name: rows[i].name,
                         value: rows[i].value
                     });
 
-                Logger.info(fnName, ErrMsg.INFO_5);
+                Logger.info(fnName, ErrMsg.INFO_13);
             } else
-                Logger.info(fnName, ErrMsg.INFO_6);
+                Logger.info(fnName, ErrMsg.INFO_14);
 
-            RepositoryCallBack(err, userRoles);
+            RepositoryCallBack(err, courseTypes);
         });
     },
     getCourseType_ByName: function(name, RepositoryCallBack) {
-        var fnName = "getUserRole_byName";
+        var fnName = "getCourseType_ByName";
         var query =
             "SELECT " +
-            "id, name, value " +
+                "id, name, value " +
             "FROM " +
-            "lookup_user_role " +
+                "lookup_course_type " +
             "WHERE " +
-            "name = " + DB.escape(name) +" ;";
+                "name = " + DB.escape(name) +" ;";
 
         DB.query(query, function(err,rows,fields){
             if(err != null) {
@@ -248,31 +247,31 @@ module.exports = {
                 return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
             }
 
-            var userRole = null;
+            var courseType = null;
             if (rows != null) {
-                userRole = {
+                courseType = {
                     id: rows[0].id,
                     name: rows[0].name,
                     value: rows[0].value
                 };
 
-                Logger.info(fnName, ErrMsg.INFO_1);
+                Logger.info(fnName, ErrMsg.INFO_15);
             } else
-                Logger.info(fnName, ErrMsg.INFO_2);
+                Logger.info(fnName, ErrMsg.INFO_16);
 
-
-            RepositoryCallBack(err, userRole);
+            RepositoryCallBack(err, courseType);
         });
     },
     getCourseType_ByID: function(id, RepositoryCallBack) {
-        var fnName = "getUserRole_byID";
+        var fnName = "getCourseType_ByID";
+
         var query =
             "SELECT " +
-            "id, name, value " +
+                "id, name, value " +
             "FROM " +
-            "lookup_user_role " +
+                "lookup_course_type " +
             "WHERE " +
-            "id = " + DB.escape(id) +" ;";
+                "id = " + DB.escape(id) +" ;";
 
         DB.query(query, function(err,rows,fields){
             if(err != null) {
@@ -280,31 +279,30 @@ module.exports = {
                 return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
             }
 
-            var userRole = null;
+            var courseType = null;
             if (rows != null) {
-                userRole = {
+                courseType = {
                     id: rows[0].id,
                     name: rows[0].name,
                     value: rows[0].value
                 };
 
-                Logger.info(fnName, ErrMsg.INFO_1);
+                Logger.info(fnName, ErrMsg.INFO_15);
             } else
-                Logger.info(fnName, ErrMsg.INFO_2);
+                Logger.info(fnName, ErrMsg.INFO_16);
 
-
-            RepositoryCallBack(err, userRole);
+            RepositoryCallBack(err, courseType);
         });
     },
 
     getAllReferenceTypes: function(RepositoryCallBack) {
-        var fnName = "getAllUserRoles";
+        var fnName = "getAllReferenceTypes";
 
         var query =
             "SELECT " +
-            "id, name, value " +
+                "id, name, value " +
             "FROM " +
-            "lookup_user_role ";
+                "lookup_reference_type ";
 
         DB.query(query, function (err, rows, fields) {
             if (err != null) {
@@ -312,31 +310,32 @@ module.exports = {
                 return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
             }
 
-            var userRoles = [];
+            var referenceTypes = [];
             if(rows != null){
                 for(var i=0 ; i<rows.length; i++)
-                    userRoles.push({
+                    referenceTypes.push({
                         id: rows[i].id,
                         name: rows[i].name,
                         value: rows[i].value
                     });
 
-                Logger.info(fnName, ErrMsg.INFO_5);
+                Logger.info(fnName, ErrMsg.INFO_17);
             } else
-                Logger.info(fnName, ErrMsg.INFO_6);
+                Logger.info(fnName, ErrMsg.INFO_18);
 
-            RepositoryCallBack(err, userRoles);
+            RepositoryCallBack(err, referenceTypes);
         });
     },
     getReferenceType_ByName: function(name, RepositoryCallBack) {
-        var fnName = "getUserRole_byName";
+        var fnName = "getReferenceType_ByName";
+
         var query =
             "SELECT " +
-            "id, name, value " +
+                "id, name, value " +
             "FROM " +
-            "lookup_user_role " +
+                "lookup_reference_type " +
             "WHERE " +
-            "name = " + DB.escape(name) +" ;";
+                "name = " + DB.escape(name) +" ;";
 
         DB.query(query, function(err,rows,fields){
             if(err != null) {
@@ -344,31 +343,31 @@ module.exports = {
                 return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
             }
 
-            var userRole = null;
+            var referenceType = null;
             if (rows != null) {
-                userRole = {
+                referenceType = {
                     id: rows[0].id,
                     name: rows[0].name,
                     value: rows[0].value
                 };
 
-                Logger.info(fnName, ErrMsg.INFO_1);
+                Logger.info(fnName, ErrMsg.INFO_19);
             } else
-                Logger.info(fnName, ErrMsg.INFO_2);
+                Logger.info(fnName, ErrMsg.INFO_20);
 
-
-            RepositoryCallBack(err, userRole);
+            RepositoryCallBack(err, referenceType);
         });
     },
     getReferenceType_ByID: function(id, RepositoryCallBack) {
-        var fnName = "getUserRole_byID";
+        var fnName = "getReferenceType_ByID";
+
         var query =
             "SELECT " +
-            "id, name, value " +
+                "id, name, value " +
             "FROM " +
-            "lookup_user_role " +
+                "lookup_reference_type " +
             "WHERE " +
-            "id = " + DB.escape(id) +" ;";
+                "id = " + DB.escape(id) +" ;";
 
         DB.query(query, function(err,rows,fields){
             if(err != null) {
@@ -376,20 +375,19 @@ module.exports = {
                 return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
             }
 
-            var userRole = null;
+            var referenceType = null;
             if (rows != null) {
-                userRole = {
+                referenceType = {
                     id: rows[0].id,
                     name: rows[0].name,
                     value: rows[0].value
                 };
 
-                Logger.info(fnName, ErrMsg.INFO_1);
+                Logger.info(fnName, ErrMsg.INFO_19);
             } else
-                Logger.info(fnName, ErrMsg.INFO_2);
+                Logger.info(fnName, ErrMsg.INFO_20);
 
-
-            RepositoryCallBack(err, userRole);
+            RepositoryCallBack(err, referenceType);
         });
     },
 };

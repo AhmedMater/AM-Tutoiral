@@ -32,6 +32,24 @@ module.exports = {
     INFO_7: 'User already found in Database',
     INFO_8: 'User isn\'t found in Database',
 
+    INFO_9: 'All Course Levels are successfully retrieved',
+    INFO_10: 'Fail to Retrieve the Course Levels',
+
+    INFO_11: 'Course Level is successfully retrieved',
+    INFO_12: 'This Course Level isn\'t found in Database',
+
+    INFO_13: 'All Course Types are successfully retrieved',
+    INFO_14: 'Fail to Retrieve the Course Types',
+
+    INFO_15: 'Course Type is successfully retrieved',
+    INFO_16: 'This Course Type isn\'t found in Database',
+
+    INFO_17: 'All Reference Types are successfully retrieved',
+    INFO_18: 'Fail to Retrieve the Reference Types',
+
+    INFO_19: 'Reference Type is successfully retrieved',
+    INFO_20: 'This Reference Type isn\'t found in Database',
+
     createError: function(name, code, message){
         var err = new Error(message);
         err.status = code;

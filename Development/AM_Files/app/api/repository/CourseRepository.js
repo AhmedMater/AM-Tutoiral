@@ -5,6 +5,7 @@
 var config = rootRequire('configuration');
 var DB = rootRequire('AM-Database');
 
+var SystemParam = rootRequire('SystemParameters');
 var ErrMsg = rootRequire('ErrorMessages');
 var Logger = rootRequire('Logger');
 
@@ -27,8 +28,8 @@ module.exports = {
             date_of_birth: userData.dateOfBirth.year + '-' + userData.dateOfBirth.month + '-' + userData.dateOfBirth.day
         }, function (err, rows, fields) {
             if (err != null) {
-                Logger.error(config.FOLDERS_NAMES.repository, "insertCourse", err.message);
-                return RepositoryCallBack(ErrMsg.createError(ErrMsg.DATABASE_ERROR, 400, err.message), false);
+                Logger.error(SystemParam.REPOSITORY, "insertCourse", err.message);
+                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), false);
             }
 
             RepositoryCallBack(null, true);
@@ -45,8 +46,8 @@ module.exports = {
 
         DB.query(query, function (err, rows, fields) {
             if (err != null) {
-                Logger.error(config.FOLDERS_NAMES.repository, fnName, err.message);
-                return RepositoryCallBack(ErrMsg.createError(ErrMsg.DATABASE_ERROR, 400, err.message), null);
+                Logger.error(SystemParam.REPOSITORY, fnName, err.message);
+                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
             }
 
             var coursesInfo = [];
@@ -77,8 +78,8 @@ module.exports = {
 
         DB.query(query, function(err,rows,fields){
             if(err != null) {
-                Logger.error(config.FOLDERS_NAMES.repository, fnName, err.message);
-                return RepositoryCallBack(ErrMsg.createError(ErrMsg.DATABASE_ERROR, 400, err.message), null);
+                Logger.error(SystemParam.REPOSITORY, fnName, err.message);
+                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
             }
 
             var courseInfo = null;
@@ -109,8 +110,8 @@ module.exports = {
 
         DB.query(query, function(err,rows,fields){
             if(err != null) {
-                Logger.error(config.FOLDERS_NAMES.repository, fnName, err.message);
-                return RepositoryCallBack(ErrMsg.createError(ErrMsg.DATABASE_ERROR, 400, err.message), null);
+                Logger.error(SystemParam.REPOSITORY, fnName, err.message);
+                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
             }
 
             var courseInfo = null;
