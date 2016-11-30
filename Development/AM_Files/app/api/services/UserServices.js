@@ -1,18 +1,17 @@
 /**
  * Created by Ahmed Mater on 10/7/2016.
  */
-var config = configRequire();
+var config = rootRequire('configuration');
 var async = require('async');
 var Regex = require('regex');
 
-var UserRepository = repositoryRequire('User');
-var LookupService = serviceRequire('Lookup');
+var UserRepository = rootRequire('UserRepository');
+var LookupService = rootRequire('LookupService');
 
-var ErrMsg = commonJSRequire('ErrorMessages');
-var SHA256 = commonJSRequire('Sha256');
-var SystemParameters = commonJSRequire('SystemParameters');
-var Logger = commonJSRequire('Logger');
-
+var SystemParam = rootRequire('SystemParameters');
+var ErrMsg = rootRequire('ErrorMessages');
+var Logger = rootRequire('Logger');
+var SHA256 = rootRequire('Sha256');
 
 module.exports = {
 

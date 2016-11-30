@@ -5,6 +5,7 @@
 var fs = require("fs");
 var dateFormat = require('dateformat');
 var SystemParam = rootRequire('SystemParameters');
+var ErrMsg = rootRequire('ErrorMessages');
 
 module.exports = {
 
@@ -13,7 +14,7 @@ module.exports = {
             if (err) {
                 return console.error(err);
             }
-            exports.debug("Logger", "openLogFile", "Logger File Opened Successfully");
+            exports.debug(SystemParam.Logger, "openLogFile", ErrMsg.INFO_0);
         });
     },
 

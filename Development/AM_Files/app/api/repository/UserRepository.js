@@ -2,11 +2,10 @@
  * Created by Ahmed Mater on 10/6/2016.
  */
 
-var config = rootRequire('configuration');
-var DB = rootRequire('AM-Database').connection();
+var DB = rootRequire('AM-Database');
 
-var ErrMsg = rootRequire('ErrorMessages');
 var SystemParam = rootRequire('SystemParameters');
+var ErrMsg = rootRequire('ErrorMessages');
 var Logger = rootRequire('Logger');
 
 module.exports = {
@@ -29,8 +28,8 @@ module.exports = {
             date_of_birth: userData.dateOfBirth.year + '-' + userData.dateOfBirth.month + '-' + userData.dateOfBirth.day
         }, function (err, rows, fields) {
             if (err != null) {
-                Logger.error(config.FOLDERS_NAMES.repository, "insertUser", err.message);
-                return RepositoryCallBack(ErrMsg.createError(ErrMsg.DATABASE_ERROR, 400, err.message), false);
+                Logger.error(SystemParam.REPOSITORY, "insertUser", err.message);
+                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), false);
             }
 
             RepositoryCallBack(null, true);
@@ -47,13 +46,13 @@ module.exports = {
             "FROM " +
                 "users user LEFT JOIN lookup_user_role role ON user.user_role_id = role.id " +
             "WHERE " +
-                "user_name = \'" + userName + "\' " +
-                "AND password = \'" + password + "\';";
+                "user_name = " + DB.escape(userName) + " AND " +
+                "password = " + DB.escape(password) + ";";
 
-        database.query(query, function (err, rows, fields) {
+        DB.query(query, function (err, rows, fields) {
             if (err != null) {
-                Logger.error(config.FOLDERS_NAMES.repository, fnName, err.message);
-                return RepositoryCallBack(ErrMsg.createError(ErrMsg.DATABASE_ERROR, 400, err.message), null);
+                Logger.error(SystemParam.REPOSITORY, fnName, err.message);
+                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
             }
 
             var user = null;
@@ -82,34 +81,38 @@ module.exports = {
                 };
                 Logger.info(fnName, ErrMsg.INFO_3);
             } else
-                Logger.debug(config.FOLDERS_NAMES.repository, fnName, ErrMsg.INFO_4);
+                Logger.debug(SystemParam.REPOSITORY, fnName, ErrMsg.INFO_4);
 
             RepositoryCallBack(err, user);
         });
     },
 
-    isUserFound: function(userName, email, callback){
+    isUserFound: function(userName, email, RepositoryCallBack){
+        var fnName = "isUserFound";
+
         var query =
             "SELECT " +
                 "id FROM users " +
             "WHERE " +
-                "user_name = \'" + userName + "\' OR email = \'" + email + "\';";
+                "user_name = " + DB.escape(userName) + " OR " +
+                "email = " + DB.escape(email) + ";";
 
-        database.query(query, function (err, rows, fields) {
+        DB.query(query, function (err, rows, fields) {
             var isFound = null;
             if (err != null) {
-                Logger.error(config.FOLDERS_NAMES.repository, fn_names.isUserFound, err.message);
-            } else {
-
-                if (rows[0] != null) {
-                    Logger.info(fn_names.isUserFound, 'User is found in Database');
-                    isFound = true;
-                } else {
-                    Logger.info(fn_names.isUserFound, 'User isn\'t found in Database');
-                    isFound = false;
-                }
+                Logger.error(SystemParam.REPOSITORY, fnName, err.message);
+                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
             }
-            callback(err, isFound);
+
+            if (rows[0] != null) {
+                Logger.info(fnName, ErrMsg.INFO_7);
+                isFound = true;
+            } else {
+                Logger.info(fnName, ErrMsg.INFO_8);
+                isFound = false;
+            }
+
+            RepositoryCallBack(err, isFound);
         });
     }
 };

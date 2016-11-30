@@ -2,10 +2,27 @@
  * Created by Ahmed Mater on 10/22/2016.
  */
 module.exports = {
+
+    SERVICES: "Services",
+    REPOSITORY: "Repository",
+    COMMON: "Common",
+    Logger: "Logger",
+
+    SERVER_ERROR: "Server Error",
+    DATABASE_ERROR: "Database Error",
+    AUTHORIZATION_ERROR: "Authorization Error",
+
     SECRET_WORD: 'Ahmed Mater',
     LogFilePath: 'C:\\AMPro\\log.txt',
     AM_SYSTEM: "AM-Logger",
     datePattern: "yyyy-mm-dd HH:MM:ss",
+
+    DB_INFO : {
+        host: 'localhost',
+        user: 'root',
+        password: 'root',
+        database: 'am'
+    },
 
     LookupNames:[
         'User Role', 'Course Level', 'Course Type', 'Reference Type'
