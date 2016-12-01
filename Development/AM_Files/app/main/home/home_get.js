@@ -1,5 +1,4 @@
 
-var config = rootRequire('configuration');
 
 module.exports = {
 

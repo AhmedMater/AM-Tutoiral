@@ -34,8 +34,6 @@ var exports = module.exports = {
     },
 
     Routes: {
-        "AM-Database": "api/repository/_DBConnection",
-        "configuration": "configuration",
         "index-routes": "index-routes",
 
         "UserRepository": "api/repository/UserRepository",
@@ -43,15 +41,20 @@ var exports = module.exports = {
         "CourseRepository": "api/repository/CourseRepository",
         "ArticleRepository": "api/repository/ArticleRepository",
         "QuestionRepository": "api/repository/QuestionRepository",
-        "UserServices": "api/repository/UserServices",
-        "CourseServices": "api/repository/CourseServices",
-        "ArticleServices": "api/repository/ArticleServices",
-        "QuestionServices": "api/repository/QuestionServices",
+
+        "UserServices": "api/services/UserServices",
+        "LookupServices": "api/services/LookupServices",
+        "CourseServices": "api/services/CourseServices",
+        "ArticleServices": "api/services/ArticleServices",
+        "QuestionServices": "api/services/QuestionServices",
+
         "ErrorMessages": "api/common/javaScript/ErrorMessages",
         "Security": "api/common/javaScript/Security",
         "SHA256": "api/common/javaScript/SHA256",
         "SystemParameters": "api/common/javaScript/SystemParameters",
         "Logger": "api/common/javaScript/Logger",
+        "AM-Database": "api/common/javaScript/_DBConnection",
+        "configuration": "api/common/javaScript/configuration",
 
         "addNewCourse_get": "main/admin/course/addNewCourse/addNewCourse_get",
         "addNewCourse_post": "main/admin/course/addNewCourse/addNewCourse_post",

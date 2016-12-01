@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var config = require('./app/configuration');
+var config = require('./app/api/common/javaScript/configuration');
 
 // Overriding Require function
 global.rootRequire = function(name) {

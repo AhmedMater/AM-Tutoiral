@@ -2,9 +2,9 @@
  * Created by Ahmed Mater on 10/6/2016.
  */
 
+var config = rootRequire('configuration');
 var async = require('async');
-var config = configRequire();
-var userService = serviceRequire('User');
+var userServices = rootRequire('UserServices');
 
 module.exports = {
     go: function(req, res, next) {
@@ -12,8 +12,8 @@ module.exports = {
         var password = req.body.password;
 
         async.waterfall([
-            function(callback) {
-                userService.login(userName, password, callback);
+            function(RESTCallBack) {
+                userServices.login(userName, password, RESTCallBack);
             }],
             function(err, result) {
                 if(result != null) {

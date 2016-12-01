@@ -2,9 +2,9 @@
  * Created by Ahmed Mater on 10/6/2016.
  */
 
-var config = configRequire();
+var config = rootRequire('configuration');
 var async = require('async');
-var userService = serviceRequire('User');
+var userServices = rootRequire('UserServices');
 
 module.exports = {
     go: function(req, res, next) {
@@ -35,7 +35,7 @@ module.exports = {
 
         async.waterfall([
                 function(RESTCallBack) {
-                    userService.insertUser(userData, RESTCallBack);
+                    userServices.insertUser(userData, RESTCallBack);
                 }],
             function(err, result) {
                 if(err != null)
@@ -44,7 +44,6 @@ module.exports = {
                     res.redirect(config.URL.home);
             }
         );
-
     }
 };
 

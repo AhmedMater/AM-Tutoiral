@@ -2,9 +2,8 @@
  * Created by Ahmed Mater on 10/7/2016.
  */
 
-var config = configRequire();
 var async = require('async');
-var userService = serviceRequire('User');
+var userServices = rootRequire('UserServices');
 
 module.exports = {
     go: function(req, res, next) {
@@ -14,7 +13,7 @@ module.exports = {
 
         async.series([
             function (RESTCallBack) {
-                userService.isUserFound(userName, email, RESTCallBack);
+                userServices.isUserFound(userName, email, RESTCallBack);
             }],
             function (err, result) {
                 if(err != null)

@@ -9,15 +9,6 @@ var ErrMsg = rootRequire('ErrorMessages');
 
 module.exports = {
 
-    openLogFile: function(){
-        fs.open(SystemParam.LogFilePath, 'r+', function(err, fd) {
-            if (err) {
-                return console.error(err);
-            }
-            exports.debug(SystemParam.Logger, "openLogFile", ErrMsg.INFO_0);
-        });
-    },
-
     debug: function(folder, fn_name, message) {
         var logMsg = SystemParam.AM_SYSTEM + " " + dateFormat(new Date(), SystemParam.datePattern) + " [Debug]: "
             + folder + " - " + fn_name + ": " + message + "\n";
@@ -34,5 +25,15 @@ module.exports = {
         var logMsg = SystemParam.AM_SYSTEM + " " + dateFormat(new Date(), SystemParam.datePattern) + " [Error]: "
             + folder + " - " + fn_name + ": " + errorMsg + "\n";
         fs.appendFile(SystemParam.LogFilePath, logMsg, 'utf8');
+    },
+
+    openLogFile: function(){
+        fs.open(SystemParam.LogFilePath, 'r+', function(err, fd) {
+            if (err) {
+                return console.error(err);
+            }
+            module.exports.debug(SystemParam.Logger, "openLogFile", ErrMsg.INFO_0);
+        });
     }
+
 };

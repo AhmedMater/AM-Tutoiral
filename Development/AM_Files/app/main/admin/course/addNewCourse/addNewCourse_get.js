@@ -1,17 +1,27 @@
 /**
  * Created by Ahmed Mater on 10/9/2016.
  */
-var exports = module.exports = {};
-var config = require('../../../../configuration');
-var lookupService = require('../../../' + config.Services.Lookup);
+LookupServices = rootRequire('LookupServices');
+var async = require('async');
 
-exports.go = function(req,res) {
-    // we have to validate if the user is admin
+module.exports = {
+    go: function(req, res, next) {
+        // We have to validate if the user is admin
 
-    res.render(config.Views.addNewCourse, {
-        title: "Add New Course",
-        courseLevel: lookupService.getAllCourseLevels(),
-        courseType: lookupService.getAllCourseTypes(),
-        referenceType:lookupService.getAllReferenceTypes()
-    });
+        // We have to get all the lookup data from Database
+        async.series([
+            LookupServices.getAllCourseLevels,
+            LookupServices.getAllCourseTypes,
+            LookupServices.getAllReferenceTypes
+        ], function (err, results) {
+
+            res.render('addNewCourse', {
+                title: "Add New Course",
+                courseLevel: results[0],
+                courseType: results[1],
+                referenceType: results[2]
+            });
+        });
+
+    }
 };
