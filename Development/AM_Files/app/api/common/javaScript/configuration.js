@@ -8,25 +8,41 @@ var exports = module.exports = {
         home: "/",
         login: "/login",
         register: "/register",
-        users: '/users?',
+        users: '/users',
         userCheck: '/user/checkUserName?',
         userProfile: '/user/:id/profile',
         userSettings: '/user/:id/settings?',
         logout: '/logout',
 
+            // admin URLs
+        newCourse: '/admin/new/course',
+        newChapter: '/admin/new/chapter',
+        newLesson: '/admin/new/lesson',
+        newArticle: '/admin/new/article',
+
+        editCourse: '/admin/edit/course/:courseID',
+        editChapter: '/admin/edit/chapter/:chapterID',
+        editLesson: '/admin/edit/lesson/:lessonID',
+        editArticle: '/admin/edit/article/:articleID',
+
+        removeCourse: '/admin/remove/course/:courseID',
+        removeChapter: '/admin/remove/chapter/:chapterID',
+        removeLesson: '/admin/remove/lesson/:lessonID',
+        removeArticle: '/admin/remove/article/:articleID',
+
             // all Course URLs
         allCourses: '/courses/all/',
-        addNewCourse: '/courses/new/',
+        //addNewCourse: '/courses/new/',
         course: '/courses/:courseID/',
 
             // all Chapters URLs
         allChapters: '/chapters/:courseID/all/',
-        addNewChapter: '/chapters/:courseID/new/',
+        //addNewChapter: '/chapters/:courseID/new/',
         chapter: '/chapters/:courseID/:chapterID/',
 
             // all Lessons URLs
         allLessons: '/lessons/:courseID/:chapterID/all/',
-        addNewLesson: '/lessons/:courseID/:chapterID/new/',
+        //addNewLesson: '/lessons/:courseID/:chapterID/new/',
         lesson: '/lessons/:courseID/:chapterID/:lessonID',
 
         articles: '/articles?',
@@ -39,14 +55,20 @@ var exports = module.exports = {
         "UserRepository": "api/repository/UserRepository",
         "LookupRepository": "api/repository/LookupRepository",
         "CourseRepository": "api/repository/CourseRepository",
+        "ChapterRepository": "api/repository/ChapterRepository",
+        "LessonRepository": "api/repository/LessonRepository",
         "ArticleRepository": "api/repository/ArticleRepository",
         "QuestionRepository": "api/repository/QuestionRepository",
+        "TaskRepository": "api/repository/TaskRepository",
 
         "UserServices": "api/services/UserServices",
         "LookupServices": "api/services/LookupServices",
         "CourseServices": "api/services/CourseServices",
+        "ChapterServices": "api/services/ChapterServices",
+        "LessonServices": "api/services/CourseServices",
         "ArticleServices": "api/services/ArticleServices",
         "QuestionServices": "api/services/QuestionServices",
+        "TaskServices": "api/services/TaskServices",
 
         "ErrorMessages": "api/common/javaScript/ErrorMessages",
         "Security": "api/common/javaScript/Security",
