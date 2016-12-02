@@ -3,7 +3,8 @@
  */
 
 var async = require('async');
-var lookupRepository = rootRequire('LookupRepository');
+var CourseRepository = rootRequire('CourseRepository');
+var LookupServices = rootRequire('LookupServices');
 
 var SystemParam = rootRequire('SystemParameters');
 var ErrMsg = rootRequire('ErrorMessages');

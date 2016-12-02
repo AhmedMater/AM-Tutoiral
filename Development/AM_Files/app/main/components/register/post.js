@@ -41,7 +41,9 @@ module.exports = {
                 if(err != null)
                     next(err);
                 else
-                    res.redirect(config.URL.home);
+                    res.render('register_success', {
+                        title: 'Sign Up'
+                    });
             }
         );
     }

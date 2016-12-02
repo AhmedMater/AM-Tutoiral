@@ -15,38 +15,22 @@ var exports = module.exports = {
         logout: '/logout',
 
             // admin URLs
-        newCourse: '/admin/new/course',
-        newChapter: '/admin/new/chapter',
-        newLesson: '/admin/new/lesson',
-        newArticle: '/admin/new/article',
+        newCourse: '/admin/course/new',
+        editCourse: '/admin/course/:courseID/edit',
+        removeCourse: '/admin/course/:courseID/remove',
 
-        editCourse: '/admin/edit/course/:courseID',
-        editChapter: '/admin/edit/chapter/:chapterID',
-        editLesson: '/admin/edit/lesson/:lessonID',
-        editArticle: '/admin/edit/article/:articleID',
+        newChapter: '/admin/chapter/:courseID/new',
+        editChapter: '/admin/chapter/:chapterID/edit',
+        removeChapter: '/admin/chapter/:chapterID/remove',
 
-        removeCourse: '/admin/remove/course/:courseID',
-        removeChapter: '/admin/remove/chapter/:chapterID',
-        removeLesson: '/admin/remove/lesson/:lessonID',
-        removeArticle: '/admin/remove/article/:articleID',
+        newLesson: '/admin/lesson/:chapterID/new',
+        editLesson: '/admin/lesson/:lessonID/edit',
+        removeLesson: '/admin/lesson/:lessonID/remove',
 
-            // all Course URLs
-        allCourses: '/courses/all/',
-        //addNewCourse: '/courses/new/',
-        course: '/courses/:courseID/',
-
-            // all Chapters URLs
-        allChapters: '/chapters/:courseID/all/',
-        //addNewChapter: '/chapters/:courseID/new/',
-        chapter: '/chapters/:courseID/:chapterID/',
-
-            // all Lessons URLs
-        allLessons: '/lessons/:courseID/:chapterID/all/',
-        //addNewLesson: '/lessons/:courseID/:chapterID/new/',
-        lesson: '/lessons/:courseID/:chapterID/:lessonID',
-
-        articles: '/articles?',
-        questions: '/questions?'
+        newTask: '/admin/task/:lessonID/new',
+        editTask: '/admin/task/:lessonID/edit',
+        submitTask: '/admin/task/:lessonID/submit',
+        removeTask: '/admin/task/:lessonID/remove'
     },
 
     Routes: {
@@ -78,40 +62,70 @@ var exports = module.exports = {
         "AM-Database": "api/common/javaScript/_DBConnection",
         "configuration": "api/common/javaScript/configuration",
 
-        "addNewCourse_get": "main/admin/course/addNewCourse/addNewCourse_get",
-        "addNewCourse_post": "main/admin/course/addNewCourse/addNewCourse_post",
-        "addNewChapter_get": "main/admin/course/addNewChapter/addNewChapter_get",
-        "addNewChapter_post": "main/admin/course/addNewChapter/addNewChapter_post",
-        "addNewLesson_get": "main/admin/course/addNewLesson/addNewLesson_get",
-        "addNewLesson_post": "main/admin/course/addNewLesson/addNewLesson_post",
-        "addNewArticle_get": "main/admin/article/addNewArticle/addNewArticle_get",
-        "addNewArticle_post": "main/admin/article/addNewArticle/addNewArticle_post",
+        "home_get": "main/home/get",
 
-        "forgetPassword_get": "main/components/forgetPassword/forgetPassword_get",
-        "forgetPassword_post": "main/components/forgetPassword/forgetPassword_post",
-        "login_get": "main/components/login/login_get",
-        "login_post": "main/components/login/login_post",
-        "register_get": "main/components/register/register_get",
-        "register_post": "main/components/register/register_post",
-        "userNameCheck": "main/components/register/userNameCheck",
-        "home_get": "main/home/home_get",
-        "home_post": "main/home/home_post"
+        "newCourse_get": "main/admin/course/new/get",
+        "newCourse_post": "main/admin/course/new/post",
+        "editCourse_get": "main/admin/course/new/get",
+        "editCourse_post":"main/admin/course/edit/post",
+        "removeCourse":"main/admin/course/remove",
+
+        "newChapter_get": "main/admin/chapter/new/get",
+        "newChapter_post": "main/admin/chapter/new/post",
+        "editChapter_get": "main/admin/chapter/new/get",
+        "editChapter_post":"main/admin/chapter/edit/post",
+        "removeChapter":"main/admin/chapter/remove",
+
+        "newLesson_get": "main/admin/lesson/new/get",
+        "newLesson_post": "main/admin/lesson/new/post",
+        "editLesson_get": "main/admin/lesson/edit/get",
+        "editLesson_post":"main/admin/lesson/edit/post",
+        "newTask_get": "main/admin/lesson/task/new/get",
+        "newTask_post": "main/admin/lesson/task/new/post",
+        "editTask_get": "main/admin/lesson/task/edit/get",
+        "editTask_post":"main/admin/lesson/task/edit/post",
+        "submitTask_get": "main/admin/lesson/task/submit/get",
+        "submitTask_post":"main/admin/lesson/task/submit/post",
+        "removeTask":"main/admin/lesson/task/remove",
+        "removeLesson":"main/admin/lesson/remove",
+
+        "newArticle_get": "main/admin/article/new/get",
+        "newArticle_post": "main/admin/article/new/post",
+
+        "forgetPassword_get": "main/components/forgetPassword/get",
+        "forgetPassword_post": "main/components/forgetPassword/post",
+        "login_get": "main/components/login/get",
+        "login_post": "main/components/login/post",
+
+        "register_get": "main/components/register/get",
+        "register_post": "main/components/register/post",
+        "userNameCheck": "main/components/register/userNameCheck"
     },
 
     Views:{
         "error": "api/common/layout/error",
+        "unAuthorized": "api/common/layout/unAuthorized",
 
-        "home": "main/home/home",
+        "home": "main/home/view",
 
-        "addNewCourse": "main/admin/course/addNewCourse/addNewCourse",
-        "addInitialChapters": "main/admin/course/addInitialChapters/addInitialChapters",
-        "addNewChapter": "main/admin/course/addNewChapter/addNewChapter",
+        "newCourse": "main/admin/course/new/view",
+        "editCourse": "main/admin/course/edit/view",
 
-        "forgetPassword_main": "main/components/forgetPassword/forgetPassword_main",
-        "forgetPassword_successful": "main/components/forgetPassword/forgetPassword_successful",
-        "login": "main/components/login/login",
-        "register_main": "main/components/register/register_main",
-        "register_successful": "main/components/register/register_successful"
+        "newChapter": "main/admin/chapter/new/view",
+        "editChapter": "main/admin/chapter/edit/view",
+
+        "newLesson": "main/admin/lesson/new/view",
+        "editLesson": "main/admin/lesson/edit/view",
+        "newTask": "main/admin/lesson/new/view",
+        "editTask": "main/admin/lesson/edit/view",
+        "submitTask": "main/admin/lesson/submit/view",
+
+        "forgetPassword_main": "main/components/forgetPassword/view_main",
+        "forgetPassword_success": "main/components/forgetPassword/view_success",
+        "login_main": "main/components/login/view",
+        "login_wrong": "main/components/login/login_wrong",
+        "register_main": "main/components/register/view_main",
+        "register_success": "main/components/register/view_success"
     }
 };
 

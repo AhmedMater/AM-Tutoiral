@@ -5,12 +5,12 @@ var async = require('async');
 var Regex = require('regex');
 
 var UserRepository = rootRequire('UserRepository');
-var LookupService = rootRequire('LookupService');
+var LookupServices = rootRequire('LookupServices');
 
 var SystemParam = rootRequire('SystemParameters');
 var ErrMsg = rootRequire('ErrorMessages');
 var Logger = rootRequire('Logger');
-var SHA256 = rootRequire('Sha256');
+var SHA256 = rootRequire('SHA256');
 
 module.exports = {
 
@@ -58,7 +58,7 @@ module.exports = {
         }
         else if(((userData.dateOfBirth.month == 4 || userData.dateOfBirth.month == 6 || userData.dateOfBirth.month == 9 || userData.dateOfBirth.month == 11) && (userData.dateOfBirth.day > 30) ) ||
             (userData.dateOfBirth.month == 2 && userData.dateOfBirth.day > 29)) {
-            Logger.error(config.FOLDERS_NAMES.services, fnName, ErrMsg.ERROR_13);
+            Logger.error(config.SystemParam.SERVICES, fnName, ErrMsg.ERROR_13);
             return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_13), null);
         }
         else if(!RegExp.name.test(userData.job)) {
@@ -76,11 +76,11 @@ module.exports = {
 
         async.waterfall([
                 function(ServiceCallBack) {
-                    LookupService.getUserRole_ByName(SystemParam.UserRole.name.USER, ServiceCallBack);
+                    LookupServices.getUserRole_ByName(SystemParam.UserRole.USER, ServiceCallBack);
                 },
                 function(userRole, RepositoryCallBack) {
                     userData.password = SHA256.hash(userData.password);
-                    userData.userRole = userRole.id;
+                    userData.userRoleID = userRole.id;
                     UserRepository.insertUser(userData, RepositoryCallBack);
                 }],
             function(err, result) {
@@ -92,10 +92,11 @@ module.exports = {
         );
     },
     login: function(userName, password, RESTCallBack){
+        var fnName = "login";
 
         if(userName == null || password == null) {
-            Logger.error(SystemParam.SERVICES, "login", ErrMsg.ERROR_1);
-            return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_11), null);
+            Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_1);
+            return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_1), null);
         }
 
         async.waterfall([
@@ -104,20 +105,27 @@ module.exports = {
                 }],
             function(err, result) {
                 if(err != null)
-                    Logger.error(SystemParam.SERVICES,"login",err.message);
+                    Logger.error(SystemParam.SERVICES,fnName,err.message);
 
                 return RESTCallBack(err, result);
             }
         );
     },
     isUserFound: function(userName, email, RESTCallBack){
+        var fnName = "isUserFound";
+
+        if(userName == null && email == null) {
+            Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_1);
+            return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_1), null);
+        }
+
         async.waterfall([
                 function(RepositoryCallBack) {
                     UserRepository.isUserFound(userName, email, RepositoryCallBack);
                 }],
             function(err, result) {
                 if(err != null)
-                    Logger.error(SystemParam.SERVICES, "isUserFound", err.message);
+                    Logger.error(SystemParam.SERVICES, fnName, err.message);
 
                 RESTCallBack(err, result);
             }

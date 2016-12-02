@@ -3,6 +3,7 @@
  */
 
 var config = rootRequire('configuration');
+var SystemParam = rootRequire('SystemParameters');
 var async = require('async');
 var userServices = rootRequire('UserServices');
 
@@ -15,22 +16,24 @@ module.exports = {
             function(RESTCallBack) {
                 userServices.login(userName, password, RESTCallBack);
             }],
-            function(err, result) {
-                if(result != null) {
+            function(err, user) {
+                if(user != null) {
 
                     var session = req.session;
                     session.cookie.expires = false;
                     session.user = {
-                        userID: result.userID,
-                        userName: result.userName,
-                        fullName: result.firstName + ' ' + result.lastName,
-                        userPicName: result.userPic,
-                        isAdmin: (result.userRole.roleName == 'Admin')
+                        userID: user.userID,
+                        userName: user.userName,
+                        fullName: user.firstName + ' ' + user.lastName,
+                        userPicName: user.userPic,
+                        isAdmin: (user.userRole.name == SystemParam.UserRole.ADMIN)
                     };
 
                     res.redirect(config.URL.home);
                 } else {
-                    res.send('<h1> Wrong Password </h1>');
+                    res.render('login_wrong', {
+                        title: "Login"
+                    });
                 }
             }
         );

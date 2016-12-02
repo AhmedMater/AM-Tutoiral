@@ -24,10 +24,6 @@ module.exports = {
         database: 'am'
     },
 
-    LookupNames:[
-        'User Role', 'Course Level', 'Course Type', 'Reference Type'
-    ],
-
     UserRole:{
         USER: 'User',
         ADMIN: 'Admin'

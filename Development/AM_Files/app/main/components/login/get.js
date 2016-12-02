@@ -4,7 +4,7 @@
 
 module.exports = {
     go: function(req, res, next){
-        res.render('login', {
+        res.render('login_main', {
             title: 'Login'
         });
     }

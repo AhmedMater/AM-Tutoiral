@@ -16,7 +16,7 @@ module.exports = {
             user_name: userData.userName,
             password: userData.password,
             email: userData.email,
-            user_role: userData.userRole,
+            user_role_id: userData.userRoleID,
             first_name: userData.firstName,
             last_name: userData.lastName,
             gender: userData.gender,

@@ -20,6 +20,21 @@ exports.routing = function(app){
         next();
     });
 
+    app.use('/admin/*', function(req, res, next){
+        if(req.session.user != null){
+            if(req.session.user.isAdmin)
+                next();
+            else{
+                res.render('unAuthorized',{
+                    title: "Access Denied",
+                    baseURL: req.originalUrl
+                });
+            }
+        } else {
+            res.redirect(config.URL.login);
+        }
+    });
+
     app.get(config.URL.home, function(req, res, next){
         var router = rootRequire('home_get');
         router.go(req,res, next);
@@ -43,28 +58,28 @@ exports.routing = function(app){
         router.go(req, res, next);
     });
 
-    app.get(config.URL.addNewCourse, function(req, res, next){
-        var router = rootRequire('addNewCourse_get');
+    app.get(config.URL.newCourse, function(req, res, next){
+        var router = rootRequire('newCourse_get');
         router.go(req, res, next);
     });
-    app.post(config.URL.addNewCourse, function(req, res, next){
-        var router = rootRequire('addNewCourse_post');
+    app.post(config.URL.newCourse, function(req, res, next){
+        var router = rootRequire('newCourse_post');
         router.go(req, res, next);
     });
-    app.get(config.URL.addNewChapter, function(req, res, next){
-        var router = rootRequire('addNewChapter_get');
+    app.get(config.URL.newChapter, function(req, res, next){
+        var router = rootRequire('newChapter_get');
         router.go(req, res, next);
     });
-    app.post(config.URL.addNewChapter, function(req, res, next){
-        var router = rootRequire('addNewChapter_post');
+    app.post(config.URL.newChapter, function(req, res, next){
+        var router = rootRequire('newChapter_post');
         router.go(req, res, next);
     });
-    app.get(config.URL.addNewLesson, function(req, res, next){
-        var router = rootRequire('addNewLesson_get');
+    app.get(config.URL.newLesson, function(req, res, next){
+        var router = rootRequire('newLesson_get');
         router.go(req, res, next);
     });
-    app.post(config.URL.addNewCourse, function(req, res, next){
-        var router = rootRequire('addNewLesson_post');
+    app.post(config.URL.newCourse, function(req, res, next){
+        var router = rootRequire('newLesson_post');
         router.go(req, res, next);
     });
 

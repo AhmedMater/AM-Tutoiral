@@ -9,7 +9,7 @@
     <hr />
 
         <div id="login" class="tab-pane active">
-            <form action="/login" method="POST" class="form-signin">
+            <form action="/login" method="POST" name="loginForm" class="form-signin">
 
                 <div class="row">
                     <div class="col-lg-offset-4 col-lg-4">
@@ -41,13 +41,26 @@
 
                 <!-- Forget Password and Login Field -->
                 <div class="row">
-                    <div class="col-lg-6  col-lg-offset-3">
-                        <div class="btn-group btn-group-justified">
+                    <div class="btn-group btn-group-justified">
+                        <div class="col-lg-2  col-lg-offset-4">
                             <a class="btn btn-danger" href="/forgetPassword"> Forget Your Password</a>
-                            <input class="btn btn-success" type="submit" id="submitBtn" value="Login"/>
+                        </div>
+                            <!--<input class="btn btn-success" type="submit" id="submitBtn" value="Login"/>-->
+                        <div class="col-lg-1">
+                            <a class="btn btn-success login-button" href="javascript:void(0)" id="submitBtn">Login</a>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $(document).on("click",".login-button",function(){
+            var form = $(this).closest("form");
+            console.log(form);
+            form.submit();
+        });
+    });
+</script>

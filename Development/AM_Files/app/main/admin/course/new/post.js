@@ -7,8 +7,6 @@ module.exports = {
         // we have to validate if the user is admin
 
 
-        res.render('addNewCourse', {
-            title: "Add New Course"
-        });
+
     }
 };
