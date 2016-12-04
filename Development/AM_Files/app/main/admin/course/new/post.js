@@ -13,38 +13,46 @@ var Logger = rootRequire('Logger');
 module.exports = {
     go: function (req, res, next) {
         var fnName = "newCourse_get";
+        var preRequisite = {
+            name: req.body.coursePreRequisiteName,
+            URL: req.body.coursePreRequisiteURL
+        };
+        var reference = {
+            name: req.body.courseReferenceName,
+            typeID: req.body.courseReferenceTypeID,
+            URL: req.body.courseReferenceURL
+        };
 
         var coursePreRequisites = [];
-        if(req.body.coursePreRequisiteName && req.body.coursePreRequisiteURL) {
+        if(preRequisite.name && preRequisite.URL) {
 
             // Validate if all fields are full
-            if(req.body.coursePreRequisiteName.length != req.body.coursePreRequisiteURL.length){
+            if(preRequisite.name.length != preRequisite.URL.length){
                 Logger.error(SystemParam.MAIN, fnName, ErrMsg.ERROR_14);
                 next(ErrMsg.createError(SystemParam.FRONTEND_ERROR, 500, ErrMsg.ERROR_14), null);
             }
 
-            for (var i = 0; i < coursePreRequisiteName.length; i++)
+            for (var i = 0; i < preRequisite.name.length; i++)
                 coursePreRequisites.push({
-                    name: req.body.coursePreRequisiteName[i],
-                    URL: req.body.coursePreRequisiteURL[i]
+                    name: preRequisite.name[i],
+                    URL: preRequisite.URL[i]
                 });
         }
 
         var courseReferences = [];
-        if(req.body.courseReferenceName && req.body.courseReferenceTypeID && req.body.courseReferenceURL) {
+        if(reference.name && reference.typeID && reference.URL) {
 
             // Validate if all fields are full
-            if((req.body.courseReferenceName.length != req.body.courseReferenceTypeID.length) &&
-                (req.body.courseReferenceName.length != req.body.courseReferenceURL.length)){
+            if((reference.name.length != reference.typeID.length) && (reference.name.length != reference.URL.length)){
                 Logger.error(SystemParam.MAIN, fnName, ErrMsg.ERROR_15);
                 next(ErrMsg.createError(SystemParam.FRONTEND_ERROR, 500, ErrMsg.ERROR_15), null);
             }
 
-            for (var i = 0; i < courseReferenceName.length; i++)
+            for (var i = 0; i < reference.name.length; i++)
                 courseReferences.push({
-                    name: req.body.courseReferenceName[i],
-                    typeID: req.body.courseReferenceTypeID[i],
-                    URL: req.body.courseReferenceURL[i]
+                    name: reference.name[i],
+                    typeID: reference.typeID[i],
+                    URL: reference.URL[i]
                 });
         }
 

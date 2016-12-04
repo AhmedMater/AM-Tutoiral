@@ -78,14 +78,41 @@ module.exports = {
         });
     },
 
-    getCourseID: function(courseData, RepositoryCallBack){
+    isCourseFound: function(courseName, youTubePlaylist, RepositoryCallBack){
+        var fnName = "isCourseFound";
+
+        var query =
+            "SELECT id FROM course WHERE " +
+                "name = " + DB.escape(courseName) + " OR " +
+                "playlist_link = " + DB.escape(youTubePlaylist) + ";";
+
+        DB.query(query, function (err, rows, fields) {
+            var isFound = null;
+            if (err != null) {
+                Logger.error(SystemParam.REPOSITORY, fnName, err.message);
+                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
+            }
+
+            if (rows[0] != null) {
+                Logger.info(fnName, ErrMsg.INFO_7);
+                isFound = true;
+            } else {
+                Logger.info(fnName, ErrMsg.INFO_8);
+                isFound = false;
+            }
+
+            RepositoryCallBack(err, isFound);
+        });
+
+    },
+
+    getCourseID: function(courseName, youTubePlaylist, RepositoryCallBack){
         var fnName = "getCourseID";
 
         var query =
             "SELECT id FROM course WHERE" +
-                " name " + DB.escape(courseData.courseName) + " AND " +
-                " period " + DB.escape(courseData.coursePeriod) + " AND " +
-                " playlist_link " + DB.escape(courseData.youTubePlaylist);
+                " name " + DB.escape(courseName) + " AND " +
+                " playlist_link " + DB.escape(youTubePlaylist);
 
         DB.query(query, function (err, rows, fields) {
             if (err != null) {

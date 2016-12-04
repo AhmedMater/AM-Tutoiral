@@ -17,7 +17,8 @@ module.exports = {
         var ErrorMessage = null;
 
         if(courseData.courseName == null || courseData.coursePeriod == null || courseData.courseType == null ||
-            courseData.courseLevel == null || courseData.youTubePlayList == null || courseData.lastName == null || courseData.gender == null) {
+            courseData.courseLevel == null || courseData.youTubePlayList == null || courseData.courseContents == null ||
+            courseData.courseObjectives == null || courseData.courseReferences) {
             Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_1);
             return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_1);
         }
@@ -28,7 +29,6 @@ module.exports = {
     },
 
     addNewCourse: function(courseData, RESTCallBack){
-
         var fnName = "addNewCourse";
 
         var isError = module.exports.addNewCourseValidation(courseData);
@@ -51,44 +51,17 @@ module.exports = {
                 }
 
                 var courseContentArray = [];
-                for(var i= 0; i<courseData.courseContents.length; i++) {
-
-                    var content = courseData.courseContents[i];
-
-                    // Do Some Validation on the Course Data
-                    //if(userData userData.gender == null) {
-                    //    Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_1);
-                    //    return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_1), null);
-                    //}
-
-                    courseContentArray.push([courseID, (i + 1), content]);
-                }
+                for(var i= 0; i<courseData.courseContents.length; i++)
+                    courseContentArray.push([courseID, (i + 1), courseData.courseContents[i]]);
 
                 var courseObjectivesArray = [];
-                for(var i= 0; i<courseData.courseObjectives.length; i++) {
-
-                    var objective = courseData.courseObjectives[i];
-
-                    // Do Some Validation on the Course Data
-                    //if(userData userData.gender == null) {
-                    //    Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_1);
-                    //    return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_1), null);
-                    //}
-
-                    courseObjectivesArray.push([courseID, (i + 1), objective]);
-                }
+                for(var i= 0; i<courseData.courseObjectives.length; i++)
+                    courseObjectivesArray.push([courseID, (i + 1), courseData.courseObjectives[i]]);
 
                 var coursePreRequisitesArray = [];
                 for(var i= 0; i<courseData.coursePreRequisites.length; i++) {
-
                     var name =courseData.coursePreRequisites[i].name;
                     var URL = courseData.coursePreRequisites[i].URL;
-
-                    // Do Some Validation on the Course Data
-                    //if(userData userData.gender == null) {
-                    //    Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_1);
-                    //    return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_1), null);
-                    //}
 
                     coursePreRequisitesArray.push([courseID, name, URL]);
                 }
@@ -99,12 +72,6 @@ module.exports = {
                     var name = courseData.courseReferences[i].name;
                     var typeID = courseData.courseReferences[i].typeID;
                     var URL = courseData.courseReferences[i].URL;
-
-                    // Do Some Validation on the Course Data
-                    //if(userData userData.gender == null) {
-                    //    Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_1);
-                    //    return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_1), null);
-                    //}
 
                     courseReferencesArray.push([courseID, name, typeID, URL]);
                 }
@@ -122,6 +89,10 @@ module.exports = {
                 });
             }
         );
+    },
+
+    isCourseFound: function(){
+
     },
 
     getAllCourses: function(){
