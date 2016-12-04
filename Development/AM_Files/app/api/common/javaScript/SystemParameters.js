@@ -5,11 +5,13 @@ module.exports = {
 
     SERVICES: "Services",
     REPOSITORY: "Repository",
+    MAIN: "Main",
     COMMON: "Common",
     Logger: "Logger",
 
     SERVER_ERROR: "Server Error",
     DATABASE_ERROR: "Database Error",
+    FRONTEND_ERROR: "Front-End Error",
     AUTHORIZATION_ERROR: "Authorization Error",
 
     SECRET_WORD: 'Ahmed Mater',
@@ -53,7 +55,13 @@ module.exports = {
         gender: /^(M|F)/,
         day_month: /^[0-9]{2}$/,
         year: /^[0-9]{4}$/,
-        name: /^[A-Za-z ]+$/
+        name: /^[A-Za-z ]+$/,
+
+        names: /^[A-Za-z0-9 -\/]{5,70}$/,
+        description: /^[A-Za-z0-9 -\/]{0,200}$/,
+        numbers: /[0-9]+/,
+        youTubePlayList: /^http:\/\/(?:www\.)?youtube\.com\/watch\?(?:&.*)*((?:v=([a-zA-Z0-9_\-]{11})(?:&.*)*)|(?:list=([a-zA-Z0-9_\-]{18})(?:&.*)*&v=([a-zA-Z0-9_\-]{11})))(?:&.*)*(?:\#.*)*$/,
+        url: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
     }
 
 };

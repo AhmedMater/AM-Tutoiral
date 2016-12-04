@@ -15,7 +15,7 @@ module.exports = {
             LookupServices.getAllReferenceTypes
         ], function (err, results) {
 
-            res.render('newCourse', {
+            res.render('newCourse_main', {
                 title: "Add New Course",
                 courseLevel: results[0],
                 courseType: results[1],

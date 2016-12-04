@@ -10,4 +10,7 @@ var Logger = rootRequire('Logger');
 
 var exports = module.exports = {
 
+    addNewChapter: function(chapterData){
+
+    }
 };

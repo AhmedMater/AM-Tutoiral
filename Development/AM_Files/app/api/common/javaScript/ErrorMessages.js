@@ -17,6 +17,8 @@ module.exports = {
     ERROR_11: 'Invalid College',
     ERROR_12: 'Invalid Date',
     ERROR_13: 'Invalid Day of Month',
+    ERROR_14: 'Empty Course Pre-Requisite fields',
+    ERROR_15: 'Empty Course Reference fields',
 
     INFO_0: "Logger File Opened Successfully",
 

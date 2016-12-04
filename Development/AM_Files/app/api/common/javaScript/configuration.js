@@ -108,7 +108,8 @@ var exports = module.exports = {
 
         "home": "main/home/view",
 
-        "newCourse": "main/admin/course/new/view",
+        "newCourse_main": "main/admin/course/new/view",
+        "newCourse_success": "main/admin/course/new/view_success",
         "editCourse": "main/admin/course/edit/view",
 
         "newChapter": "main/admin/chapter/new/view",
@@ -122,8 +123,8 @@ var exports = module.exports = {
 
         "forgetPassword_main": "main/components/forgetPassword/view_main",
         "forgetPassword_success": "main/components/forgetPassword/view_success",
-        "login_main": "main/components/login/view",
-        "login_wrong": "main/components/login/login_wrong",
+        "login_main": "main/components/login/view_main",
+        "login_wrong": "main/components/login/view_wrong",
         "register_main": "main/components/register/view_main",
         "register_success": "main/components/register/view_success"
     }

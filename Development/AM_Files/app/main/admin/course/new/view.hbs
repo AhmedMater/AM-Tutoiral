@@ -12,7 +12,7 @@
     </div>
     <hr />
 
-    <form action="/courses/new" class="form-horizontal" id="inline-validate" method="post">
+    <form action="/admin/course/new" class="form-horizontal" id="inline-validate" method="post">
         <div class="box">
             <header>
                 <h5>Course Info</h5>
@@ -56,10 +56,10 @@
                 <div class="form-group" id="main_courseLevelDiv">
                     <label class="control-label col-lg-2">Course Level *</label>
                     <div class="col-lg-3" id="courseLevelDiv">
-                        <select name="courseLevel" placeholder="Choose the Course Level" id="courseLevel" class="form-control">
+                        <select name="courseLevelID" placeholder="Choose the Course Level" id="courseLevel" class="form-control">
                             <option value="" disabled selected>Select the Course Level</option>
                             {{#each courseLevel}}
-                                <option value="{{value}}">{{name}}</option>
+                                <option value="{{id}}">{{name}}</option>
                             {{/each}}
                         </select>
                     </div>
@@ -69,10 +69,10 @@
                 <div class="form-group" id="main_courseTypeDiv">
                     <label class="control-label col-lg-2">Course Type *</label>
                     <div class="col-lg-3" id="courseTypeDiv">
-                        <select name="courseType" placeholder="Choose the Course Type" id="courseType" class="form-control">
+                        <select name="courseTypeID" placeholder="Choose the Course Type" id="courseType" class="form-control">
                             <option value="" disabled selected>Select the Course Type</option>
                             {{#each courseType}}
-                                <option value="{{value}}">{{name}}</option>
+                                <option value="{{id}}">{{name}}</option>
                             {{/each}}
                         </select>
                     </div>
@@ -93,7 +93,7 @@
                     <label class="control-label col-lg-2">Course Description: </label>
 
                     <div class="col-lg-7" id="courseDescriptionDiv">
-                        <textarea id="autosize" class="form-control" style="overflow: hidden;
+                        <textarea id="description" class="form-control" name="courseDescription" style="overflow: hidden;
                                 word-wrap: break-word; resize: horizontal; height: 174px;"></textarea>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                 <div class="form-group" id="main_courseObjective1Div">
                     <label class="control-label col-lg-1">1</label>
 
-                    <div class="col-lg-7">
+                    <div class="col-lg-7" id="courseObjectiveDiv">
                         <input type="text" id="courseObjective" name="courseObjective"
                                placeholder="Enter the Course Objective" class="form-control" />
                     </div>
@@ -163,7 +163,7 @@
                 <div class="form-group" id="main_courseContent1Div">
                     <label class="control-label col-lg-1">1</label>
 
-                    <div class="col-lg-7">
+                    <div class="col-lg-7" id="courseContentDiv">
                         <input type="text" id="courseContent" name="courseContent"
                                placeholder="Enter the Course Content" class="form-control" />
                     </div>
@@ -200,12 +200,12 @@
                 <div class="form-group" id="main_coursePreRequisite1Div">
                     <label class="control-label col-lg-1">1</label>
 
-                    <div class="col-lg-3">
+                    <div class="col-lg-3" id="coursePreRequisiteNameDiv">
                         <input type="text" class="form-control" id="coursePreRequisiteName"
                                name="coursePreRequisiteName" placeholder="Enter the Name" />
                     </div>
 
-                    <div class="col-lg-5">
+                    <div class="col-lg-5" id="coursePreRequisiteURLDiv">
                         <input type="text" class="form-control" id="coursePreRequisiteURL"
                                name="coursePreRequisiteURL" placeholder="Enter the URL" />
                     </div>
@@ -247,12 +247,12 @@
                                name="courseReferenceName" placeholder="Enter the Name" />
                     </div>
 
-                    <div class="col-lg-2" id="courseReferenceDiv">
+                    <div class="col-lg-2" id="courseReferenceTypeDiv">
                         <select name="courseReferenceType" placeholder="Type"
-                                id="courseReferenceType" class="form-control">
+                                id="courseReferenceTypeID" class="form-control">
                             <option value="" disabled selected>Type</option>
                             {{#each referenceType}}
-                                <option value="{{value}}">{{name}}</option>
+                                <option value="{{id}}">{{name}}</option>
                             {{/each}}
                         </select>
                     </div>

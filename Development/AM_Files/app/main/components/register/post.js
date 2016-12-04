@@ -35,7 +35,7 @@ module.exports = {
 
         async.waterfall([
                 function(RESTCallBack) {
-                    userServices.insertUser(userData, RESTCallBack);
+                    userServices.addNewUser(userData, RESTCallBack);
                 }],
             function(err, result) {
                 if(err != null)
