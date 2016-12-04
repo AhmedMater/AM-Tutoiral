@@ -7,15 +7,15 @@
 <div class="inner">
     <div class="row">
         <div class="col-lg-12">
-            <h1> Add new Course </h1>
+            <h1> Add new Chapter </h1>
         </div>
     </div>
     <hr />
 
-    <form action="/courses/new" class="form-horizontal" id="inline-validate" method="post">
+    <form action="/admin/chapter/{{courseID}}/new" class="form-horizontal" id="inline-validate" method="post">
         <div class="box">
             <header>
-                <h5>Course Info</h5>
+                <h5>Chapter Info</h5>
                 <div class="toolbar">
                     <ul class="nav">
                         <li>
@@ -32,86 +32,48 @@
 
             <div id="mainInfoCollapse" class="accordion-body collapse in body">
 
-                <!-- Course Name Field -->
-                <div class="form-group" id="main_courseNameDiv">
-                    <label class="control-label col-lg-2">Course name *</label>
+                <!-- Chapter Name Field -->
+                <div class="form-group" id="main_chapterNameDiv">
+                    <label class="control-label col-lg-2">Chapter name *</label>
 
-                    <div class="col-lg-6" id="userNameDiv">
-                        <input type="text" id="courseName" name="courseName" placeholder="Enter the Course Name" class="form-control" />
-
-                    </div>
-                </div>
-
-                <!-- Course Period Field -->
-                <div class="form-group" id="main_coursePeriodDiv">
-                    <label class="control-label col-lg-2">Course Period *</label>
-
-                    <div class="col-lg-3" id="userPeriodDiv">
-                        <input type="number" id="coursePeriod" name="coursePeriod" placeholder="Enter the Course Period (in hour)" class="form-control" />
+                    <div class="col-lg-6">
+                        <input type="text" id="chapterName" name="chapterName" placeholder="Enter the Chapter Name" class="form-control" />
 
                     </div>
                 </div>
 
-                <!-- Course Level Field -->
-                <div class="form-group" id="main_courseLevelDiv">
-                    <label class="control-label col-lg-2">Course Level *</label>
-                    <div class="col-lg-3" id="courseLevelDiv">
-                        <select name="courseLevel" placeholder="Choose the Course Level" id="courseLevel" class="form-control">
-                            <option value="" disabled selected>Select the Course Level</option>
-                            {{#each courseLevel}}
-                                <option value="{{value}}">{{name}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-                </div>
+                <!-- Chapter Period Field -->
+                <div class="form-group" id="main_chapterPeriodDiv">
+                    <label class="control-label col-lg-2">Chapter Period *</label>
 
-                <!-- Course Type Field -->
-                <div class="form-group" id="main_courseTypeDiv">
-                    <label class="control-label col-lg-2">Course Type *</label>
-                    <div class="col-lg-3" id="courseTypeDiv">
-                        <select name="courseType" placeholder="Choose the Course Type" id="courseType" class="form-control">
-                            <option value="" disabled selected>Select the Course Type</option>
-                            {{#each courseType}}
-                                <option value="{{value}}">{{name}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Youtube Playlist Field -->
-                <div class="form-group" id="main_youTubePlayListDiv">
-                    <label class="control-label col-lg-2">Youtube Playlist *</label>
-
-                    <div class="col-lg-6" id="youTubePlayListDiv">
-                        <input type="text" id="youTubePlayList" name="youTubePlayList" placeholder="Enter the Youtube Playlist" class="form-control" />
+                    <div class="col-lg-3">
+                        <input type="number" id="chapterPeriod" name="chapterPeriod" placeholder="Enter the Chapter Period (in hour)" class="form-control" />
 
                     </div>
                 </div>
 
-                <!-- Course Description Field -->
-                <div class="form-group" id="main_courseDescriptionDiv">
-                    <label class="control-label col-lg-2">Course Description: </label>
+                <!-- Chapter Description Field -->
+                <div class="form-group" id="main_chapterDescriptionDiv">
+                    <label class="control-label col-lg-2">Chapter Description: </label>
 
-                    <div class="col-lg-7" id="courseDescriptionDiv">
-                        <textarea id="autosize" class="form-control" style="overflow: hidden;
+                    <div class="col-lg-7">
+                        <textarea id="description" class="form-control" name="chapterDescription" style="overflow: hidden;
                                 word-wrap: break-word; resize: horizontal; height: 174px;"></textarea>
                     </div>
                 </div>
-
             </div>
-
         </div>
 
-        <!-- Course Objective Fields -->
+        <!-- Chapter Objective Fields -->
         <div class="box">
             <header>
-                <h5>Course Objectives</h5>
+                <h5>Chapter Objectives</h5>
                 <div class="toolbar">
                     <ul class="nav">
                         <li>
                             <div class="btn-group">
                                 <a class="accordion-toggle btn btn-xs minimize-box" data-toggle="collapse"
-                                   href="#courseObjectiveCollapse">
+                                   href="#chapterObjectiveCollapse">
                                     <i class="icon-chevron-up"></i>
                                 </a>
                             </div>
@@ -120,18 +82,18 @@
                 </div>
             </header>
 
-            <div id="courseObjectiveCollapse" class="accordion-body collapse in body">
+            <div id="chapterObjectiveCollapse" class="accordion-body collapse in body">
 
-                <div class="form-group" id="main_courseObjective1Div">
+                <div class="form-group" id="main_chapterObjective1Div">
                     <label class="control-label col-lg-1">1</label>
 
-                    <div class="col-lg-7">
-                        <input type="text" id="courseObjective" name="courseObjective"
-                               placeholder="Enter the Course Objective" class="form-control" />
+                    <div class="col-lg-7" id="chapterObjectiveDiv">
+                        <input type="text" id="chapterObjective" name="chapterObjective"
+                               placeholder="Enter the Chapter Objective" class="form-control" />
                     </div>
 
                     <div class="col-lg-1">
-                        <button type="button" class="btn btn-success btn-circle" onclick="addNewCourseObjective()">
+                        <button type="button" class="btn btn-success btn-circle" onclick="addNewChapterObjective()">
                             <i class="icon-plus"></i>
                         </button>
                     </div>
@@ -140,16 +102,16 @@
             </div>
         </div>
 
-        <!-- Course Content Field -->
+        <!-- Chapter Pre-Requisite Field -->
         <div class="box">
             <header>
-                <h5>Course Content</h5>
+                <h5>Chapter Pre-Requisite</h5>
                 <div class="toolbar">
                     <ul class="nav">
                         <li>
                             <div class="btn-group">
                                 <a class="accordion-toggle btn btn-xs minimize-box" data-toggle="collapse"
-                                   href="#courseContentCollapse">
+                                   href="#chapterPreRequisiteCollapse">
                                     <i class="icon-chevron-up"></i>
                                 </a>
                             </div>
@@ -158,112 +120,22 @@
                 </div>
             </header>
 
-            <div id="courseContentCollapse" class="accordion-body collapse in body">
-
-                <div class="form-group" id="main_courseContent1Div">
+            <div id="chapterPreRequisiteCollapse" class="accordion-body collapse in body">
+                <div class="form-group" id="main_chapterPreRequisite1Div">
                     <label class="control-label col-lg-1">1</label>
 
-                    <div class="col-lg-7">
-                        <input type="text" id="courseContent" name="courseContent"
-                               placeholder="Enter the Course Content" class="form-control" />
+                    <div class="col-lg-3" id="chapterPreRequisiteNameDiv">
+                        <input type="text" class="form-control" id="chapterPreRequisiteName"
+                               name="chapterPreRequisiteName" placeholder="Enter the Name" />
+                    </div>
+
+                    <div class="col-lg-5" id="chapterPreRequisiteURLDiv">
+                        <input type="text" class="form-control" id="chapterPreRequisiteURL"
+                               name="chapterPreRequisiteURL" placeholder="Enter the URL" />
                     </div>
 
                     <div class="col-lg-1">
-                        <button type="button" class="btn btn-success btn-circle" onclick="addNewCourseContent()">
-                            <i class="icon-plus"></i>
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Course Pre-Requisite Field -->
-        <div class="box">
-            <header>
-                <h5>Course Pre-Requisite</h5>
-                <div class="toolbar">
-                    <ul class="nav">
-                        <li>
-                            <div class="btn-group">
-                                <a class="accordion-toggle btn btn-xs minimize-box" data-toggle="collapse"
-                                   href="#coursePreRequisiteCollapse">
-                                    <i class="icon-chevron-up"></i>
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </header>
-
-            <div id="coursePreRequisiteCollapse" class="accordion-body collapse in body">
-                <div class="form-group" id="main_coursePreRequisite1Div">
-                    <label class="control-label col-lg-1">1</label>
-
-                    <div class="col-lg-3">
-                        <input type="text" class="form-control" id="coursePreRequisiteName"
-                               name="coursePreRequisiteName" placeholder="Enter the Name" />
-                    </div>
-
-                    <div class="col-lg-5">
-                        <input type="text" class="form-control" id="coursePreRequisiteURL"
-                               name="coursePreRequisiteURL" placeholder="Enter the URL" />
-                    </div>
-
-                    <div class="col-lg-1">
-                        <button type="button" class="btn btn-success btn-circle" onclick="addNewCoursePreRequisite()">
-                            <i class="icon-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Course References Field -->
-        <div class="box">
-            <header>
-                <h5>Course Reference</h5>
-                <div class="toolbar">
-                    <ul class="nav">
-                        <li>
-                            <div class="btn-group">
-                                <a class="accordion-toggle btn btn-xs minimize-box" data-toggle="collapse"
-                                   href="#courseReferenceCollapse">
-                                    <i class="icon-chevron-up"></i>
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </header>
-
-            <div id="courseReferenceCollapse" class="accordion-body collapse in body">
-
-                <div class="form-group" id="main_courseReference1Div">
-                    <label class="control-label col-lg-1">1</label>
-
-                    <div class="col-lg-3" id="courseReferenceNameDiv">
-                        <input type="text" class="form-control"  id="courseReferenceName"
-                               name="courseReferenceName" placeholder="Enter the Name" />
-                    </div>
-
-                    <div class="col-lg-2" id="courseReferenceDiv">
-                        <select name="courseReferenceType" placeholder="Type"
-                                id="courseReferenceType" class="form-control">
-                            <option value="" disabled selected>Type</option>
-                            {{#each referenceType}}
-                                <option value="{{value}}">{{name}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-
-                    <div class="col-lg-4" id="courseReferenceURLDiv">
-                        <input type="text" class="form-control"  id="courseReferenceURL"
-                               name="courseReferenceURL" placeholder="Enter the URL" />
-                    </div>
-
-                    <div class="col-lg-1" id="courseReferencePlusDiv">
-                        <button type="button" class="btn btn-success btn-circle" onclick="addNewCourseReference()">
+                        <button type="button" class="btn btn-success btn-circle" onclick="addNewChapterPreRequisite()">
                             <i class="icon-plus"></i>
                         </button>
                     </div>
@@ -284,11 +156,12 @@
 
 
 <!-- PAGE LEVEL SCRIPTS -->
-<script src="/js/newCourseForm.js"></script>
+<script src="/js/newChapterForm.js"></script>
 <script>
-//    $("#courseObjectivePlus").click(addNewCourseObjective());
+    //    $("#chapterObjectivePlus").click(addNewChapterObjective());
     $(function () {
-        checkCourseData();
+        var courseID = {{courseID}};
+        checkChapterData(courseID);
     });
 </script>
 <!--END PAGE LEVEL SCRIPTS -->

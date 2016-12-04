@@ -6,21 +6,10 @@ var async = require('async');
 
 module.exports = {
     go: function(req, res, next) {
-        // We have to validate if the user is admin
 
-        // We have to get all the lookup data from Database
-        async.series([
-            LookupServices.getAllCourseLevels,
-            LookupServices.getAllCourseTypes,
-            LookupServices.getAllReferenceTypes
-        ], function (err, results) {
-
-            res.render('addNewCourse', {
-                title: "Add New Course",
-                courseLevel: results[0],
-                courseType: results[1],
-                referenceType: results[2]
-            });
+        res.render('newChapter', {
+            title: "Add New Chapter",
+            courseID: req.params.courseID
         });
 
     }

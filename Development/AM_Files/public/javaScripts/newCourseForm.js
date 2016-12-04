@@ -127,12 +127,11 @@ var showSuccessMessage = function(mainDivID, spanID){
     $(mainDivID).addClass("has-success");
 };
 
-var baseURL = "http://localhost:3002";
-var isCourseFoundURL = baseURL + "/course/isCourseFound";
 
 var checkCourseData = function() {
     $("#submitBtn").attr("disabled", "disabled");
 
+    var isCourseFoundURL = "http://localhost:3002/course/isCourseFound";
     var RegExps = {
         names: /^[A-Za-z0-9 -\/]{5,70}$/,
         description: /^[A-Za-z0-9 -\/]{0,200}$/,
@@ -144,6 +143,8 @@ var checkCourseData = function() {
     var inputIDs = {
         courseName: '#courseName',
         coursePeriod: '#coursePeriod',
+        courseType: '#courseType',
+        courseLevel: '#courseLevel',
         youTubePlayList: '#youTubePlayList',
 
         courseObjective: '#courseObjective',
@@ -158,8 +159,9 @@ var checkCourseData = function() {
     };
 
     $(document).change(function() {
-        if($(inputIDs.courseName).val() && $(inputIDs.coursePeriod).val() && $(inputIDs.courseLevel).val()
-            && $(inputIDs.courseType).val() && $(inputIDs.youTubePlayList).val()){
+        if($(inputIDs.courseContent).val() && $(inputIDs.youTubePlayList).val() && $(inputIDs.courseObjective).val()
+            && $(inputIDs.courseName).val() && $(inputIDs.coursePeriod).val() && $(inputIDs.courseType).val()
+            && $(inputIDs.courseLevel).val()){
 
             var isDisabled = true;
 
@@ -284,23 +286,38 @@ var checkCourseData = function() {
     $(inputIDs.youTubePlayList).change(function(){
         var youTubePlayListValue = $(inputIDs.youTubePlayList).val();
 
-        var passed = false;
-        var errorMessage;
-
-        if(youTubePlayListValue.length == 0)
-            errorMessage = 'Please Enter The YouTube Playlist URL';
-        else if(!RegExps.youTubePlayList.test(youTubePlayListValue))
-            errorMessage = 'Invalid YouTube Playlist URL';
-        else
-            passed =  true;
-
         var mainDivID = '#main_youTubePlayListDiv';
         var spanID = 'youTubePlayListErrorSpan';
 
-        if(!passed)
-            showErrorMessage(mainDivID, spanID, errorMessage);
-        else
-            showSuccessMessage(mainDivID, spanID);
+        $.ajax({
+            type: "GET",
+            url: isCourseFoundURL,
+            data:{
+                youTubePlaylist: youTubePlayListValue
+            }, success: function(isFound){
+
+
+                var passed = false;
+                var errorMessage;
+
+                if(youTubePlayListValue == '')
+                    errorMessage = 'Please Enter The YouTube Playlist URL';
+                else if(!RegExps.youTubePlayList.test(youTubePlayListValue))
+                    errorMessage = 'Invalid YouTube Playlist URL';
+                else if(isFound)
+                    errorMessage = 'This Course already Exists';
+                else
+                    passed =  true;
+
+                if(!passed)
+                    showErrorMessage(mainDivID, spanID, errorMessage);
+                else
+                    showSuccessMessage(mainDivID, spanID);
+            },
+            error: function(err){
+                showErrorMessage(mainDivID, spanID, 'Server Error happen');
+            }
+        });
     });
     $(inputIDs.description).change(function(){
         var descriptionValue = $(inputIDs.description).val();
@@ -338,7 +355,7 @@ var checkCourseData = function() {
         else
             passed =  true;
 
-        var mainDivID = '#main_courseObjectiveDiv';
+        var mainDivID = '#main_courseObjective' + courseObjectivesNum + 'Div';
         var spanID = 'courseObjectiveErrorSpan';
 
         if(!passed)
@@ -361,7 +378,7 @@ var checkCourseData = function() {
         else
             passed =  true;
 
-        var mainDivID = '#main_courseContentDiv';
+        var mainDivID = '#main_courseContent' + courseContentNum + 'Div';
         var spanID = 'courseContentErrorSpan';
 
         if(!passed)
@@ -384,8 +401,8 @@ var checkCourseData = function() {
         else
             passed =  true;
 
-        var mainDivID = '#main_coursePreRequisiteNameDiv';
-        var spanID = 'coursePreRequisiteNameErrorSpan';
+        var mainDivID = '#main_coursePreRequisite' + coursePreRequisiteNum + 'Div';
+        var spanID = 'coursePreRequisiteErrorSpan';
 
         if(!passed)
             showErrorMessage(mainDivID, spanID, errorMessage);
@@ -405,8 +422,8 @@ var checkCourseData = function() {
         else
             passed =  true;
 
-        var mainDivID = '#main_coursePreRequisiteURLDiv';
-        var spanID = 'coursePreRequisiteURLErrorSpan';
+        var mainDivID = '#main_coursePreRequisite' + coursePreRequisiteNum + 'Div';
+        var spanID = 'coursePreRequisiteErrorSpan';
 
         if(!passed)
             showErrorMessage(mainDivID, spanID, errorMessage);
@@ -430,8 +447,8 @@ var checkCourseData = function() {
         else
             passed =  true;
 
-        var mainDivID = '#main_courseReferenceNameDiv';
-        var spanID = 'courseReferenceNameErrorSpan';
+        var mainDivID = '#main_courseReference' + courseReferenceNum + 'Div';
+        var spanID = 'courseReferenceErrorSpan';
 
         if(!passed)
             showErrorMessage(mainDivID, spanID, errorMessage);
@@ -453,8 +470,8 @@ var checkCourseData = function() {
         else
             passed =  true;
 
-        var mainDivID = '#main_courseReferenceTypeIDDiv';
-        var spanID = 'courseReferenceTypeIDErrorSpan';
+        var mainDivID = '#main_courseReference' + courseReferenceNum + 'Div';
+        var spanID = 'courseReferenceErrorSpan';
 
         if(!passed)
             showErrorMessage(mainDivID, spanID, errorMessage);
@@ -476,8 +493,8 @@ var checkCourseData = function() {
         else
             passed =  true;
 
-        var mainDivID = '#main_courseReferenceURLDiv';
-        var spanID = 'courseReferenceURLErrorSpan';
+        var mainDivID = '#main_courseReference' + courseReferenceNum + 'Div';
+        var spanID = 'courseReferenceErrorSpan';
 
         if(!passed)
             showErrorMessage(mainDivID, spanID, errorMessage);

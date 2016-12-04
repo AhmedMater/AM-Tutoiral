@@ -25,10 +25,9 @@ var showSuccessMessage = function(mainDivID, spanID){
     $(mainDivID).addClass("has-success");
 };
 
-var baseURL = "http://localhost:3002";
 var checkUserExist = function(){
     $("#submitBtn").attr("disabled", "disabled");
-    var userExistCheckURL = baseURL + "/user/checkUserName";
+    var userExistCheckURL = "http://localhost:3002/user/isUserFound";
     var namePattern = /^[A-Za-z ]{1,45}$/;
     var passwordPattern = /^[A-Za-z0-9]{5,20}$/;
 

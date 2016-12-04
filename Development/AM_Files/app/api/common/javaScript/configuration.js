@@ -9,7 +9,6 @@ var exports = module.exports = {
         login: "/login",
         register: "/register",
         users: '/users',
-        userCheck: '/user/checkUserName?',
         userProfile: '/user/:id/profile',
         userSettings: '/user/:id/settings?',
         logout: '/logout',
@@ -30,7 +29,14 @@ var exports = module.exports = {
         newTask: '/admin/task/:lessonID/new',
         editTask: '/admin/task/:lessonID/edit',
         submitTask: '/admin/task/:lessonID/submit',
-        removeTask: '/admin/task/:lessonID/remove'
+        removeTask: '/admin/task/:lessonID/remove',
+
+
+            // Checks URL
+        isUserFound: '/user/isUserFound?userName&email',
+        isCourseFound: '/course/isCourseFound?courseName&youTubePlaylist',
+        isChapterFound: '/chapter/:courseID/isChapterFound?chapterName'
+
     },
 
     Routes: {
@@ -68,13 +74,15 @@ var exports = module.exports = {
         "newCourse_post": "main/admin/course/new/post",
         "editCourse_get": "main/admin/course/new/get",
         "editCourse_post":"main/admin/course/edit/post",
-        "removeCourse":"main/admin/course/remove",
+        "removeCourse": "main/admin/course/remove",
+        "isCourseFound": "main/admin/course/isCourseFound",
 
         "newChapter_get": "main/admin/chapter/new/get",
         "newChapter_post": "main/admin/chapter/new/post",
         "editChapter_get": "main/admin/chapter/new/get",
         "editChapter_post":"main/admin/chapter/edit/post",
         "removeChapter":"main/admin/chapter/remove",
+        "isChapterFound": "main/admin/chapter/isChapterFound",
 
         "newLesson_get": "main/admin/lesson/new/get",
         "newLesson_post": "main/admin/lesson/new/post",
@@ -99,7 +107,7 @@ var exports = module.exports = {
 
         "register_get": "main/components/register/get",
         "register_post": "main/components/register/post",
-        "userNameCheck": "main/components/register/userNameCheck"
+        "isUserFound": "main/components/register/isUserFound"
     },
 
     Views:{

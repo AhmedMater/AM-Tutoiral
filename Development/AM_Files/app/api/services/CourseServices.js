@@ -91,8 +91,25 @@ module.exports = {
         );
     },
 
-    isCourseFound: function(){
+    isCourseFound: function(courseName, youTubePlaylist, RESTCallBack){
+        var fnName = "isCourseFound";
 
+        if(courseName == null && youTubePlaylist == null) {
+            Logger.error(SystemParam.SERVICES, fnName, 'Course Name and Youtube Playlist are Missing');
+            return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, 'Course Name and Youtube Playlist are Missing'), null);
+        }
+
+        async.waterfall([
+                function(RepositoryCallBack) {
+                    CourseRepository.isCourseFound(courseName, youTubePlaylist, RepositoryCallBack);
+                }],
+            function(err, result) {
+                if(err != null)
+                    Logger.error(SystemParam.SERVICES, fnName, err.message);
+
+                RESTCallBack(err, result);
+            }
+        );
     },
 
     getAllCourses: function(){

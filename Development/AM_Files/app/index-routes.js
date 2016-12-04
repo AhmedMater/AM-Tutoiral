@@ -66,6 +66,7 @@ exports.routing = function(app){
         var router = rootRequire('newCourse_post');
         router.go(req, res, next);
     });
+
     app.get(config.URL.newChapter, function(req, res, next){
         var router = rootRequire('newChapter_get');
         router.go(req, res, next);
@@ -74,6 +75,7 @@ exports.routing = function(app){
         var router = rootRequire('newChapter_post');
         router.go(req, res, next);
     });
+
     app.get(config.URL.newLesson, function(req, res, next){
         var router = rootRequire('newLesson_get');
         router.go(req, res, next);
@@ -83,8 +85,16 @@ exports.routing = function(app){
         router.go(req, res, next);
     });
 
-    app.get(config.URL.userCheck, function(req, res, next){
-        var router = rootRequire('userNameCheck');
+    app.get(config.URL.isUserFound, function(req, res, next){
+        var router = rootRequire('isUserFound');
+        router.go(req, res, next);
+    });
+    app.get(config.URL.isCourseFound, function(req, res, next){
+        var router = rootRequire('isCourseFound');
+        router.go(req, res, next);
+    });
+    app.get(config.URL.isChapterFound, function(req, res, next){
+        var router = rootRequire('isChapterFound');
         router.go(req, res, next);
     });
     app.get(config.URL.logout, function(req, res){

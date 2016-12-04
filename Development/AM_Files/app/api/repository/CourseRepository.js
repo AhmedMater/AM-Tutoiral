@@ -94,16 +94,15 @@ module.exports = {
             }
 
             if (rows[0] != null) {
-                Logger.info(fnName, ErrMsg.INFO_7);
+                Logger.info(fnName, 'Course already found in Database');
                 isFound = true;
             } else {
-                Logger.info(fnName, ErrMsg.INFO_8);
+                Logger.info(fnName, 'Course isn\'t found in Database');
                 isFound = false;
             }
 
             RepositoryCallBack(err, isFound);
         });
-
     },
 
     getCourseID: function(courseName, youTubePlaylist, RepositoryCallBack){

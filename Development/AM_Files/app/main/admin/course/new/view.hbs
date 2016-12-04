@@ -36,7 +36,7 @@
                 <div class="form-group" id="main_courseNameDiv">
                     <label class="control-label col-lg-2">Course name *</label>
 
-                    <div class="col-lg-6" id="userNameDiv">
+                    <div class="col-lg-6">
                         <input type="text" id="courseName" name="courseName" placeholder="Enter the Course Name" class="form-control" />
 
                     </div>
@@ -46,7 +46,7 @@
                 <div class="form-group" id="main_coursePeriodDiv">
                     <label class="control-label col-lg-2">Course Period *</label>
 
-                    <div class="col-lg-3" id="userPeriodDiv">
+                    <div class="col-lg-3">
                         <input type="number" id="coursePeriod" name="coursePeriod" placeholder="Enter the Course Period (in hour)" class="form-control" />
 
                     </div>
@@ -55,7 +55,8 @@
                 <!-- Course Level Field -->
                 <div class="form-group" id="main_courseLevelDiv">
                     <label class="control-label col-lg-2">Course Level *</label>
-                    <div class="col-lg-3" id="courseLevelDiv">
+
+                    <div class="col-lg-3">
                         <select name="courseLevelID" placeholder="Choose the Course Level" id="courseLevel" class="form-control">
                             <option value="" disabled selected>Select the Course Level</option>
                             {{#each courseLevel}}
@@ -68,7 +69,7 @@
                 <!-- Course Type Field -->
                 <div class="form-group" id="main_courseTypeDiv">
                     <label class="control-label col-lg-2">Course Type *</label>
-                    <div class="col-lg-3" id="courseTypeDiv">
+                    <div class="col-lg-3">
                         <select name="courseTypeID" placeholder="Choose the Course Type" id="courseType" class="form-control">
                             <option value="" disabled selected>Select the Course Type</option>
                             {{#each courseType}}
@@ -82,7 +83,7 @@
                 <div class="form-group" id="main_youTubePlayListDiv">
                     <label class="control-label col-lg-2">Youtube Playlist *</label>
 
-                    <div class="col-lg-6" id="youTubePlayListDiv">
+                    <div class="col-lg-6">
                         <input type="text" id="youTubePlayList" name="youTubePlayList" placeholder="Enter the Youtube Playlist" class="form-control" />
 
                     </div>
@@ -92,7 +93,7 @@
                 <div class="form-group" id="main_courseDescriptionDiv">
                     <label class="control-label col-lg-2">Course Description: </label>
 
-                    <div class="col-lg-7" id="courseDescriptionDiv">
+                    <div class="col-lg-7">
                         <textarea id="description" class="form-control" name="courseDescription" style="overflow: hidden;
                                 word-wrap: break-word; resize: horizontal; height: 174px;"></textarea>
                     </div>
