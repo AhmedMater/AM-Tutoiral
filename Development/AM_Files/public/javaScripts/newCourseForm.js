@@ -195,7 +195,7 @@ var checkCourseData = function() {
                 courseName: courseNameValue
             }, success: function(isFound){
 
-
+                console.log(isFound);
                 var passed = false;
                 var errorMessage;
 
@@ -216,7 +216,7 @@ var checkCourseData = function() {
                     showSuccessMessage(mainDivID, spanID);
             },
             error: function(err){
-                showErrorMessage(mainDivID, spanID, 'Server Error happen');
+                showErrorMessage(mainDivID, spanID, err.message);
             }
         });
     });
@@ -315,7 +315,7 @@ var checkCourseData = function() {
                     showSuccessMessage(mainDivID, spanID);
             },
             error: function(err){
-                showErrorMessage(mainDivID, spanID, 'Server Error happen');
+                showErrorMessage(mainDivID, spanID, err.message);
             }
         });
     });

@@ -4,6 +4,7 @@
 
 var async = require('async');
 var CourseRepository = rootRequire('CourseRepository');
+var UserServices = rootRequire('UserServices');
 var LookupServices = rootRequire('LookupServices');
 
 var SystemParam = rootRequire('SystemParameters');
@@ -28,8 +29,11 @@ module.exports = {
         }
     },
 
-    addNewCourse: function(courseData, RESTCallBack){
+    addNewCourse: function(courseData, userID, RESTCallBack){
         var fnName = "addNewCourse";
+
+        if(userID == null)
+            return RESTCallBack
 
         var isError = module.exports.addNewCourseValidation(courseData);
 
@@ -37,7 +41,9 @@ module.exports = {
             return RESTCallBack(isError, null);
 
         async.waterfall([
-                function(RepositoryCallBack) {
+                UserServices.getUserByID(userID, ServiceCallBack),
+                function(userData, RepositoryCallBack) {
+                    console.log(userData);
                     CourseRepository.insertCourse(courseData, RepositoryCallBack);
                 },
                 function(done, RepositoryCallBack) {
@@ -100,14 +106,14 @@ module.exports = {
         }
 
         async.waterfall([
-                function(RepositoryCallBack) {
+                function(RepositoryCallBack){
                     CourseRepository.isCourseFound(courseName, youTubePlaylist, RepositoryCallBack);
                 }],
-            function(err, result) {
+            function(err, isFound) {
                 if(err != null)
                     Logger.error(SystemParam.SERVICES, fnName, err.message);
 
-                RESTCallBack(err, result);
+                RESTCallBack(err, isFound);
             }
         );
     },

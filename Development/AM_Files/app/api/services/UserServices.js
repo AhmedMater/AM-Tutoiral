@@ -13,7 +13,7 @@ var Logger = rootRequire('Logger');
 var SHA256 = rootRequire('SHA256');
 
 module.exports = {
-    insertUserValidation: function(userData){
+    applyUserValidation: function(userData){
         var fnName = "insertUserValidation";
         var RegExp = SystemParam.RegularExpression;
 
@@ -79,7 +79,7 @@ module.exports = {
     addNewUser: function(userData, RESTCallBack) {
         var fnName = "insertUser";
 
-        var isError = module.exports.insertUserValidation(userData);
+        var isError = module.exports.applyUserValidation(userData);
 
         if(isError != null)
             return RESTCallBack(isError, null);
@@ -121,6 +121,28 @@ module.exports = {
             }
         );
     },
+
+    getUserByID: function(userID, RESTCallBack){
+        var fnName = "getUserByID";
+
+        if(userID == null) {
+            Logger.error(SystemParam.SERVICES, fnName, 'User ID = null');
+            return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, 'User ID = null'), null);
+        }
+
+        async.waterfall([
+                function(RepositoryCallBack) {
+                    UserRepository.getUserByID(userID, RepositoryCallBack);
+                }],
+            function(err, result) {
+                if(err != null)
+                    Logger.error(SystemParam.SERVICES,fnName,err.message);
+
+                return RESTCallBack(err, result);
+            }
+        );
+    },
+
     isUserFound: function(userName, email, RESTCallBack){
         var fnName = "isUserFound";
 

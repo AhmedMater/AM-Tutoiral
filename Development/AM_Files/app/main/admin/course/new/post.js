@@ -69,10 +69,23 @@ module.exports = {
             courseReferences: courseReferences
         };
 
+        // Get the User From the Session
+        var userID = null;
+        if(req.session.user != null){
+            if(req.session.user.isAdmin)
+                userID = req.session.user.userID;
+            else
+                res.render('unAuthorized',{
+                    title: "Access Denied",
+                    baseURL: req.originalUrl
+                });
+
+        } else
+            res.redirect(config.URL.login);
 
         async.waterfall([
                 function(RESTCallBack) {
-                    CourseServices.addNewCourse(courseData, RESTCallBack);
+                    CourseServices.addNewCourse(courseData, userID, RESTCallBack);
                 }],
             function(err, result) {
                 if(err != null)
