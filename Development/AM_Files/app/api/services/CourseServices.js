@@ -40,17 +40,21 @@ module.exports = {
         if(isError != null)
             return RESTCallBack(isError, null);
 
-        async.waterfall([
-                UserServices.getUserByID(userID, ServiceCallBack),
-                function(userData, RepositoryCallBack) {
-                    console.log(userData);
-                    CourseRepository.insertCourse(courseData, RepositoryCallBack);
-                },
-                function(done, RepositoryCallBack) {
-                    if(done)
-                        CourseRepository.getCourseID(courseData, RepositoryCallBack);
-                }],
-            function(err1, courseID) {
+        var isUserAdmin = function(ServiceCallBack){
+            UserServices.isUserAdmin(userID, ServiceCallBack);
+        };
+        var addMainCourseInfo = function(isAdmin, RepositoryCallBack) {
+            if(isAdmin)
+                CourseRepository.insertCourse(courseData, RepositoryCallBack);
+            else
+                return RepositoryCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, 'Only Admin Users can add Courses'), null);
+        };
+        var getCourseID =function(done, RepositoryCallBack) {
+            if(done)
+                CourseRepository.getCourseID(courseData, RepositoryCallBack);
+        }
+
+        async.waterfall([ isUserAdmin, addMainCourseInfo, getCourseID ],function(err1, courseID) {
                 if(err1 != null) {
                     Logger.error(SystemParam.SERVICES, fnName, err1.message);
                     return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, err1.message), null);

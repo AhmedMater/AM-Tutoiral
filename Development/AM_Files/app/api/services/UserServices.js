@@ -163,6 +163,29 @@ module.exports = {
             }
         );
 
+    },
+    isUserAdmin: function(userID, RESTCallBack){
+
+        var fnName = "isUserAdmin";
+
+        if(userID == null) {
+            Logger.error(SystemParam.SERVICES, fnName, 'userID can\'t be null');
+            return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, 'userID can\'t be null'), null);
+        }
+
+        async.waterfall([
+                function(RepositoryCallBack) {
+                    UserRepository.getUserByID(userID, RepositoryCallBack);
+                }],
+            function(err, user) {
+                if(err != null)
+                    Logger.error(SystemParam.SERVICES, fnName, err.message);
+
+                var isAdmin = (user.userRole.name == SystemParam.UserRole.ADMIN);
+
+                return RESTCallBack(err, isAdmin);
+            }
+        );
     }
 };
 
