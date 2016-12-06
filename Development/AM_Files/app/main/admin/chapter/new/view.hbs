@@ -156,12 +156,13 @@
 
 
 <!-- PAGE LEVEL SCRIPTS -->
-<script src="/js/newChapterForm.js"></script>
+<script src="/js/formValidations/newChapterForm.js"></script>
+<script src="/js/formValidations/BackEndURLs.js"></script>
 <script>
     //    $("#chapterObjectivePlus").click(addNewChapterObjective());
     $(function () {
         var courseID = {{courseID}};
-        checkChapterData(courseID);
+        checkChapterData(URLs.isChapterFound(courseID));
     });
 </script>
 <!--END PAGE LEVEL SCRIPTS -->

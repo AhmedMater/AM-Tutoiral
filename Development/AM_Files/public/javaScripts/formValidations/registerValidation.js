@@ -2,6 +2,7 @@
  * Created by Ahmed Mater on 10/7/2016.
  */
 
+
 var clearMessages = function(mainDivID, spanID){
     $(mainDivID).removeClass("has-success");
     $(mainDivID).removeClass("has-error");
@@ -25,9 +26,9 @@ var showSuccessMessage = function(mainDivID, spanID){
     $(mainDivID).addClass("has-success");
 };
 
-var checkUserExist = function(){
+var checkUserExist = function(isUserFoundURL){
     $("#submitBtn").attr("disabled", "disabled");
-    var userExistCheckURL = "http://localhost:3002/user/isUserFound";
+    //var userExistCheckURL = "http://localhost:3002/user/isUserFound";
     var namePattern = /^[A-Za-z ]{1,45}$/;
     var passwordPattern = /^[A-Za-z0-9]{5,20}$/;
 
@@ -66,12 +67,10 @@ var checkUserExist = function(){
 
         $.ajax({
             type: "GET",
-            url: userExistCheckURL,
+            url: isUserFoundURL,
             data:{
                 userName: userNameValue
-            }, success: function(result){
-
-                var exist = result[0];
+            }, success: function(exist){
 
                 var passed = false;
                 var errorMessage;
@@ -91,7 +90,7 @@ var checkUserExist = function(){
                     showSuccessMessage(mainDivID, spanID);
             },
             error: function(err){
-                showErrorMessage(mainDivID, spanID, 'Server Error happen');
+                showErrorMessage(mainDivID, spanID, err.responseText);
             }
         });
     });
@@ -154,12 +153,10 @@ var checkUserExist = function(){
 
         $.ajax({
             type: "GET",
-            url: userExistCheckURL,
+            url: isUserFoundURL,
             data: {
                 email: emailValue
-            }, success: function (result) {
-
-                var exist = result[0];
+            }, success: function (exist) {
 
                 var passed = false;
                 var errorMessage;
@@ -179,7 +176,7 @@ var checkUserExist = function(){
                     showSuccessMessage(mainDivID, spanID);
             },
             error: function (err) {
-                showErrorMessage(mainDivID, spanID, 'Server Error happen');
+                showErrorMessage(mainDivID, spanID, err.responseText);
             }
         });
     });

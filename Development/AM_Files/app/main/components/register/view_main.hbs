@@ -514,10 +514,11 @@
 
 
 <!-- PAGE LEVEL SCRIPTS -->
-<script src="/js/registerValidation.js"></script>
+<script src="/js/formValidations/registerValidation.js"></script>
+<script src="/js/formValidations/BackEndURLs.js"></script>
 <script>
     $(function () {
-        checkUserExist();
+        checkUserExist(URLs.isUserFound);
     });
 </script>
 <!--END PAGE LEVEL SCRIPTS -->

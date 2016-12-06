@@ -94,7 +94,7 @@
                     <label class="control-label col-lg-2">Course Description: </label>
 
                     <div class="col-lg-7">
-                        <textarea id="description" class="form-control" name="courseDescription" style="overflow: hidden;
+                        <textarea id="courseDescription" class="form-control" name="courseDescription" style="overflow: hidden;
                                 word-wrap: break-word; resize: horizontal; height: 174px;"></textarea>
                     </div>
                 </div>
@@ -285,11 +285,12 @@
 
 
 <!-- PAGE LEVEL SCRIPTS -->
-<script src="/js/newCourseForm.js"></script>
+<script src="/js/formValidations/newCourseForm.js"></script>
+<script src="/js/formValidations/BackEndURLs.js"></script>
 <script>
 //    $("#courseObjectivePlus").click(addNewCourseObjective());
     $(function () {
-        checkCourseData();
+        checkCourseData(URLs.isCourseFound);
     });
 </script>
 <!--END PAGE LEVEL SCRIPTS -->

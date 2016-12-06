@@ -2,10 +2,6 @@
  * Created by Ahmed Mater on 12/4/2016.
  */
 
-/**
- * Created by ahmed.motair on 11/24/2016.
- */
-
 var chapterObjectivesNum = 1;
 var chapterPreRequisiteNum = 1;
 
@@ -80,10 +76,10 @@ var showSuccessMessage = function(mainDivID, spanID){
 };
 
 
-var checkChapterData = function(id) {
+var checkChapterData = function(isChapterFoundURL) {
     $("#submitBtn").attr("disabled", "disabled");
 
-    var isChapterFoundURL = "http://localhost:3002/chapter/" + id + "/isChapterFound";
+    //var isChapterFoundURL = "http://localhost:3002/chapter/" + id + "/isChapterFound";
     var RegExps = {
         names: /^[A-Za-z0-9 -\/]{5,70}$/,
         description: /^[A-Za-z0-9 -\/]{0,200}$/,
@@ -129,7 +125,6 @@ var checkChapterData = function(id) {
                 chapterName: chapterNameValue
             }, success: function(isFound){
 
-
                 var passed = false;
                 var errorMessage;
 
@@ -150,7 +145,7 @@ var checkChapterData = function(id) {
                     showSuccessMessage(mainDivID, spanID);
             },
             error: function(err){
-                showErrorMessage(mainDivID, spanID, 'Server Error happen');
+                showErrorMessage(mainDivID, spanID, err.message);
             }
         });
     });

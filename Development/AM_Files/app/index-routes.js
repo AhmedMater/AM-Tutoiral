@@ -20,20 +20,20 @@ exports.routing = function(app){
         next();
     });
 
-    app.use('/admin/*', function(req, res, next){
-        if(req.session.user != null){
-            if(req.session.user.isAdmin)
-                next();
-            else{
-                res.render('unAuthorized',{
-                    title: "Access Denied",
-                    baseURL: req.originalUrl
-                });
-            }
-        } else {
-            res.redirect(config.URL.login);
-        }
-    });
+    //app.use('/admin/*', function(req, res, next){
+    //    if(req.session.user != null){
+    //        if(req.session.user.isAdmin)
+    //            next();
+    //        else{
+    //            res.render('unAuthorized',{
+    //                title: "Access Denied",
+    //                baseURL: req.originalUrl
+    //            });
+    //        }
+    //    } else {
+    //        res.redirect(config.URL.login);
+    //    }
+    //});
 
     app.get(config.URL.home, function(req, res, next){
         var router = rootRequire('home_get');

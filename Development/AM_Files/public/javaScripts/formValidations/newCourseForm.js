@@ -128,15 +128,16 @@ var showSuccessMessage = function(mainDivID, spanID){
 };
 
 
-var checkCourseData = function() {
+var checkCourseData = function(isCourseFoundURL) {
     $("#submitBtn").attr("disabled", "disabled");
 
-    var isCourseFoundURL = "http://localhost:3002/course/isCourseFound";
+    //var isCourseFoundURL = "http://localhost:3002/course/isCourseFound";
     var RegExps = {
-        names: /^[A-Za-z0-9 -\/]{5,70}$/,
-        description: /^[A-Za-z0-9 -\/]{0,200}$/,
-        numbers: /[0-9]+/,
-        youTubePlayList: /^http:\/\/(?:www\.)?youtube\.com\/watch\?(?:&.*)*((?:v=([a-zA-Z0-9_\-]{11})(?:&.*)*)|(?:list=([a-zA-Z0-9_\-]{18})(?:&.*)*&v=([a-zA-Z0-9_\-]{11})))(?:&.*)*(?:\#.*)*$/,
+        names: /^[A-Za-z0-9 -\/]+$/,
+        description: /^[A-Za-z0-9 -\/]+$/,
+        numbers: /^[0-9]+$/,
+        //youTubePlayList: /^http(s)?:\/\/(?:www\.)?youtube\.com\/watch\?(?:&.*)*((?:v=([a-zA-Z0-9_\-]{11})(?:&.*)*)|(?:list=([a-zA-Z0-9_\-]{18})(?:&.*)*&v=([a-zA-Z0-9_\-]{11})))(?:&.*)*(?:\#.*)*$/,
+        youTubePlayList:/^http(s)?:\/\/(?:www\.)?youtube\.com\/playlist\?list=[a-zA-Z0-9_\-]+$/,
         url: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
     };
 
@@ -146,6 +147,7 @@ var checkCourseData = function() {
         courseType: '#courseType',
         courseLevel: '#courseLevel',
         youTubePlayList: '#youTubePlayList',
+        courseDescription: '#courseDescription',
 
         courseObjective: '#courseObjective',
         courseContent: '#courseContent',
@@ -195,7 +197,6 @@ var checkCourseData = function() {
                 courseName: courseNameValue
             }, success: function(isFound){
 
-                console.log(isFound);
                 var passed = false;
                 var errorMessage;
 
@@ -216,7 +217,7 @@ var checkCourseData = function() {
                     showSuccessMessage(mainDivID, spanID);
             },
             error: function(err){
-                showErrorMessage(mainDivID, spanID, err.message);
+                showErrorMessage(mainDivID, spanID, err.responseText);
             }
         });
     });
@@ -319,21 +320,19 @@ var checkCourseData = function() {
             }
         });
     });
-    $(inputIDs.description).change(function(){
-        var descriptionValue = $(inputIDs.description).val();
+    $(inputIDs.courseDescription).change(function(){
+        var descriptionValue = $(inputIDs.courseDescription).val();
 
         var passed = false;
         var errorMessage;
 
         if(!RegExps.names.test(descriptionValue))
             errorMessage = 'Only English Letters, Numbers, Space, / and - are allowed';
-        else if(descriptionValue.length > 200)
-            errorMessage = 'The Course Description can\'t be more than 200 Letters';
         else
             passed =  true;
 
-        var mainDivID = '#main_descriptionDiv';
-        var spanID = 'descriptionErrorSpan';
+        var mainDivID = '#main_courseDescriptionDiv';
+        var spanID = 'courseDescriptionErrorSpan';
 
         if(!passed)
             showErrorMessage(mainDivID, spanID, errorMessage);

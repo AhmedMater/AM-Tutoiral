@@ -33,9 +33,9 @@ var exports = module.exports = {
 
 
             // Checks URL
-        isUserFound: '/user/isUserFound?userName&email',
+        isUserFound: '/user/isUserFound?',
         isCourseFound: '/course/isCourseFound?',
-        isChapterFound: '/chapter/:courseID/isChapterFound?chapterName'
+        isChapterFound: '/chapter/:courseID/isChapterFound?'
 
     },
 

@@ -15,11 +15,11 @@ module.exports = {
                 function (RESTCallBack) {
                     ChapterServices.isChapterFound(chapterName, courseID, RESTCallBack);
                 }],
-            function (err, result) {
+            function (err, results) {
                 if(err != null)
-                    next(err);
+                    res.status(400).send(err.message);
                 else
-                    res.status(200).send(result);
+                    res.status(200).send(results[0]);
             }
         );
     }
