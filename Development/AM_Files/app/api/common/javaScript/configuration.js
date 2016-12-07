@@ -116,18 +116,21 @@ var exports = module.exports = {
 
         "home": "main/home/view",
 
-        "newCourse_main": "main/admin/course/new/view",
+        "newCourse_main": "main/admin/course/new/view_main",
         "newCourse_success": "main/admin/course/new/view_success",
-        "editCourse": "main/admin/course/edit/view",
+        "editCourse_main": "main/admin/course/edit/view_main",
+        "editCourse_success": "main/admin/course/edit/view_success",
 
-        "newChapter": "main/admin/chapter/new/view",
-        "editChapter": "main/admin/chapter/edit/view",
+        "newChapter_main": "main/admin/chapter/new/view_main",
+        "newChapter_success": "main/admin/chapter/new/view_success",
+        "editChapter_main": "main/admin/chapter/edit/view_main",
+        "editChapter_success": "main/admin/chapter/edit/view_success",
 
-        "newLesson": "main/admin/lesson/new/view",
-        "editLesson": "main/admin/lesson/edit/view",
-        "newTask": "main/admin/lesson/new/view",
-        "editTask": "main/admin/lesson/edit/view",
-        "submitTask": "main/admin/lesson/submit/view",
+        "newLesson_main": "main/admin/lesson/new/view_main",
+        "editLesson_main": "main/admin/lesson/edit/view_main",
+        "newTask_main": "main/admin/lesson/new/view_main",
+        "editTask_main": "main/admin/lesson/edit/view_main",
+        "submitTask_main": "main/admin/lesson/submit/view_main",
 
         "forgetPassword_main": "main/components/forgetPassword/view_main",
         "forgetPassword_success": "main/components/forgetPassword/view_success",

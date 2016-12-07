@@ -131,9 +131,8 @@ var showSuccessMessage = function(mainDivID, spanID){
 var checkCourseData = function(isCourseFoundURL) {
     $("#submitBtn").attr("disabled", "disabled");
 
-    //var isCourseFoundURL = "http://localhost:3002/course/isCourseFound";
     var RegExps = {
-        names: /^[A-Za-z0-9 -\/]+$/,
+        names: /^[A-Za-z0-9 \-\/]+$/,
         description: /^[A-Za-z0-9 -\/]+$/,
         numbers: /^[0-9]+$/,
         //youTubePlayList: /^http(s)?:\/\/(?:www\.)?youtube\.com\/watch\?(?:&.*)*((?:v=([a-zA-Z0-9_\-]{11})(?:&.*)*)|(?:list=([a-zA-Z0-9_\-]{18})(?:&.*)*&v=([a-zA-Z0-9_\-]{11})))(?:&.*)*(?:\#.*)*$/,
@@ -339,8 +338,9 @@ var checkCourseData = function(isCourseFoundURL) {
         else
             showSuccessMessage(mainDivID, spanID);
     });
-    $(inputIDs.courseObjective).change(function(){
-        var courseObjectiveValue = $(inputIDs.courseObjective).val();
+    $("[id=\"" + inputIDs.courseObjective + "\"]").change(function(){
+        var courseObjectiveValue = $(inputIDs.courseObjective);
+        console.log($("[id=\"" + inputIDs.courseObjective + "\"]"));
 
         var passed = false;
         var errorMessage;
@@ -362,6 +362,31 @@ var checkCourseData = function(isCourseFoundURL) {
         else
             showSuccessMessage(mainDivID, spanID);
     });
+
+    //$(inputIDs.courseObjective).change(function(){
+    //    var courseObjectiveValue = $(inputIDs.courseObjective);
+    //    console.log($(inputIDs.courseObjective));
+    //
+    //    var passed = false;
+    //    var errorMessage;
+    //
+    //    if(courseObjectiveValue.length == 0)
+    //        errorMessage = 'Please Enter The Course Objective';
+    //    else if(!RegExps.names.test(courseObjectiveValue))
+    //        errorMessage = 'Only English Letters, Numbers, Space, / and - are allowed';
+    //    else if(courseObjectiveValue.length > 70 || courseObjectiveValue.length < 5)
+    //        errorMessage = 'Course Objective has to be from 5 to 70 Letters';
+    //    else
+    //        passed =  true;
+    //
+    //    var mainDivID = '#main_courseObjective' + courseObjectivesNum + 'Div';
+    //    var spanID = 'courseObjectiveErrorSpan';
+    //
+    //    if(!passed)
+    //        showErrorMessage(mainDivID, spanID, errorMessage);
+    //    else
+    //        showSuccessMessage(mainDivID, spanID);
+    //});
     $(inputIDs.courseContent).change(function(){
         var courseContentValue = $(inputIDs.courseContent).val();
 
