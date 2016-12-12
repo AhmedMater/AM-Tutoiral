@@ -57,11 +57,13 @@ module.exports = {
         year: /^[0-9]{4}$/,
         name: /^[A-Za-z ]+$/,
 
-        names: /^[A-Za-z0-9 -\/]{5,70}$/,
-        description: /^[A-Za-z0-9 -\/]{0,200}$/,
-        numbers: /[0-9]+/,
-        youTubePlayList: /^http:\/\/(?:www\.)?youtube\.com\/watch\?(?:&.*)*((?:v=([a-zA-Z0-9_\-]{11})(?:&.*)*)|(?:list=([a-zA-Z0-9_\-]{18})(?:&.*)*&v=([a-zA-Z0-9_\-]{11})))(?:&.*)*(?:\#.*)*$/,
-        url: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
+        //names: /^[A-Za-z0-9 \-\/]+$/,
+        //description: /^[A-Za-z0-9 -\/]+$/,
+        //numbers: /^[0-9]+$/,
+        //youTubePlayList: /^http(s)?:\/\/(?:www\.)?youtube\.com\/watch\?(?:&.*)*((?:v=([a-zA-Z0-9_\-]{11})(?:&.*)*)|(?:list=([a-zA-Z0-9_\-]{18})(?:&.*)*&v=([a-zA-Z0-9_\-]{11})))(?:&.*)*(?:\#.*)*$/,
+        //youTubePlayList:/^http(s)?:\/\/(?:www\.)?youtube\.com\/playlist\?list=[a-zA-Z0-9_\-]+$/,
+        //url: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
     }
+
 
 };

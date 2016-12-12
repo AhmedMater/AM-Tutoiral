@@ -67,6 +67,7 @@ var exports = module.exports = {
         "Logger": "api/common/javaScript/Logger",
         "AM-Database": "api/common/javaScript/_DBConnection",
         "configuration": "api/common/javaScript/configuration",
+        "Validation": "api/common/javaScript/validation",
 
         "home_get": "main/home/get",
 

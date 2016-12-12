@@ -9,221 +9,123 @@ var SystemParam = rootRequire('SystemParameters');
 var ErrMsg = rootRequire('ErrorMessages');
 var Logger = rootRequire('Logger');
 
-module.exports = {
-    insertCourse: function(courseData, RepositoryCallBack) {
+var exports = module.exports = {};
 
-        DB.query('INSERT INTO course SET ?', {
-            name: courseData.courseName,
-            period: courseData.coursePeriod,
-            course_level_id: courseData.courseLevelID,
-            course_type_id: courseData.courseTypeID,
-            playlist_link: courseData.youTubePlaylist,
-            description: courseData.courseDescription
-        }, function (err, rows, fields) {
-            if (err != null) {
-                Logger.error(SystemParam.REPOSITORY, "insertCourse", err.message);
-                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), false);
-            }
+exports.insertCourse = function(courseData, RepositoryCallback) {
 
-            RepositoryCallBack(null, true);
-        });
-    },
+    DB.query('INSERT INTO course SET ?', {
+        name: courseData.courseName,
+        period: courseData.coursePeriod,
+        course_level_id: courseData.courseLevelID,
+        course_type_id: courseData.courseTypeID,
+        playlist_link: courseData.youTubePlaylist,
+        description: courseData.courseDescription
+    }, function (err, rows, fields) {
+        if (err != null) {
+            Logger.error(SystemParam.REPOSITORY, "insertCourse", err.message);
+            return RepositoryCallback(ErrMsg.createError(SystemParam.DATABASE_ERROR, err.message), false);
+        }
 
-    insertCourseContents: function(courseContentArray, RepositoryCallBack) {
-        var query = 'INSERT INTO course_content (course_id, num, content) VALUES ?';
+        RepositoryCallback(null, true);
+    });
+};
 
-        DB.query(query, courseContentArray, function (err, rows, fields) {
-            if (err != null) {
-                Logger.error(SystemParam.REPOSITORY, "insertCourseContents", err.message);
-                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), false);
-            }
+exports.insertCourseContents = function(courseContentArray, RepositoryCallback) {
+    var query = 'INSERT INTO course_content (course_id, num, content) VALUES ?';
 
-            RepositoryCallBack(null, true);
-        });
-    },
-    insertCourseObjectives: function(courseObjectivesArray, RepositoryCallBack) {
-        var query = 'INSERT INTO course_objective (course_id, num, objective) VALUES ?';
+    DB.query(query, courseContentArray, function (err, rows, fields) {
+        if (err != null) {
+            Logger.error(SystemParam.REPOSITORY, "insertCourseContents", err.message);
+            return RepositoryCallback(ErrMsg.createError(SystemParam.DATABASE_ERROR, err.message), false);
+        }
 
-        DB.query(query, courseObjectivesArray, function (err, rows, fields) {
-            if (err != null) {
-                Logger.error(SystemParam.REPOSITORY, "insertCourseObjectives", err.message);
-                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), false);
-            }
+        RepositoryCallback(null, true);
+    });
+};
+exports.insertCourseObjectives = function(courseObjectivesArray, RepositoryCallback) {
+    var query = 'INSERT INTO course_objective (course_id, num, objective) VALUES ?';
 
-            RepositoryCallBack(null, true);
-        });
-    },
-    insertCoursePreRequisites: function(coursePreRequisitesArray, RepositoryCallBack) {
-        var query = 'INSERT INTO course_pre_requisite (course_id, name, url) VALUES ?';
+    DB.query(query, courseObjectivesArray, function (err, rows, fields) {
+        if (err != null) {
+            Logger.error(SystemParam.REPOSITORY, "insertCourseObjectives", err.message);
+            return RepositoryCallback(ErrMsg.createError(SystemParam.DATABASE_ERROR, err.message), false);
+        }
 
-        DB.query(query, coursePreRequisitesArray, function (err, rows, fields) {
-            if (err != null) {
-                Logger.error(SystemParam.REPOSITORY, "insertCoursePreRequisites", err.message);
-                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), false);
-            }
+        RepositoryCallback(null, true);
+    });
+};
+exports.insertCoursePreRequisites = function(coursePreRequisitesArray, RepositoryCallback) {
+    var query = 'INSERT INTO course_pre_requisite (course_id, name, url) VALUES ?';
 
-            RepositoryCallBack(null, true);
-        });
-    },
-    insertCourseReferences: function(courseReferencesArray, RepositoryCallBack) {
-        var query = 'INSERT INTO course_reference (course_id, name, type_id, url) VALUES ?';
+    DB.query(query, coursePreRequisitesArray, function (err, rows, fields) {
+        if (err != null) {
+            Logger.error(SystemParam.REPOSITORY, "insertCoursePreRequisites", err.message);
+            return RepositoryCallback(ErrMsg.createError(SystemParam.DATABASE_ERROR, err.message), false);
+        }
 
-        DB.query(query, courseReferencesArray, function (err, rows, fields) {
-            if (err != null) {
-                Logger.error(SystemParam.REPOSITORY, "insertCourseReferences", err.message);
-                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), false);
-            }
+        RepositoryCallback(null, true);
+    });
+};
+exports.insertCourseReferences = function(courseReferencesArray, RepositoryCallback) {
+    var query = 'INSERT INTO course_reference (course_id, name, type_id, url) VALUES ?';
 
-            RepositoryCallBack(null, true);
-        });
-    },
+    DB.query(query, courseReferencesArray, function (err, rows, fields) {
+        if (err != null) {
+            Logger.error(SystemParam.REPOSITORY, "insertCourseReferences", err.message);
+            return RepositoryCallback(ErrMsg.createError(SystemParam.DATABASE_ERROR, err.message), false);
+        }
 
-    isCourseFound: function(courseName, youTubePlaylist, RepositoryCallBack){
-        var fnName = "isCourseFound";
+        RepositoryCallback(null, true);
+    });
+};
 
-        var query =
-            "SELECT id FROM course WHERE " +
-                "name = " + DB.escape(courseName) + " OR " +
-                "playlist_link = " + DB.escape(youTubePlaylist) + ";";
+exports.isCourseFound = function(courseName, youTubePlaylist, RepositoryCallback){
+    var fnName = "isCourseFound";
 
-        DB.query(query, function (err, rows, fields) {
-            var isFound = null;
-            if (err != null) {
-                Logger.error(SystemParam.REPOSITORY, fnName, err.message);
-                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
-            }
+    var query =
+        "SELECT id FROM course " +
+        "WHERE " +
+            "name = " + DB.escape(courseName) + " OR " +
+            "playlist_link = " + DB.escape(youTubePlaylist) + ";";
 
-            if (rows[0] != null) {
-                Logger.info(fnName, 'Course already found in Database');
-                isFound = true;
-            } else {
-                Logger.info(fnName, 'Course isn\'t found in Database');
-                isFound = false;
-            }
+    DB.query(query, function (err, rows, fields) {
+        var isFound = null;
+        if (err != null) {
+            Logger.error(SystemParam.REPOSITORY, fnName, err.message);
+            return RepositoryCallback(ErrMsg.createError(SystemParam.DATABASE_ERROR, err.message), null);
+        }
 
-            RepositoryCallBack(err, isFound);
-        });
-    },
+        if (rows[0] != null) {
+            Logger.debug(SystemParam.REPOSITORY, fnName, ErrMsg.info_1_Found("Course"));
+            return RepositoryCallback(err, true);
+        } else {
+            Logger.debug(SystemParam.REPOSITORY, fnName, ErrMsg.info_2_NotFound("Course"));
+            return RepositoryCallback(err, false);
+        }
+    });
+};
 
-    getCourseID: function(courseName, youTubePlaylist, RepositoryCallBack){
-        var fnName = "getCourseID";
+exports.selectCourseID = function(courseName, youTubePlaylist, RepositoryCallback){
+    var fnName = "selectCourseID";
 
-        var query =
-            "SELECT id FROM course WHERE" +
-                " name " + DB.escape(courseName) + " AND " +
-                " playlist_link " + DB.escape(youTubePlaylist);
+    var query =
+        "SELECT id FROM course " +
+        "WHERE" +
+            "name " + DB.escape(courseName) + " AND " +
+            "playlist_link " + DB.escape(youTubePlaylist);
 
-        DB.query(query, function (err, rows, fields) {
-            if (err != null) {
-                Logger.error(SystemParam.REPOSITORY, fnName, err.message);
-                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
-            }
+    DB.query(query, function (err, rows, fields) {
+        if (err != null) {
+            Logger.error(SystemParam.REPOSITORY, fnName, err.message);
+            return RepositoryCallback(ErrMsg.createError(SystemParam.DATABASE_ERROR, err.message), null);
+        }
 
-            var courseID = null;
-            if(rows != null){
-                courseID = rows[0].id;
-
-                Logger.info(fnName, 'Course ID is successfully retrieved');
-            } else
-                Logger.info(fnName, 'This Course isn\'t found in Database');
-
-            RepositoryCallBack(err, courseID);
-        });
-    },
-
-    getAllCourses: function(RepositoryCallBack) {
-        var fnName = "getAllCourses";
-
-        var query =
-            "SELECT " +
-            "id, name, value " +
-            "FROM " +
-            "lookup_user_role ";
-
-        DB.query(query, function (err, rows, fields) {
-            if (err != null) {
-                Logger.error(SystemParam.REPOSITORY, fnName, err.message);
-                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
-            }
-
-            var coursesInfo = [];
-            if(rows != null){
-                for(var i=0 ; i<rows.length; i++)
-                    coursesInfo.push({
-                        id: rows[i].id,
-                        name: rows[i].name,
-                        value: rows[i].value
-                    });
-
-                Logger.info(fnName, ErrMsg.INFO_5);
-            } else
-                Logger.info(fnName, ErrMsg.INFO_6);
-
-            RepositoryCallBack(err, coursesInfo);
-        });
-    },
-    getCourse_ByName: function(name, RepositoryCallBack) {
-        var fnName = "getCourse_ByName";
-        var query =
-            "SELECT " +
-            "id, name, value " +
-            "FROM " +
-            "lookup_user_role " +
-            "WHERE " +
-            "name = " + DB.escape(name) +" ;";
-
-        DB.query(query, function(err,rows,fields){
-            if(err != null) {
-                Logger.error(SystemParam.REPOSITORY, fnName, err.message);
-                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
-            }
-
-            var courseInfo = null;
-            if (rows != null) {
-                courseInfo = {
-                    id: rows[0].id,
-                    name: rows[0].name,
-                    value: rows[0].value
-                };
-
-                Logger.info(fnName, ErrMsg.INFO_1);
-            } else
-                Logger.info(fnName, ErrMsg.INFO_2);
-
-
-            RepositoryCallBack(err, courseInfo);
-        });
-    },
-    getCourse_ByID: function(id, RepositoryCallBack) {
-        var fnName = "getCourse_ByID";
-        var query =
-            "SELECT " +
-            "id, name, value " +
-            "FROM " +
-            "lookup_user_role " +
-            "WHERE " +
-            "id = " + DB.escape(id) +" ;";
-
-        DB.query(query, function(err,rows,fields){
-            if(err != null) {
-                Logger.error(SystemParam.REPOSITORY, fnName, err.message);
-                return RepositoryCallBack(ErrMsg.createError(SystemParam.DATABASE_ERROR, 400, err.message), null);
-            }
-
-            var courseInfo = null;
-            if (rows != null) {
-                courseInfo = {
-                    id: rows[0].id,
-                    name: rows[0].name,
-                    value: rows[0].value
-                };
-
-                Logger.info(fnName, ErrMsg.INFO_1);
-            } else
-                Logger.info(fnName, ErrMsg.INFO_2);
-
-
-            RepositoryCallBack(err, courseInfo);
-        });
-    }
+        if (rows[0] != null) {
+            Logger.debug(SystemParam.REPOSITORY, fnName, ErrMsg.info_1_Found("Course"));
+            return RepositoryCallback(err, rows[0].id);
+        } else {
+            Logger.debug(SystemParam.REPOSITORY, fnName, ErrMsg.info_2_NotFound("Course"));
+            return RepositoryCallback(err, -1);
+        }
+    });
 };
