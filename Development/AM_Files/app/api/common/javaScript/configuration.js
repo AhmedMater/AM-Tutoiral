@@ -5,6 +5,9 @@
 var exports = module.exports = {
 
     URL: {
+
+        test: "/test",
+
         home: "/",
         login: "/login",
         register: "/register",
@@ -40,6 +43,7 @@ var exports = module.exports = {
     },
 
     Routes: {
+        "test_get": "main/test/get",
         "index-routes": "index-routes",
 
         "UserRepository": "api/repository/UserRepository",
@@ -112,6 +116,8 @@ var exports = module.exports = {
     },
 
     Views:{
+        "test": "main/test/view",
+
         "error": "api/common/layout/error",
         "unAuthorized": "api/common/layout/unAuthorized",
 

@@ -27,9 +27,9 @@ var applyUserValidation = function(userData){
         return errMsg;
 
     if(userData.password != userData.confirmPassword)
-        return ErrMsg.error_7_PasswordNotMatch("Password and Confirm Password");
+        return ErrMsg.PASSWORD_NOT_MATCH("Password and Confirm Password");
     else if(userData.password == userData.userName)
-        return ErrMsg.ERROR_8_PasswordEQUserName;
+        return ErrMsg.PASSWORD_EQ_USERNAME;
 
     errMsg = Valid.email(userData.email);
     if(errMsg != null)

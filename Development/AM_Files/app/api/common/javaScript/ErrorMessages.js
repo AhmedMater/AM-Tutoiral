@@ -4,14 +4,16 @@
 
 module.exports = {
 
-    error_1_MandatoryFieldMissing: function(fieldName){return "Error 1: Mandatory Field " + fieldName + " equal null";},
-    error_2_InvalidData: function(fieldName){return "Error 2: " + fieldName + " Invalid input Data ";},
-    error_3_LongLengthData: function(fieldName){return "Error 3: " + fieldName + " is too long ";},
-    error_4_ShortLengthData: function(fieldName){return "Error 4: " + fieldName + " is too short ";},
-    error_5_AlreadyExist: function(fieldName){return "Error 5: " + fieldName + " already Exists ";},
-    error_6_DateInFuture: function(fieldName){return "Error 6: " + fieldName + " can't be in Future ";},
-    error_7_PasswordNotMatch: function(fieldName){return "Error 7: " + fieldName + " don't Match ";},
-    ERROR_8_PasswordEQUserName: "Error 8: Password can't be equal to Username",
+    MANDATORY_NULL_FIELD: function(fieldName){return "Error: Mandatory Field " + fieldName + " = null";},
+    MANDATORY_EMPTY_FIELD: function(fieldName){return "Error: Mandatory Field " + fieldName + " has no value";},
+    INVALID_FIELD: function(fieldName){return "Error: Invalid " + fieldName;},
+    LONG_LENGTH_FIELD: function(fieldName){return "Error: " + fieldName + " is too long ";},
+    SHORT_LENGTH_FIELD: function(fieldName){return "Error: " + fieldName + " is too short ";},
+    VALUE_ALREADY_EXIST: function(fieldName){return "Error: " + fieldName + " already exists ";},
+    DATE_IN_FUTURE: function(fieldName){return "Error: " + fieldName + " can't be in future ";},
+    PASSWORD_NOT_MATCH: function(password1, password2){return "Error: " + password1 + " doesn't match " + password2;},
+    PASSWORD_EQ_USERNAME: "Error: Password can't be equal to Username",
+    NULL_FIELD: function(fieldName){return "Error: " + fieldName + " = null";},
 
     INFO_0: "Logger File Opened Successfully",
     info_1_Found: function(value){ return "Info 1: " + value + " is Successfully retrieved From Database";},

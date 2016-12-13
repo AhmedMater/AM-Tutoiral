@@ -35,6 +35,10 @@ exports.routing = function(app){
     //    }
     //});
 
+    app.get(config.URL.test, function(req, res, next){
+        var router = rootRequire('test_get');
+        router.go(req,res, next);
+    });
     app.get(config.URL.home, function(req, res, next){
         var router = rootRequire('home_get');
         router.go(req,res, next);

@@ -1,0 +1,26 @@
+
+
+<h1> Results: {{title}}</h1>
+<!--{{#each res}}-->
+    <!--<h3>{{this}}</h3> <br/>-->
+<!--{{/each}}-->
+
+<table class="table-bordered">
+    <thead>
+        <th>Num</th>
+        <th>Value</th>
+        <th>Mandatory</th>
+        <th>Error Message</th>
+    </thead>
+    <tbody>
+
+    {{#each res}}
+        <tr>
+            <td>{{num}}</td>
+            <td>{{value}}</td>
+            <td>{{mandatory}}</td>
+            <td>{{error}}</td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

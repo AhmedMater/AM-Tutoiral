@@ -41,7 +41,7 @@ var newCourseValid = function(courseData){
         return errMsg;
 
     if(courseData.courseContents == null || courseData.courseContents == [])
-        return ErrMsg.error_1_MandatoryFieldMissing("Course Contents");
+        return ErrMsg.MANDATORY_NULL_FIELD("Course Contents");
     else
         for(var i=0; i<courseData.courseContents.length; i++){
             errMsg = Valid.title(courseData.courseContents[i], "Course Content");
@@ -50,7 +50,7 @@ var newCourseValid = function(courseData){
         }
 
     if(courseData.courseObjectives == null || courseData.courseObjectives == [])
-        return ErrMsg.error_1_MandatoryFieldMissing("Course Objectives");
+        return ErrMsg.MANDATORY_NULL_FIELD("Course Objectives");
     else
         for(var i=0; i<courseData.courseObjectives.length; i++){
             errMsg = Valid.title(courseData.courseObjectives[i], "Course Objectives");
@@ -71,7 +71,7 @@ var newCourseValid = function(courseData){
     }
 
     if(courseData.courseReferences == null || courseData.courseReferences == [])
-        return ErrMsg.error_1_MandatoryFieldMissing("Course References");
+        return ErrMsg.MANDATORY_NULL_FIELD("Course References");
     else
         for(var i=0; i<courseData.courseReferences.length; i++) {
 
@@ -96,7 +96,7 @@ exports.addNewCourse = function(courseData, userID, RESTCallBack){
     var fnName = "addNewCourse";
 
     if(userID == null)
-        return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, ErrMsg.error_1_MandatoryFieldMissing("User ID")));
+        return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, ErrMsg.MANDATORY_NULL_FIELD("User ID")));
 
     var errMsg = newCourseValid(courseData);
 
@@ -173,7 +173,7 @@ exports.isCourseFound = function(courseName, youTubePlaylist, RESTCallBack){
     var errMsg = null;
 
     if(courseName == null && youTubePlaylist)
-        errMsg = ErrMsg.error_1_MandatoryFieldMissing('Course Name and Youtube Playlist');
+        errMsg = ErrMsg.MANDATORY_NULL_FIELD('Course Name and Youtube Playlist');
     else if(courseName != null) {
         if (youTubePlaylist != null){
             errMsg = Valid.youTubePlayList(youTubePlaylist, "Course Youtube Playlist");
@@ -190,7 +190,7 @@ exports.isCourseFound = function(courseName, youTubePlaylist, RESTCallBack){
     }
 
     if(errMsg != null){
-        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.error_1_MandatoryFieldMissing('Course Name and Youtube Playlist'));
+        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.MANDATORY_NULL_FIELD('Course Name and Youtube Playlist'));
         return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, errMsg), null);
     }
 
