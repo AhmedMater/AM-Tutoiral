@@ -8,6 +8,7 @@ var UserRepository = rootRequire('UserRepository');
 var LookupServices = rootRequire('LookupServices');
 
 var SystemParam = rootRequire('SystemParameters');
+var Valid = rootRequire('Validation');
 var ErrMsg = rootRequire('ErrorMessages');
 var Logger = rootRequire('Logger');
 var SHA256 = rootRequire('SHA256');
@@ -15,42 +16,41 @@ var SHA256 = rootRequire('SHA256');
 var exports = module.exports = {};
 
 var applyUserValidation = function(userData){
-    var fnName = "insertUserValidation";
-    var RegExp = SystemParam.RegularExpression;
+    var errMsg = null;
 
-    if(userData.userName == null || userData.password == null || userData.confirmPassword == null ||
-        userData.email == null || userData.firstName == null || userData.lastName == null || userData.gender == null) {
-        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_1);
-        return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_1);
-    }
-    else if(!RegExp.userName.test(userData.userName)) {
-        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_2);
-        return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_2);
-    }
-    else if(!RegExp.password.test(userData.password) || !RegExp.password.test(userData.confirmPassword)) {
-        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_3);
-        return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_3);
-    }
-    else if(userData.password != userData.confirmPassword) {
-        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_4);
-        return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_4);
-    }
-    else if(!RegExp.email.test(userData.email)) {
-        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_5);
-        return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_5);
-    }
-    else if(!RegExp.name.test(userData.firstName)) {
-        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_6);
-        return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_6);
-    }
-    else if(!RegExp.name.test(userData.lastName)) {
-        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_7);
-        return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_7);
-    }
-    else if(!RegExp.gender.test(userData.gender)) {
-        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_8);
-        return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_8);
-    }
+    errMsg = Valid.userName(userData.userName);
+    if(errMsg != null)
+        return errMsg;
+
+    errMsg = Valid.password(userData.password);
+    if(errMsg != null)
+        return errMsg;
+
+    if(userData.password != userData.confirmPassword)
+        return ErrMsg.error_7_PasswordNotMatch("Password and Confirm Password");
+    else if(userData.password == userData.userName)
+        return ErrMsg.ERROR_8_PasswordEQUserName;
+
+    errMsg = Valid.email(userData.email);
+    if(errMsg != null)
+        return errMsg;
+
+    errMsg = Valid.name(userData.firstName);
+    if(errMsg != null)
+        return errMsg;
+
+    errMsg = Valid.name(userData.lastName);
+    if(errMsg != null)
+        return errMsg;
+
+    errMsg = Valid.gender(userData.gender);
+    if(errMsg != null)
+        return errMsg;
+
+    errMsg = Valid.date(userData.dateOfBirth);
+    if(errMsg != null)
+        return errMsg;
+
     else if(!RegExp.day_month.test(userData.dateOfBirth.day) || !RegExp.day_month.test(userData.dateOfBirth.month) || !RegExp.year.test(userData.dateOfBirth.year)
         || userData.dateOfBirth.day < 0 || userData.dateOfBirth.day > 31 || userData.dateOfBirth.month < 0 || userData.dateOfBirth.month > 12) {
         Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_12);

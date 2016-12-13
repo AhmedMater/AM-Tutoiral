@@ -9,42 +9,42 @@ var LookupServices = rootRequire('LookupServices');
 
 var SystemParam = rootRequire('SystemParameters');
 var ErrMsg = rootRequire('ErrorMessages');
-var Validation = rootRequire('Validation');
+var Valid = rootRequire('Validation');
 var Logger = rootRequire('Logger');
 
 
-var newCourseValidation = function(courseData){
-    var RegExp = SystemParam.RegularExpression;
+var newCourseValid = function(courseData){
     var errMsg = null;
 
-    errMsg = Validation.name(courseData.courseName, "Course Name");
+    errMsg = Valid.title(courseData.courseName, "Course Name");
     if(errMsg != null)
         return errMsg;
 
-    errMsg = Validation.positiveNum(courseData.coursePeriod, "Course Period");
+    errMsg = Valid.positiveNum(courseData.coursePeriod, "Course Period");
     if(errMsg != null)
         return errMsg;
 
-    errMsg = Validation.positiveNum(courseData.courseLevelID, "Course Level");
+    errMsg = Valid.positiveNum(courseData.courseLevelID, "Course Level");
     if(errMsg != null)
         return errMsg;
 
-    errMsg = Validation.positiveNum(courseData.courseTypeID, "Course Type");
+    errMsg = Valid.positiveNum(courseData.courseTypeID, "Course Type");
     if(errMsg != null)
         return errMsg;
 
-    errMsg = Validation.youTubePlayList(courseData.youTubePlayList, "Course Youtube Playlist");
+    errMsg = Valid.youTubePlayList(courseData.youTubePlayList, "Course Youtube Playlist");
     if(errMsg != null)
         return errMsg;
 
-    if(!RegExp.description.test(courseData.description))
-        return ErrMsg.error_2_InvalidData("Course Description");
+    errMsg = Valid.description(courseData.description, "Course Description");
+    if(errMsg != null)
+        return errMsg;
 
     if(courseData.courseContents == null || courseData.courseContents == [])
         return ErrMsg.error_1_MandatoryFieldMissing("Course Contents");
     else
         for(var i=0; i<courseData.courseContents.length; i++){
-            errMsg = Validation.name(courseData.courseContents[i], "Course Content");
+            errMsg = Valid.title(courseData.courseContents[i], "Course Content");
             if(errMsg != null)
                 return errMsg;
         }
@@ -53,18 +53,18 @@ var newCourseValidation = function(courseData){
         return ErrMsg.error_1_MandatoryFieldMissing("Course Objectives");
     else
         for(var i=0; i<courseData.courseObjectives.length; i++){
-            errMsg = Validation.name(courseData.courseObjectives[i], "Course Objectives");
+            errMsg = Valid.title(courseData.courseObjectives[i], "Course Objectives");
             if(errMsg != null)
                 return errMsg;
         }
 
     if(courseData.coursePreRequisites != null && courseData.coursePreRequisites != []) {
         for (var i = 0; i < courseData.coursePreRequisites.length; i++) {
-            errMsg = Validation.name(courseData.coursePreRequisites[i].name, "Course Prerequisites Name");
+            errMsg = Valid.title(courseData.coursePreRequisites[i].name, "Course Prerequisites Name");
             if (errMsg != null)
                 return errMsg;
 
-            errMsg = Validation.url(courseData.coursePreRequisites[i].URL, "Course Prerequisites URL");
+            errMsg = Valid.url(courseData.coursePreRequisites[i].URL, "Course Prerequisites URL");
             if (errMsg != null)
                 return errMsg;
         }
@@ -75,15 +75,15 @@ var newCourseValidation = function(courseData){
     else
         for(var i=0; i<courseData.courseReferences.length; i++) {
 
-            errMsg = Validation.name(courseData.courseReferences[i].name, "Course References Name");
+            errMsg = Valid.title(courseData.courseReferences[i].name, "Course References Name");
             if (errMsg != null)
                 return errMsg;
 
-            errMsg = Validation.positiveNum(courseData.courseReferences[i].typeID, "Course References Type");
+            errMsg = Valid.positiveNum(courseData.courseReferences[i].typeID, "Course References Type");
             if (errMsg != null)
                 return errMsg;
 
-            errMsg = Validation.url(courseData.courseReferences[i].URL, "Course References URL");
+            errMsg = Valid.url(courseData.courseReferences[i].URL, "Course References URL");
             if (errMsg != null)
                 return errMsg;
         }
@@ -98,7 +98,7 @@ exports.addNewCourse = function(courseData, userID, RESTCallBack){
     if(userID == null)
         return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, ErrMsg.error_1_MandatoryFieldMissing("User ID")));
 
-    var errMsg = newCourseValidation(courseData);
+    var errMsg = newCourseValid(courseData);
 
     if(errMsg != null)
         return RESTCallBack(ErrMsg.createError(SystemParam.SERVER_ERROR, 400, errMsg), null);
@@ -120,8 +120,7 @@ exports.addNewCourse = function(courseData, userID, RESTCallBack){
     var getCourseID =function(done, RepositoryCallBack) {
         if(done)
             CourseRepository.getCourseID(courseData, RepositoryCallBack);
-    };;
-
+    };
     async.waterfall([ isUserAdmin, addMainCourseInfo, getCourseID ],function(err1, courseID) {
             if(err1 != null) {
                 Logger.error(SystemParam.SERVICES, fnName, err1.message);
@@ -177,17 +176,17 @@ exports.isCourseFound = function(courseName, youTubePlaylist, RESTCallBack){
         errMsg = ErrMsg.error_1_MandatoryFieldMissing('Course Name and Youtube Playlist');
     else if(courseName != null) {
         if (youTubePlaylist != null){
-            errMsg = Validation.youTubePlayList(youTubePlaylist, "Course Youtube Playlist");
-            errMsg = Validation.name(courseName, "Course Name");
+            errMsg = Valid.youTubePlayList(youTubePlaylist, "Course Youtube Playlist");
+            errMsg = Valid.name(courseName, "Course Name");
         }else
-            errMsg = Validation.name(courseName, "Course Name");
+            errMsg = Valid.name(courseName, "Course Name");
 
     }else if(youTubePlaylist != null) {
         if (courseName != null){
-            errMsg = Validation.name(courseName, "Course Name");
-            errMsg = Validation.youTubePlayList(youTubePlaylist, "Course Youtube Playlist");
+            errMsg = Valid.name(courseName, "Course Name");
+            errMsg = Valid.youTubePlayList(youTubePlaylist, "Course Youtube Playlist");
         }else
-            errMsg = Validation.youTubePlayList(youTubePlaylist, "Course Youtube Playlist");
+            errMsg = Valid.youTubePlayList(youTubePlaylist, "Course Youtube Playlist");
     }
 
     if(errMsg != null){
