@@ -137,6 +137,166 @@ var testingDescriptionValidation = function(){
         {num: 12, value: description4,   mandatory:false, error: Valid.description(description4, false, "Course Description")}
     ];
 };
+
+var testingURLValidation = function(){
+    var url1 = "https://www.youtube.com/watch?v=qj3qPrmhIXs";
+    var url2 = "https://www.youtube.com/watch?v=IcYZOizikwA&list=RDIcYZOizikwA";
+    var url3 = "https://www.amazon.com/Java-Complete-Reference-Herbert-Schildt/dp/0071808558";
+    var url4 = "https://www.safaribooksonline.com/library/view/java-the-complete/9780071808552/";
+    var url5 = "https://www.coursera.org/learn/embedded-operating-system";
+    var url6 = "asdasdasdasdasdasdasdasd";
+
+    return [
+        {num: 1, value: "null", mandatory:true, error: Valid.url(null, true, "Course URL")},
+        {num: 2, value: "Empty", mandatory:true, error: Valid.url("", true, "Course URL")},
+        {num: 3, value: url1, mandatory:true, error: Valid.url(url1, true, "Course URL")},
+        {num: 4, value: url2, mandatory:true, error: Valid.url(url2, true, "Course URL")},
+        {num: 5, value: url3, mandatory:true, error: Valid.url(url3, true, "Course URL")},
+        {num: 6, value: url4, mandatory:true, error: Valid.url(url4, true, "Course URL")},
+        {num: 7, value: url5, mandatory:true, error: Valid.url(url5, true, "Course URL")},
+        {num: 8, value: url6, mandatory:true, error: Valid.url(url6, true, "Course URL")},
+        {num: 9, value: "null", mandatory:false, error: Valid.url(null, false, "Course URL")},
+        {num: 10, value: "Empty", mandatory:false, error: Valid.url("", false, "Course URL")},
+        {num: 11, value: url1, mandatory:false, error: Valid.url(url1, false, "Course URL")},
+        {num: 12, value: url2, mandatory:false, error: Valid.url(url2, false, "Course URL")},
+        {num: 13, value: url3, mandatory:false, error: Valid.url(url3, false, "Course URL")},
+        {num: 14, value: url4, mandatory:false, error: Valid.url(url4, false, "Course URL")},
+        {num: 15, value: url5, mandatory:false, error: Valid.url(url5, false, "Course URL")},
+        {num: 16, value: url6, mandatory:false, error: Valid.url(url6, false, "Course URL")}
+    ];
+
+};
+
+var testingUserNameValidation = function(){
+
+    var userName1 = "Ahmed_Mater";
+    var userName2 = "12Ahmed";
+    var userName3 = "Ahmed Mater";
+    var userName4 = "Ahmed-Mater";
+    var userName5 = "Ahmed.Mater";
+    var userName6 = "Ahmed$Mater";
+    var userName7 = "_2Ahmed";
+    var userName8 = "-Ahmed1";
+    var userName9 = ".Ahmed12";
+    var userName10 = "sd";
+    var userName11 = "asdasdasdassdasdassdasdassdasdassdasdassdasdassdasdassdasdasdasdasd";
+
+    return [
+        {num: 1,  value: "null",        mandatory:true,     error: Valid.userName(null, true)},
+        {num: 2,  value: "Empty",       mandatory:true,     error: Valid.userName("", true)},
+        {num: 3,  value: userName1,     mandatory:true,     error: Valid.userName(userName1, true)},
+        {num: 4,  value: userName2,     mandatory:true,     error: Valid.userName(userName2, true)},
+        {num: 5,  value: userName3,     mandatory:true,     error: Valid.userName(userName3, true)},
+        {num: 6,  value: userName4,     mandatory:true,     error: Valid.userName(userName4, true)},
+        {num: 7,  value: userName5,     mandatory:true,     error: Valid.userName(userName5, true)},
+        {num: 8,  value: userName6,     mandatory:true,     error: Valid.userName(userName6, true)},
+        {num: 9,  value: userName7,     mandatory:true,     error: Valid.userName(userName7, true)},
+        {num: 10, value: userName8,     mandatory:true,     error: Valid.userName(userName8, true)},
+        {num: 11, value: userName9,     mandatory:true,     error: Valid.userName(userName9, true)},
+        {num: 12, value: userName10,    mandatory:true,     error: Valid.userName(userName10, true)},
+        {num: 13, value: userName11,    mandatory:true,     error: Valid.userName(userName11, true)},
+        {num: 14, value: "null",        mandatory:false,    error: Valid.userName(null, false)},
+        {num: 15, value: "Empty",       mandatory:false,    error: Valid.userName("", false)},
+        {num: 16, value: userName1,     mandatory:false,    error: Valid.userName(userName1, false)},
+        {num: 17, value: userName2,     mandatory:false,    error: Valid.userName(userName2, false)},
+        {num: 18, value: userName3,     mandatory:false,    error: Valid.userName(userName3, false)},
+        {num: 19, value: userName4,     mandatory:false,    error: Valid.userName(userName4, false)},
+        {num: 20, value: userName5,     mandatory:false,    error: Valid.userName(userName5, false)},
+        {num: 21, value: userName6,     mandatory:false,    error: Valid.userName(userName6, false)},
+        {num: 22, value: userName7,     mandatory:false,    error: Valid.userName(userName7, false)},
+        {num: 23, value: userName8,     mandatory:false,    error: Valid.userName(userName8, false)},
+        {num: 24, value: userName9,     mandatory:false,    error: Valid.userName(userName9, false)},
+        {num: 25, value: userName10,    mandatory:false,    error: Valid.userName(userName10, false)},
+        {num: 26, value: userName11,    mandatory:false,    error: Valid.userName(userName11, false)}
+    ];
+
+};
+
+var testingPasswordValidation = function(){
+
+    var password1 = "Ahmed_Mater";
+    var password2 = "12Ahmed";
+    var password3 = "Ahmed Mater";
+    var password4 = "Ahmed-Mate$%^&*@#~r";
+    var password5 = "asdasdasdassdasdassdasdassdasdassdasdassdasdassdasdassdasdasdasdasd";
+    var password6 = "sd";
+
+    return [
+        {num: 1,  value: "null",        mandatory:true,     error: Valid.password(null, true)},
+        {num: 2,  value: "Empty",       mandatory:true,     error: Valid.password("", true)},
+        {num: 3,  value: password1,     mandatory:true,     error: Valid.password(password1, true)},
+        {num: 4,  value: password2,     mandatory:true,     error: Valid.password(password2, true)},
+        {num: 5,  value: password3,     mandatory:true,     error: Valid.password(password3, true)},
+        {num: 6,  value: password4,     mandatory:true,     error: Valid.password(password4, true)},
+        {num: 7,  value: password5,     mandatory:true,     error: Valid.password(password5, true)},
+        {num: 8,  value: password6,     mandatory:true,     error: Valid.password(password6, true)},
+        {num: 9, value: "null",         mandatory:false,    error: Valid.password(null, false)},
+        {num: 10, value: "Empty",       mandatory:false,    error: Valid.password("", false)},
+        {num: 11, value: password1,     mandatory:false,    error: Valid.password(password1, false)},
+        {num: 12, value: password2,     mandatory:false,    error: Valid.password(password2, false)},
+        {num: 13, value: password3,     mandatory:false,    error: Valid.password(password3, false)},
+        {num: 14, value: password4,     mandatory:false,    error: Valid.password(password4, false)},
+        {num: 15, value: password5,     mandatory:false,    error: Valid.password(password5, false)},
+        {num: 16, value: password6,     mandatory:false,    error: Valid.password(password6, false)}
+    ];
+
+};
+
+var testingDateValidation = function(){
+
+
+    var dateOfBirth1 = { day: null, month: null, year: null };
+    var dateOfBirth2 = { day: "", month: "", year: "" };
+    var dateOfBirth3 = { day: 32, month: null, year: null };
+    var dateOfBirth4 = { day: -1, month: null, year: null };
+    var dateOfBirth5 = { day: 11, month: null, year: null };
+    var dateOfBirth6 = { day: 2, month: null, year: null };
+    var dateOfBirth7 = { day: 02, month: "", year: null };
+
+    var dateOfBirth9 = { day: 1, month: 2, year: null };
+    var dateOfBirth10 = { day: 01, month: 02, year: null };
+    var dateOfBirth11 = { day: 1, month: 13, year: null };
+    var dateOfBirth12 = { day: 1, month: 12, year: null };
+    var dateOfBirth9 = { day: 1, month: 12, year: 1699 };
+    var dateOfBirth10 = { day: 1, month: 12, year: 2900 };
+    var dateOfBirth11 = { day: 1, month: 12, year: 1700 };
+    var dateOfBirth12 = { day: 1, month: 12, year: 2016 };
+    var dateOfBirth13 = { day: 1, month: 12, year: 2017 };
+
+    return [
+        {num: 1,  value: "null",        mandatory:true,     error: Valid.date(null, true, "Birth Day")},
+        {num: 2,  value: "Empty",       mandatory:true,     error: Valid.date("", true, "Birth Day")},
+        {num: 3,  value: dateOfBirth1,     mandatory:true,     error: Valid.date(dateOfBirth1, true, "Birth Day")},
+        {num: 4,  value: dateOfBirth2,     mandatory:true,     error: Valid.date(dateOfBirth2, true, "Birth Day")},
+        {num: 5,  value: dateOfBirth3,     mandatory:true,     error: Valid.date(dateOfBirth3, true, "Birth Day")},
+        {num: 6,  value: dateOfBirth4,     mandatory:true,     error: Valid.date(dateOfBirth4, true, "Birth Day")},
+        {num: 7,  value: dateOfBirth5,     mandatory:true,     error: Valid.date(dateOfBirth5, true, "Birth Day")},
+        {num: 8,  value: dateOfBirth6,     mandatory:true,     error: Valid.date(dateOfBirth6, true, "Birth Day")},
+        {num: 9,  value: dateOfBirth7,     mandatory:true,     error: Valid.date(dateOfBirth7, true, "Birth Day")},
+        {num: 10, value: dateOfBirth8,     mandatory:true,     error: Valid.date(dateOfBirth8, true, "Birth Day")},
+        {num: 11, value: dateOfBirth9,     mandatory:true,     error: Valid.date(dateOfBirth9, true, "Birth Day")},
+        {num: 12, value: dateOfBirth10,    mandatory:true,     error: Valid.date(dateOfBirth10, true, "Birth Day")},
+        {num: 13, value: dateOfBirth11,    mandatory:true,     error: Valid.date(dateOfBirth11, true, "Birth Day")},
+        {num: 13, value: dateOfBirth12,    mandatory:true,     error: Valid.date(dateOfBirth11, true, "Birth Day")},
+        {num: 13, value: dateOfBirth13,    mandatory:true,     error: Valid.date(dateOfBirth11, true, "Birth Day")},
+        {num: 13, value: dateOfBirth14,    mandatory:true,     error: Valid.date(dateOfBirth11, true, "Birth Day")},
+        {num: 13, value: dateOfBirth11,    mandatory:true,     error: Valid.date(dateOfBirth11, true, "Birth Day")},
+        {num: 14, value: "null",        mandatory:false,    error: Valid.date(null, false, "Birth Day")},
+        {num: 15, value: "Empty",       mandatory:false,    error: Valid.date("", false, "Birth Day")},
+        {num: 16, value: userName1,     mandatory:false,    error: Valid.date(userName1, false, "Birth Day")},
+        {num: 17, value: userName2,     mandatory:false,    error: Valid.date(userName2, false, "Birth Day")},
+        {num: 18, value: userName3,     mandatory:false,    error: Valid.date(userName3, false, "Birth Day")},
+        {num: 19, value: userName4,     mandatory:false,    error: Valid.date(userName4, false, "Birth Day")},
+        {num: 20, value: userName5,     mandatory:false,    error: Valid.date(userName5, false, "Birth Day")},
+        {num: 21, value: userName6,     mandatory:false,    error: Valid.date(userName6, false, "Birth Day")},
+        {num: 22, value: userName7,     mandatory:false,    error: Valid.date(userName7, false, "Birth Day")},
+        {num: 23, value: userName8,     mandatory:false,    error: Valid.date(userName8, false, "Birth Day")},
+        {num: 24, value: userName9,     mandatory:false,    error: Valid.date(userName9, false, "Birth Day")},
+        {num: 25, value: userName10,    mandatory:false,    error: Valid.date(userName10, false, "Birth Day")},
+        {num: 26, value: userName11,    mandatory:false,    error: Valid.date(userName11, false, "Birth Day")}
+    ];
+
+};
 module.exports = {
 
     go : function(req, res, next) {
@@ -145,61 +305,15 @@ module.exports = {
         //var result = testingPositiveNumValidation();
         //var result = testingNumberValidation();
         //var result = testingYoutubePlaylistValidation();
-        var result = testingDescriptionValidation();
+        //var result = testingDescriptionValidation();
+        var result = testingURLValidation();
+        //var result = testingUserNameValidation();
+        //var result = testingPasswordValidation();
+        //var result = testingDateValidation();
 
 
 
-        //var url1 = "https://www.youtube.com/watch?v=qj3qPrmhIXs";
-        //var url2 = "https://www.youtube.com/watch?v=IcYZOizikwA&list=RDIcYZOizikwA";
-        //var url3 = "https://www.amazon.com/Java-Complete-Reference-Herbert-Schildt/dp/0071808558";
-        //var url4 = "https://www.safaribooksonline.com/library/view/java-the-complete/9780071808552/";
-        //var url5 = "https://www.coursera.org/learn/embedded-operating-system";
-        //result.push("1: " + Valid.url(null, "URL"));
-        //result.push("2: " + Valid.url("asdasd123123", "URL"));
-        //result.push("3: " + Valid.url(url1, "URL"));
-        //result.push("4: " + Valid.url(url2, "URL"));
-        //result.push("5: " + Valid.url(url3, "URL"));
-        //result.push("6: " + Valid.url(url4, "URL"));
-        //result.push("7: " + Valid.url(url5, "URL"));
-        //result.push("13: " + Valid.url("", "URL"));
 
-        //result.push("1: " + Valid.userName(null));
-        //result.push("2: " + Valid.userName("Ahmed_Mater"));
-        //result.push("3: " + Valid.userName("12Ahmed"));
-        //result.push("4: " + Valid.userName("Ahmed Mater"));
-        //result.push("5: " + Valid.userName("Ahmed-Mater"));
-        //result.push("6: " + Valid.userName("Ahmed.Mater"));
-        //result.push("7: " + Valid.userName("Ahmed$Mater"));
-        //result.push("8: " + Valid.userName("_2Ahmed"));
-        //result.push("9: " + Valid.userName("-Ahmed1"));
-        //result.push("10: " + Valid.userName(".Ahmed12"));
-        //result.push("11: " + Valid.userName("sd"));
-        //result.push("12: " + Valid.userName("asdasdasdassdasdassdasdassdasdassdasdassdasdassdasdassdasdasdasdasd"));
-        //result.push("13: " + Valid.userName(""));
-
-        //result.push("1: " + Valid.password(null));
-        //result.push("2: " + Valid.password("Ahmed_Mater"));
-        //result.push("3: " + Valid.password("12Ahmed"));
-        //result.push("4: " + Valid.password("Ahmed Mater"));
-        //result.push("5: " + Valid.password("Ahmed-Mate$%^&*@#~r"));
-        //result.push("6: " + Valid.password("sd"));
-        //result.push("7: " + Valid.password("asdasdasdassdasdassdasdassdasdassdasdassdasdassdasdassdasdasdasdasd"));
-        //result.push("8: " + Valid.password(""));
-
-        //var dateOfBirth1 = { day: null, month: null, year: null };
-        //var dateOfBirth2 = { day: 11, month: null, year: null };
-        //var dateOfBirth3 = { day: 32, month: null, year: null };
-        //var dateOfBirth4 = { day: 31, month: null, year: null };
-        //var dateOfBirth5 = { day: 1, month: 2, year: null };
-        //var dateOfBirth6 = { day: 01, month: 02, year: null };
-        //var dateOfBirth7 = { day: 1, month: 13, year: null };
-        //var dateOfBirth8 = { day: 1, month: 12, year: null };
-        //var dateOfBirth9 = { day: 1, month: 12, year: 1699 };
-        //var dateOfBirth10 = { day: 1, month: 12, year: 2900 };
-        //var dateOfBirth11 = { day: 1, month: 12, year: 1700 };
-        //var dateOfBirth12 = { day: 1, month: 12, year: 2016 };
-        //var dateOfBirth13 = { day: 1, month: 12, year: 2017 };
-        //var dateOfBirth14 = { day: "", month: "", year: "" };
         //result.push("1: " + Valid.date(null));
         //result.push("2: " + Valid.date(dateOfBirth1));
         //result.push("3: " + Valid.date(dateOfBirth2));
