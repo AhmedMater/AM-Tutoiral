@@ -1,6 +1,7 @@
 
 var Valid = rootRequire('Validation');
 
+// Validation Test Functions
 var testingTitleValidation = function(){
     var title1 = "This is a Good Title";
     var title2 = "aaaaaaaaaaaa 0 9 4 aaaaaaaaasdasdasdasdasdasdasd asdasdasdadasdasdasdasdasdasd asdasdasdadasdasdasdasdasdasd asdasdasdadasdasdasdasdasdasd asdasdasdaaaaaaaaaaaaasdasdasdasdasdasdasdasdaaaaaaaaaaaaaThis is More than 50 Char";
@@ -23,7 +24,6 @@ var testingTitleValidation = function(){
     ];
 
 };
-
 var testingPositiveNumValidation = function(){
     var num1 = "sadasd";
     var num2 = "-1";
@@ -42,7 +42,6 @@ var testingPositiveNumValidation = function(){
         {num: 10, value: num3,   mandatory:false, error: Valid.positiveNum(num3, false, "Course Level")}
     ];
 };
-
 var testingNumberValidation = function(){
     var num1 = "sadasd";
     var num2 = "-1";
@@ -61,7 +60,6 @@ var testingNumberValidation = function(){
         {num: 10, value: num3,   mandatory:false, error: Valid.number(num3, false, "Course Type")}
     ];
 };
-
 var testingYoutubePlaylistValidation = function(){
     var youTubePlaylist1 = "https://www.youtube.com/watch?v=qj3qPrmhIXs";
     var youTubePlaylist2 = "https://www.youtube.com/watch?v=IcYZOizikwA&list=RDIcYZOizikwA";
@@ -83,7 +81,6 @@ var testingYoutubePlaylistValidation = function(){
         {num: 12, value: youTubePlaylist4, mandatory:false, error: Valid.youTubePlaylist(youTubePlaylist4, false, "Course Name")}
     ];
 };
-
 var testingDescriptionValidation = function(){
     var description1 = "youtube youtube youtubeyoutube youtube youtubeyoutube youtube youtubeyoutube youtube youtube" +
         "youtube youtube youtubeyoutube youtube youtubeyoutube youtube youtubeyoutube youtube youtubeyoutube youtube" +
@@ -137,7 +134,6 @@ var testingDescriptionValidation = function(){
         {num: 12, value: description4,   mandatory:false, error: Valid.description(description4, false, "Course Description")}
     ];
 };
-
 var testingURLValidation = function(){
     var url1 = "https://www.youtube.com/watch?v=qj3qPrmhIXs";
     var url2 = "https://www.youtube.com/watch?v=IcYZOizikwA&list=RDIcYZOizikwA";
@@ -166,7 +162,6 @@ var testingURLValidation = function(){
     ];
 
 };
-
 var testingUserNameValidation = function(){
 
     var userName1 = "Ahmed_Mater";
@@ -211,13 +206,12 @@ var testingUserNameValidation = function(){
     ];
 
 };
-
 var testingPasswordValidation = function(){
 
     var password1 = "Ahmed_Mater";
     var password2 = "12Ahmed";
     var password3 = "Ahmed Mater";
-    var password4 = "Ahmed-Mate$%^&*@#~r";
+    var password4 = "Aed-Mat/e$%^&@#~r";
     var password5 = "asdasdasdassdasdassdasdassdasdassdasdassdasdassdasdassdasdasdasdasd";
     var password6 = "sd";
 
@@ -241,9 +235,7 @@ var testingPasswordValidation = function(){
     ];
 
 };
-
 var testingDateValidation = function(){
-
 
     var dateOfBirth1 = { day: null, month: null, year: null };
     var dateOfBirth2 = { day: "", month: "", year: "" };
@@ -251,114 +243,197 @@ var testingDateValidation = function(){
     var dateOfBirth4 = { day: -1, month: null, year: null };
     var dateOfBirth5 = { day: 11, month: null, year: null };
     var dateOfBirth6 = { day: 2, month: null, year: null };
-    var dateOfBirth7 = { day: 02, month: "", year: null };
+    var dateOfBirth7 = { day: 02, month: null, year: null };
 
-    var dateOfBirth9 = { day: 1, month: 2, year: null };
-    var dateOfBirth10 = { day: 01, month: 02, year: null };
-    var dateOfBirth11 = { day: 1, month: 13, year: null };
-    var dateOfBirth12 = { day: 1, month: 12, year: null };
-    var dateOfBirth9 = { day: 1, month: 12, year: 1699 };
-    var dateOfBirth10 = { day: 1, month: 12, year: 2900 };
-    var dateOfBirth11 = { day: 1, month: 12, year: 1700 };
-    var dateOfBirth12 = { day: 1, month: 12, year: 2016 };
-    var dateOfBirth13 = { day: 1, month: 12, year: 2017 };
+    var dateOfBirth8 = { day: 11, month: null, year: null };
+    var dateOfBirth9 = { day: 11, month: "", year: null };
+    var dateOfBirth10 = { day: 11, month: -1, year: null };
+    var dateOfBirth11 = { day: 11, month: 15, year: null };
+    var dateOfBirth12 = { day: 11, month: 5, year: null };
+    var dateOfBirth13 = { day: 11, month: 05, year: null };
+
+    var dateOfBirth14 = { day: 11, month: 07, year: null };
+    var dateOfBirth15 = { day: 11, month: 12, year: "" };
+    var dateOfBirth16 = { day: 1, month: 12, year: 1699 };
+    var dateOfBirth17 = { day: 1, month: 12, year: 2900 };
+    var dateOfBirth18 = { day: 1, month: 12, year: 1700 };
+    var dateOfBirth19 = { day: 01, month: 12, year: 2016 };
+    var dateOfBirth20 = { day: 10, month: 12, year: 2017 };
+
+    var dateOfBirth21 = { day: 31, month: 12, year: 2016 };
+    var dateOfBirth22 = { day: 30, month: 2, year: 2016 };
+    var dateOfBirth23 = { day: 31, month: 11, year: 2016 };
 
     return [
-        {num: 1,  value: "null",        mandatory:true,     error: Valid.date(null, true, "Birth Day")},
-        {num: 2,  value: "Empty",       mandatory:true,     error: Valid.date("", true, "Birth Day")},
-        {num: 3,  value: dateOfBirth1,     mandatory:true,     error: Valid.date(dateOfBirth1, true, "Birth Day")},
-        {num: 4,  value: dateOfBirth2,     mandatory:true,     error: Valid.date(dateOfBirth2, true, "Birth Day")},
-        {num: 5,  value: dateOfBirth3,     mandatory:true,     error: Valid.date(dateOfBirth3, true, "Birth Day")},
-        {num: 6,  value: dateOfBirth4,     mandatory:true,     error: Valid.date(dateOfBirth4, true, "Birth Day")},
-        {num: 7,  value: dateOfBirth5,     mandatory:true,     error: Valid.date(dateOfBirth5, true, "Birth Day")},
-        {num: 8,  value: dateOfBirth6,     mandatory:true,     error: Valid.date(dateOfBirth6, true, "Birth Day")},
-        {num: 9,  value: dateOfBirth7,     mandatory:true,     error: Valid.date(dateOfBirth7, true, "Birth Day")},
-        {num: 10, value: dateOfBirth8,     mandatory:true,     error: Valid.date(dateOfBirth8, true, "Birth Day")},
-        {num: 11, value: dateOfBirth9,     mandatory:true,     error: Valid.date(dateOfBirth9, true, "Birth Day")},
-        {num: 12, value: dateOfBirth10,    mandatory:true,     error: Valid.date(dateOfBirth10, true, "Birth Day")},
-        {num: 13, value: dateOfBirth11,    mandatory:true,     error: Valid.date(dateOfBirth11, true, "Birth Day")},
-        {num: 13, value: dateOfBirth12,    mandatory:true,     error: Valid.date(dateOfBirth11, true, "Birth Day")},
-        {num: 13, value: dateOfBirth13,    mandatory:true,     error: Valid.date(dateOfBirth11, true, "Birth Day")},
-        {num: 13, value: dateOfBirth14,    mandatory:true,     error: Valid.date(dateOfBirth11, true, "Birth Day")},
-        {num: 13, value: dateOfBirth11,    mandatory:true,     error: Valid.date(dateOfBirth11, true, "Birth Day")},
-        {num: 14, value: "null",        mandatory:false,    error: Valid.date(null, false, "Birth Day")},
-        {num: 15, value: "Empty",       mandatory:false,    error: Valid.date("", false, "Birth Day")},
-        {num: 16, value: userName1,     mandatory:false,    error: Valid.date(userName1, false, "Birth Day")},
-        {num: 17, value: userName2,     mandatory:false,    error: Valid.date(userName2, false, "Birth Day")},
-        {num: 18, value: userName3,     mandatory:false,    error: Valid.date(userName3, false, "Birth Day")},
-        {num: 19, value: userName4,     mandatory:false,    error: Valid.date(userName4, false, "Birth Day")},
-        {num: 20, value: userName5,     mandatory:false,    error: Valid.date(userName5, false, "Birth Day")},
-        {num: 21, value: userName6,     mandatory:false,    error: Valid.date(userName6, false, "Birth Day")},
-        {num: 22, value: userName7,     mandatory:false,    error: Valid.date(userName7, false, "Birth Day")},
-        {num: 23, value: userName8,     mandatory:false,    error: Valid.date(userName8, false, "Birth Day")},
-        {num: 24, value: userName9,     mandatory:false,    error: Valid.date(userName9, false, "Birth Day")},
-        {num: 25, value: userName10,    mandatory:false,    error: Valid.date(userName10, false, "Birth Day")},
-        {num: 26, value: userName11,    mandatory:false,    error: Valid.date(userName11, false, "Birth Day")}
+        {num: 1,  value: "null",            mandatory:true,     error: Valid.date(null, true, "Birth Day")},
+        {num: 2,  value: "Empty",           mandatory:true,     error: Valid.date("", true, "Birth Day")},
+        {num: 3,  value: dateOfBirth1,      mandatory:true,     error: Valid.date(dateOfBirth1, true, "Birth Day")},
+        {num: 4,  value: dateOfBirth2,      mandatory:true,     error: Valid.date(dateOfBirth2, true, "Birth Day")},
+        {num: 5,  value: dateOfBirth3,      mandatory:true,     error: Valid.date(dateOfBirth3, true, "Birth Day")},
+        {num: 6,  value: dateOfBirth4,      mandatory:true,     error: Valid.date(dateOfBirth4, true, "Birth Day")},
+        {num: 7,  value: dateOfBirth5,      mandatory:true,     error: Valid.date(dateOfBirth5, true, "Birth Day")},
+        {num: 8,  value: dateOfBirth6,      mandatory:true,     error: Valid.date(dateOfBirth6, true, "Birth Day")},
+        {num: 9,  value: dateOfBirth7,      mandatory:true,     error: Valid.date(dateOfBirth7, true, "Birth Day")},
+        {num: 10, value: dateOfBirth8,      mandatory:true,     error: Valid.date(dateOfBirth8, true, "Birth Day")},
+        {num: 11, value: dateOfBirth9,      mandatory:true,     error: Valid.date(dateOfBirth9, true, "Birth Day")},
+        {num: 12, value: dateOfBirth10,     mandatory:true,     error: Valid.date(dateOfBirth10, true, "Birth Day")},
+        {num: 13, value: dateOfBirth11,     mandatory:true,     error: Valid.date(dateOfBirth11, true, "Birth Day")},
+        {num: 14, value: dateOfBirth12,     mandatory:true,     error: Valid.date(dateOfBirth12, true, "Birth Day")},
+        {num: 15, value: dateOfBirth13,     mandatory:true,     error: Valid.date(dateOfBirth13, true, "Birth Day")},
+        {num: 16, value: dateOfBirth14,     mandatory:true,     error: Valid.date(dateOfBirth14, true, "Birth Day")},
+        {num: 17,  value: dateOfBirth15,    mandatory:true,     error: Valid.date(dateOfBirth15, true, "Birth Day")},
+        {num: 18,  value: dateOfBirth16,    mandatory:true,     error: Valid.date(dateOfBirth16, true, "Birth Day", false)},
+        {num: 19,  value: dateOfBirth17,    mandatory:true,     error: Valid.date(dateOfBirth17, true, "Birth Day", false)},
+        {num: 20, value: dateOfBirth18,     mandatory:true,     error: Valid.date(dateOfBirth18, true, "Birth Day", false)},
+        {num: 21, value: dateOfBirth19,     mandatory:true,     error: Valid.date(dateOfBirth19, true, "Birth Day", false)},
+        {num: 22,  value: dateOfBirth20,    mandatory:true,     error: Valid.date(dateOfBirth20, true, "Birth Day", true)},
+        {num: 23,  value: dateOfBirth21,    mandatory:true,     error: Valid.date(dateOfBirth21, true, "Birth Day", false)},
+        {num: 24,  value: dateOfBirth22,    mandatory:true,     error: Valid.date(dateOfBirth22, true, "Birth Day", false)},
+        {num: 25,  value: dateOfBirth23,    mandatory:true,     error: Valid.date(dateOfBirth23, true, "Birth Day", false)},
+        {num: 26, value: "null",            mandatory:false,    error: Valid.date(null, false, "Birth Day")},
+        {num: 27, value: "Empty",           mandatory:false,    error: Valid.date("", false, "Birth Day")},
+        {num: 28, value: dateOfBirth1,      mandatory:true,     error: Valid.date(dateOfBirth1, false, "Birth Day")},
+        {num: 29, value: dateOfBirth2,      mandatory:true,     error: Valid.date(dateOfBirth2, false, "Birth Day")},
+        {num: 30, value: dateOfBirth3,      mandatory:true,     error: Valid.date(dateOfBirth3, false, "Birth Day")},
+        {num: 31, value: dateOfBirth4,      mandatory:true,     error: Valid.date(dateOfBirth4, false, "Birth Day")},
+        {num: 32, value: dateOfBirth5,      mandatory:true,     error: Valid.date(dateOfBirth5, false, "Birth Day")},
+        {num: 33, value: dateOfBirth6,      mandatory:true,     error: Valid.date(dateOfBirth6, false, "Birth Day")},
+        {num: 34, value: dateOfBirth7,      mandatory:true,     error: Valid.date(dateOfBirth7, false, "Birth Day")},
+        {num: 35, value: dateOfBirth8,      mandatory:true,     error: Valid.date(dateOfBirth8, false, "Birth Day")},
+        {num: 36, value: dateOfBirth9,      mandatory:true,     error: Valid.date(dateOfBirth9, false, "Birth Day")},
+        {num: 37, value: dateOfBirth10,     mandatory:true,     error: Valid.date(dateOfBirth10, false, "Birth Day")},
+        {num: 38, value: dateOfBirth11,     mandatory:true,     error: Valid.date(dateOfBirth11, false, "Birth Day")},
+        {num: 39, value: dateOfBirth12,     mandatory:true,     error: Valid.date(dateOfBirth11, false, "Birth Day")},
+        {num: 40, value: dateOfBirth13,     mandatory:true,     error: Valid.date(dateOfBirth11, false, "Birth Day")},
+        {num: 41, value: dateOfBirth14,     mandatory:true,     error: Valid.date(dateOfBirth11, false, "Birth Day")},
+        {num: 42, value: dateOfBirth15,     mandatory:true,     error: Valid.date(dateOfBirth15, false, "Birth Day")},
+        {num: 43, value: dateOfBirth16,     mandatory:true,     error: Valid.date(dateOfBirth16, false, "Birth Day", false)},
+        {num: 44, value: dateOfBirth17,     mandatory:true,     error: Valid.date(dateOfBirth17, false, "Birth Day", false)},
+        {num: 45, value: dateOfBirth18,     mandatory:true,     error: Valid.date(dateOfBirth18, false, "Birth Day", false)},
+        {num: 46, value: dateOfBirth19,     mandatory:true,     error: Valid.date(dateOfBirth19, false, "Birth Day", false)},
+        {num: 47, value: dateOfBirth20,     mandatory:true,     error: Valid.date(dateOfBirth20, false, "Birth Day", true)},
+        {num: 48, value: dateOfBirth21,     mandatory:true,     error: Valid.date(dateOfBirth21, false, "Birth Day", false)},
+        {num: 49, value: dateOfBirth22,     mandatory:true,     error: Valid.date(dateOfBirth22, false, "Birth Day", false)},
+        {num: 50, value: dateOfBirth23,     mandatory:true,     error: Valid.date(dateOfBirth23, false, "Birth Day", false)}
     ];
 
 };
+var testingEmailValidation = function(){
+    var email1 = "ahmedmotair@gmail.com";
+    var email2 = "ahmed.motair@gizasystems.com";
+    var email3 = "KN-NMS@gmail.com";
+    var email4 = "Nyongesa@ca.go.ke";
+    var email5 = "asdasdasdasdasdasdasdasd";
+
+    return [
+        {num: 1, value: "null", mandatory:true, error: Valid.email(null, true)},
+        {num: 2, value: "Empty", mandatory:true, error: Valid.email("", true)},
+        {num: 3, value: email1, mandatory:true, error: Valid.email(email1, true)},
+        {num: 4, value: email2, mandatory:true, error: Valid.email(email2, true)},
+        {num: 5, value: email3, mandatory:true, error: Valid.email(email3, true)},
+        {num: 6, value: email4, mandatory:true, error: Valid.email(email4, true)},
+        {num: 7, value: email5, mandatory:true, error: Valid.email(email5, true)},
+        {num: 8, value: "null", mandatory:false, error: Valid.email(null, false)},
+        {num: 9, value: "Empty", mandatory:false, error: Valid.email("", false)},
+        {num: 10, value: email1, mandatory:false, error: Valid.email(email1, false)},
+        {num: 11, value: email2, mandatory:false, error: Valid.email(email2, false)},
+        {num: 12, value: email3, mandatory:false, error: Valid.email(email3, false)},
+        {num: 13, value: email4, mandatory:false, error: Valid.email(email4, false)},
+        {num: 14, value: email5, mandatory:false, error: Valid.email(email5, false)}
+    ];
+
+};
+var testingNameValidation = function(){
+    var name1 = "Ahmed Ali";
+    var name2 = "as";
+    var name3 = "Aasdasdasdasdasdasdasdasdasdasdasdasded Ali";
+    var name4 = "Ahm%@#ed Ali";
+
+    return [
+        {num: 1, value: "null", mandatory:true, error: Valid.name(null, true, "First Name")},
+        {num: 2, value: "Empty", mandatory:true, error: Valid.name("", true, "First Name")},
+        {num: 3, value: name1, mandatory:true, error: Valid.name(name1, true, "First Name")},
+        {num: 4, value: name2, mandatory:true, error: Valid.name(name2, true, "First Name")},
+        {num: 5, value: name3, mandatory:true, error: Valid.name(name3, true, "First Name")},
+        {num: 6, value: name4, mandatory:true, error: Valid.name(name4, true, "First Name")},
+        {num: 7, value: "null", mandatory:false, error: Valid.name(null, false, "First Name")},
+        {num: 8, value: "Empty", mandatory:false, error: Valid.name("", false, "First Name")},
+        {num: 9, value: name1, mandatory:false, error: Valid.name(name1, false, "First Name")},
+        {num: 10, value: name2, mandatory:false, error: Valid.name(name2, false, "First Name")},
+        {num: 11, value: name3, mandatory:false, error: Valid.name(name3, false, "First Name")},
+        {num: 12, value: name4, mandatory:false, error: Valid.name(name4, false, "First Name")}
+    ];
+
+};
+var testingGenderValidation = function(){
+    var gender1 = "sadasd";
+    var gender2 = "F";
+    var gender3 = "M";
+
+    return [
+        {num: 1, value: "null",  mandatory:true,  error: Valid.gender(null, true)},
+        {num: 2, value: "Empty", mandatory:true,  error: Valid.gender("", true)},
+        {num: 3, value: gender1,    mandatory:true,  error: Valid.gender(gender1, true)},
+        {num: 4, value: gender2,    mandatory:true,  error: Valid.gender(gender2, true)},
+        {num: 5, value: gender3,    mandatory:true,  error: Valid.gender(gender3, true)},
+        {num: 6, value: "null",  mandatory:false, error: Valid.gender(null, false)},
+        {num: 7, value: "Empty", mandatory:false, error: Valid.gender("", false)},
+        {num: 8, value: gender1,    mandatory:false, error: Valid.gender(gender1, false)},
+        {num: 9, value: gender2,    mandatory:false, error: Valid.gender(gender2, false)},
+        {num: 10, value: gender3,   mandatory:false, error: Valid.gender(gender3, false)}
+    ];
+};
+var testingYouTubeValidation = function(){
+    var youTube1 = "sadasd";
+    var youTube2 = "https://www.youtube.com/watch?v=dfQxpz8af9I";
+    var youTube3 = "https://www.amazon.com/Java-Complete-Reference-Herbert-Schildt/dp/0071808558";
+
+    return [
+        {num: 1, value: "null",      mandatory:true,  error: Valid.youTube(null, true, "Tutorial Video")},
+        {num: 2, value: "Empty",     mandatory:true,  error: Valid.youTube("", true, "Tutorial Video")},
+        {num: 3, value: youTube1,    mandatory:true,  error: Valid.youTube(youTube1, true, "Tutorial Video")},
+        {num: 4, value: youTube2,    mandatory:true,  error: Valid.youTube(youTube2, true, "Tutorial Video")},
+        {num: 5, value: youTube3,    mandatory:true,  error: Valid.youTube(youTube3, true, "Tutorial Video")},
+        {num: 6, value: "null",      mandatory:false, error: Valid.youTube(null, false, "Tutorial Video")},
+        {num: 7, value: "Empty",     mandatory:false, error: Valid.youTube("", false, "Tutorial Video")},
+        {num: 8, value: youTube1,    mandatory:false, error: Valid.youTube(youTube1, false, "Tutorial Video")},
+        {num: 9, value: youTube2,    mandatory:false, error: Valid.youTube(youTube2, false, "Tutorial Video")},
+        {num: 10, value: youTube3,   mandatory:false, error: Valid.youTube(youTube3, false, "Tutorial Video")}
+    ];
+};
+
+var testingValidations = function(res){
+    var result = [];
+
+    //result = testingTitleValidation();
+    //result = testingPositiveNumValidation();
+    //result = testingNumberValidation();
+    //result = testingYoutubePlaylistValidation();
+    //result = testingDescriptionValidation();
+    //result = testingURLValidation();
+    //result = testingUserNameValidation();
+    //result = testingPasswordValidation();
+    //result = testingDateValidation();
+    //result = testingEmailValidation();
+    //result = testingNameValidation();
+    //result = testingGenderValidation();
+    //result = testingYouTubeValidation();
+
+    res.render('test', {
+        title: 'Test',
+        results: result
+    });
+};
+
 module.exports = {
 
     go : function(req, res, next) {
 
-        //var result = testingTitleValidation();
-        //var result = testingPositiveNumValidation();
-        //var result = testingNumberValidation();
-        //var result = testingYoutubePlaylistValidation();
-        //var result = testingDescriptionValidation();
-        var result = testingURLValidation();
-        //var result = testingUserNameValidation();
-        //var result = testingPasswordValidation();
-        //var result = testingDateValidation();
+        testingValidations(res);
 
-
-
-
-        //result.push("1: " + Valid.date(null));
-        //result.push("2: " + Valid.date(dateOfBirth1));
-        //result.push("3: " + Valid.date(dateOfBirth2));
-        //result.push("4: " + Valid.date(dateOfBirth3));
-        //result.push("5: " + Valid.date(dateOfBirth4));
-        //result.push("6: " + Valid.date(dateOfBirth5));
-        //result.push("7: " + Valid.date(dateOfBirth6));
-        //result.push("8: " + Valid.date(dateOfBirth7));
-        //result.push("9: " + Valid.date(dateOfBirth8));
-        //result.push("10: " + Valid.date(dateOfBirth9));
-        //result.push("11: " + Valid.date(dateOfBirth10));
-        //result.push("12: " + Valid.date(dateOfBirth11));
-        //result.push("13: " + Valid.date(dateOfBirth12));
-        //result.push("14: " + Valid.date(dateOfBirth13));
-        //result.push("15: " + Valid.date(dateOfBirth13, true, "Allocation Date"));
-        //result.push("16: " + Valid.date(dateOfBirth13, false, "Birth Date"));
-        //result.push("17: " + Valid.date(dateOfBirth14, false, "Birth Date"));
-
-        //var email1 = "ahmedmotair@gmail.com";
-        //var email2 = "ahmed.motair@gizasystems.com";
-        //var email3 = "KN-NMS@gmail.com";
-        //var email4 = "Nyongesa@ca.go.ke";
-        //result.push("1: " + Valid.email(null));
-        //result.push("2: " + Valid.email(email1));
-        //result.push("3: " + Valid.email(email2));
-        //result.push("4: " + Valid.email(email3));
-        //result.push("5: " + Valid.email(email4));
-        //result.push("6: " + Valid.email(""));
-
-        //result.push("1: " + Valid.name(null, "First Name"));
-        //result.push("2: " + Valid.name("Ahmed Ali", "First Name"));
-        //result.push("3: " + Valid.name("as", "First Name"));
-        //result.push("4: " + Valid.name("Aasdasdasdasdasdasdasdasdasdasdasdasded Ali", "First Name"));
-        //result.push("2: " + Valid.name("Ahm%@#ed Ali", "First Name"));
-        //result.push("5: " + Valid.name(""));
-
-        //result.push("1: " + Valid.gender(null));
-        //result.push("2: " + Valid.gender(""));
-        //result.push("3: " + Valid.gender("Aasdasdasdasdasdasdasdasdasdasdasdasded Ali"));
-        //result.push("4: " + Valid.gender("F"));
-        //result.push("5: " + Valid.gender("M"));
-
-        res.render('test', {
-            title: 'Test',
-            res: result
-        });
+        //res.render('test', {
+        //    title: 'Test',
+        //    res: result
+        //});
     }
 };
