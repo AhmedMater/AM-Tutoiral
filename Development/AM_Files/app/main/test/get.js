@@ -468,7 +468,7 @@ module.exports = {
             UserRepository.selectAllUsers(RepositoryCallback);
         };
         var deleteUser = function(RepositoryCallback){
-            UserRepository.deleteUserByID(14, RepositoryCallback);
+            UserRepository.deleteUserByID(20, RepositoryCallback);
         };
         var updateUser = function(RepositoryCallback){
             var newUserData = {
@@ -498,7 +498,7 @@ module.exports = {
                 if(err != null)
                     res.send(err.message);
                 else
-                    res.send(result);
+                    res.send('<h2>' + result + '</h2>');
             }
         );
     }

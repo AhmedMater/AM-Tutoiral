@@ -3,10 +3,12 @@
  */
 
 var DB = rootRequire('AM-Database');
+var async = require('async');
 
 var SystemParam = rootRequire('SystemParameters');
 var ErrMsg = rootRequire('ErrorMessages');
 var Logger = rootRequire('Logger');
+var Generic = rootRequire('GenericRepository');
 
 var USER = "User";
 var USERS = "Users";
@@ -26,7 +28,8 @@ var exports = module.exports = {};
 exports.insertUser = function(userData, RepositoryCallback) {
     var fnName = "insertUser";
 
-    DB.query('INSERT INTO users SET ?', {
+    var query = 'INSERT INTO users SET ?';
+    var recordData = {
         user_name: userData.userName,
         password: userData.password,
         email: userData.email,
@@ -39,26 +42,20 @@ exports.insertUser = function(userData, RepositoryCallback) {
         college: userData.college,
         job: userData.job,
         country: userData.country,
-        date_of_birth: userData.dateOfBirth.year + '-' + userData.dateOfBirth.month + '-' + userData.dateOfBirth.day
-    }, function (err, rows, fields) {
-        // in case of an Error
-        if (err != null) {
-            Logger.error(REPOSITORY, fnName, err.message);
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), -1);
-        }
+        date_of_birth: Generic.createSQLDate(userData.dateOfBirth) //userData.dateOfBirth.year + '-' + userData.dateOfBirth.month + '-' + userData.dateOfBirth.day
+    };
 
-        // in case of inserting one record
-        else if(rows.affectedRows == 1){
-            Logger.debug(REPOSITORY, fnName, ErrMsg.IS_INSERTED(USER));
-            return RepositoryCallback(err, rows.insertId);
+    async.waterfall([
+        function(GenericCallback){
+            Generic.insertRecord(query, recordData, REPOSITORY, fnName, USER, GenericCallback);
+        }],
+        function(err, userID) {
+            if(err != null)
+                return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+            else
+                return RepositoryCallback(null, userID);
         }
-
-        // in case of inserting more than one record
-        else{
-            Logger.error(REPOSITORY, fnName, ErrMsg.NOT_INSERTED(USER));
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_INSERTED(USER)), null);
-        }
-    });
+    );
 };
 
 /**
@@ -264,7 +261,7 @@ exports.selectAllUsers = function(RepositoryCallback){
  * It's a Repository function responsible for deleting User record from the Database
  * @param userID
  * @param RepositoryCallback
- * return Boolean - true if Deleting Successfully Done <br/>
+ * @return Boolean - true if Deleting Successfully Done <br/>
  *                  false if Deleting failed
  */
 exports.deleteUserByID = function(userID, RepositoryCallback){
@@ -272,52 +269,17 @@ exports.deleteUserByID = function(userID, RepositoryCallback){
 
     var query = "DELETE FROM users WHERE id = " + DB.escape(userID);
 
-    DB.beginTransaction(function(transactionError) {
-        // in case of Transaction Error
-        if (transactionError) {
-            Logger.error(REPOSITORY, fnName, transactionError.message);
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, transactionError.message), false);
+    async.waterfall([
+        function(GenericCallback){
+            Generic.deleteRecord(query, REPOSITORY, fnName, USER, GenericCallback);
+        }],
+        function(err, userID) {
+            if(err != null)
+                return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+            else
+                return RepositoryCallback(null, userID);
         }
-
-        DB.query(query, function (queryError, rows, fields) {
-
-            // in case of Query Error
-            if (queryError != null) {
-                Logger.error(REPOSITORY, fnName, queryError.message);
-                return RepositoryCallback(ErrMsg.createError(DB_ERROR, queryError.message), false);
-            }
-
-            // in case of only one record to be deleted
-            else if (rows.affectedRows == 1) {
-                DB.commit(function (commitError) {
-                    if (commitError) {
-                        return DB.rollback(function () {
-                            Logger.error(REPOSITORY, fnName, commitError.message);
-                            Logger.debug(REPOSITORY, fnName, ErrMsg.TRANS_ROLLBACK);
-                            return RepositoryCallback(ErrMsg.createError(DB_ERROR, commitError.message), false);
-                        });
-                    }
-                    Logger.debug(REPOSITORY, fnName, ErrMsg.IS_DELETED(USER));
-                    return RepositoryCallback(commitError, true);
-                });
-            }
-
-            // in case of no records to be deleted
-            else if (rows.affectedRows == 0) {
-                Logger.debug(REPOSITORY, fnName, ErrMsg.DELETE_NOT_FOUND(USER));
-                return RepositoryCallback(queryError, false);
-            }
-
-            // in case of more than one record will be deleted
-            else if (rows.affectedRows > 1) {
-                return DB.rollback(function () {
-                    Logger.error(REPOSITORY, fnName, ErrMsg.MANY_DELETED(USER));
-                    Logger.debug(REPOSITORY, fnName, ErrMsg.TRANS_ROLLBACK);
-                    return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_DELETED(USER)), false);
-                });
-            }
-        });
-    });
+    );
 };
 
 /**

@@ -77,10 +77,10 @@ module.exports = {
 
     ERROR_MSG_GENDER : "It should be M (for Male) or F (for Female) only",
 
-    createError: function(name, message){
+    createError: function(type, message){
         var err = new Error(message);
         err.status = 400;
-        err.name = name;
+        err.type = type;
         return err;
     }
 

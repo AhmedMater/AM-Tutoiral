@@ -46,6 +46,7 @@ var exports = module.exports = {
         "test_get": "main/test/get",
         "index-routes": "index-routes",
 
+        "GenericRepository": "api/repository/GenericRepository",
         "UserRepository": "api/repository/UserRepository",
         "LookupRepository": "api/repository/LookupRepository",
         "CourseRepository": "api/repository/CourseRepository",

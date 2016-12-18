@@ -19,7 +19,4 @@ connection.connect(function(err) {
         console.log('Connected to Database Successfully.\n');
     }
 });
-module.exports.createSQLDate = function(dateObj){
-    return dateObj.year + "-" + dateObj.month + "-" + dateObj.day;
-};
 module.exports = connection;
