@@ -134,3 +134,36 @@ exports.updateRecord = function(query, conditions, repositoryName, fnName, recor
         });
     });
 };
+
+exports.isRecordFound = function(query, repositoryName, fnName, recordName, GenericCallback){
+    DB.query(query, function (err, rows, fields) {
+        if (err != null) {
+            Logger.error(repositoryName, fnName, err.message);
+            return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+        }else if(rows.length == 0) {
+            Logger.debug(repositoryName, fnName, ErrMsg.NOT_FOUND(recordName));
+            return GenericCallback(null, false);
+        }else{
+            Logger.debug(repositoryName, fnName, ErrMsg.IS_FOUND(recordName));
+            return GenericCallback(null, true);
+        }
+    });
+};
+
+exports.selectValue = function(query, repositoryName, fnName, recordName, GenericCallback){
+    DB.query(query, function (err, rows, fields) {
+        if (err != null) {
+            Logger.error(repositoryName, fnName, err.message);
+            return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+        }else if(rows.length == 1) {
+            Logger.debug(repositoryName, fnName, ErrMsg.IS_SELECTED(recordName));
+            return GenericCallback(err, (rows[0][0]));
+        }else if(rows.length > 1){
+            Logger.error(repositoryName, fnName, ErrMsg.MANY_FOUND(recordName));
+            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_FOUND(recordName)), null);
+        }else if(rows.length == 0) {
+            Logger.error(repositoryName, fnName, ErrMsg.NOT_FOUND(recordName));
+            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_FOUND(recordName)), null);
+        }
+    });
+};

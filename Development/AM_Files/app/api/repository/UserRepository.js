@@ -313,10 +313,7 @@ exports.updateUserByID = function(userID, newUserData, RepositoryCallback){
 
     var query = "UPDATE users SET ? WHERE id = " + DB.escape(userID);
 
-    async.waterfall([
-            function(GenericCallback){
-                Generic.updateRecord(query, conditions, REPOSITORY, fnName, USER, GenericCallback);
-            }],
+    async.waterfall([function(GenericCallback){Generic.updateRecord(query, conditions, REPOSITORY, fnName, USER, GenericCallback);}],
         function(err, userID) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -324,7 +321,6 @@ exports.updateUserByID = function(userID, newUserData, RepositoryCallback){
                 return RepositoryCallback(null, userID);
         }
     );
-
 };
 
 /**
@@ -344,19 +340,27 @@ exports.isUserFound = function(userName, email, RepositoryCallback){
             "user_name = " + DB.escape(userName) + " OR " +
             "email = " + DB.escape(email) + ";";
 
-    DB.query(query, function (err, rows, fields) {
-
-        if (err != null) {
-            Logger.error(REPOSITORY, fnName, err.message);
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
-        }else if(rows.length == 0) {
-            Logger.debug(REPOSITORY, fnName, ErrMsg.NOT_FOUND(USER));
-            return RepositoryCallback(err, false);
-        }else{
-            Logger.debug(REPOSITORY, fnName, ErrMsg.IS_FOUND(USER));
-            return RepositoryCallback(err, true);
+    async.waterfall([function(GenericCallback){Generic.isRecordFound(query, REPOSITORY, fnName, USER, GenericCallback);}],
+        function(err, userID) {
+            if(err != null)
+                return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+            else
+                return RepositoryCallback(null, userID);
         }
-    });
+    );
+    //DB.query(query, function (err, rows, fields) {
+    //
+    //    if (err != null) {
+    //        Logger.error(REPOSITORY, fnName, err.message);
+    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+    //    }else if(rows.length == 0) {
+    //        Logger.debug(REPOSITORY, fnName, ErrMsg.NOT_FOUND(USER));
+    //        return RepositoryCallback(err, false);
+    //    }else{
+    //        Logger.debug(REPOSITORY, fnName, ErrMsg.IS_FOUND(USER));
+    //        return RepositoryCallback(err, true);
+    //    }
+    //});
 };
 
 /**
@@ -372,7 +376,6 @@ exports.isUserActive = function(userID, RepositoryCallback){
     var query = "SELECT active FROM users WHERE id = " + DB.escape(userID);
 
     DB.query(query, function (err, rows, fields) {
-
         if (err != null) {
             Logger.error(REPOSITORY, fnName, err.message);
             return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -410,52 +413,61 @@ exports.changePassword = function(userID, userName, oldPassword, newPassword, Re
         "userName = " + DB.escape(userName) + " AND " +
         "oldPassword = " + DB.escape(oldPassword);
 
-    DB.beginTransaction(function (transactionError) {
-        // in case of Transaction Error
-        if (transactionError) {
-            Logger.error(REPOSITORY, fnName, transactionError.message);
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, transactionError.message), false);
+    async.waterfall([function(GenericCallback){Generic.updateRecord(query, conditions, REPOSITORY, fnName, USER, GenericCallback);}],
+        function(err, userID) {
+            if(err != null)
+                return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+            else
+                return RepositoryCallback(null, userID);
         }
+    );
 
-        DB.query(query, function (queryError, rows, fields) {
-
-            // in case of Query Error
-            if (queryError != null) {
-                Logger.error(REPOSITORY, fnName, queryError.message);
-                return RepositoryCallback(ErrMsg.createError(DB_ERROR, queryError.message), false);
-            }
-
-            // in case of only one record to be updated
-            else if (rows.affectedRows == 1) {
-                DB.commit(function (commitError) {
-                    if (commitError) {
-                        return DB.rollback(function () {
-                            Logger.error(REPOSITORY, fnName, commitError.message);
-                            Logger.debug(REPOSITORY, fnName, ErrMsg.TRANS_ROLLBACK);
-                            return RepositoryCallback(ErrMsg.createError(DB_ERROR, commitError.message), false);
-                        });
-                    }
-                    Logger.debug(REPOSITORY, fnName, ErrMsg.IS_UPDATED(USER));
-                    return RepositoryCallback(commitError, true);
-                });
-            }
-
-            // in case of no records to be updated
-            else if (rows.affectedRows == 0) {
-                Logger.debug(REPOSITORY, fnName, ErrMsg.UPDATE_NOT_FOUND(USER));
-                return RepositoryCallback(queryError, false);
-            }
-
-            // in case of more than one record will be updated
-            else if (rows.affectedRows > 1) {
-                return DB.rollback(function () {
-                    Logger.error(REPOSITORY, fnName, ErrMsg.MANY_UPDATED(USER));
-                    Logger.debug(REPOSITORY, fnName, ErrMsg.TRANS_ROLLBACK);
-                    return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_UPDATED(USER)), false);
-                });
-            }
-        });
-    });
+    //DB.beginTransaction(function (transactionError) {
+    //    // in case of Transaction Error
+    //    if (transactionError) {
+    //        Logger.error(REPOSITORY, fnName, transactionError.message);
+    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, transactionError.message), false);
+    //    }
+    //
+    //    DB.query(query, function (queryError, rows, fields) {
+    //
+    //        // in case of Query Error
+    //        if (queryError != null) {
+    //            Logger.error(REPOSITORY, fnName, queryError.message);
+    //            return RepositoryCallback(ErrMsg.createError(DB_ERROR, queryError.message), false);
+    //        }
+    //
+    //        // in case of only one record to be updated
+    //        else if (rows.affectedRows == 1) {
+    //            DB.commit(function (commitError) {
+    //                if (commitError) {
+    //                    return DB.rollback(function () {
+    //                        Logger.error(REPOSITORY, fnName, commitError.message);
+    //                        Logger.debug(REPOSITORY, fnName, ErrMsg.TRANS_ROLLBACK);
+    //                        return RepositoryCallback(ErrMsg.createError(DB_ERROR, commitError.message), false);
+    //                    });
+    //                }
+    //                Logger.debug(REPOSITORY, fnName, ErrMsg.IS_UPDATED(USER));
+    //                return RepositoryCallback(commitError, true);
+    //            });
+    //        }
+    //
+    //        // in case of no records to be updated
+    //        else if (rows.affectedRows == 0) {
+    //            Logger.debug(REPOSITORY, fnName, ErrMsg.UPDATE_NOT_FOUND(USER));
+    //            return RepositoryCallback(queryError, false);
+    //        }
+    //
+    //        // in case of more than one record will be updated
+    //        else if (rows.affectedRows > 1) {
+    //            return DB.rollback(function () {
+    //                Logger.error(REPOSITORY, fnName, ErrMsg.MANY_UPDATED(USER));
+    //                Logger.debug(REPOSITORY, fnName, ErrMsg.TRANS_ROLLBACK);
+    //                return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_UPDATED(USER)), false);
+    //            });
+    //        }
+    //    });
+    //});
 };
 
 
