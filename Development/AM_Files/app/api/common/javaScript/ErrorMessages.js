@@ -4,24 +4,47 @@
 
 module.exports = {
 
-    MANDATORY_NULL_FIELD: function(fieldName){return "Error: Mandatory Field " + fieldName + " = null";},
-    EMPTY_FIELD: function(fieldName){return "Error: " + fieldName + " has no value";},
-    INVALID_FIELD: function(fieldName, msg){return "Error: Invalid input - " + fieldName + (msg ? " - " + msg : "");},
-    LONG_LENGTH_FIELD: function(fieldName, msg){ return "Error: " + fieldName + " is too long" + (msg ? " - " + msg : "");},
-    SHORT_LENGTH_FIELD: function(fieldName, msg){return "Error: " + fieldName + " is too short" + (msg ? " - " + msg : "");},
-    VALUE_ALREADY_EXIST: function(fieldName){return "Error: " + fieldName + " already exists ";},
-    DATE_IN_FUTURE: function(fieldName){return "Error: " + fieldName + " can't be in future ";},
-    PASSWORD_NOT_MATCH: function(password1, password2){return "Error: " + password1 + " doesn't match " + password2;},
+    MANDATORY_NULL_FIELD: function(fieldName){return "Mandatory Field " + "(" + fieldName + ") = null";},
+    EMPTY_FIELD: function(fieldName){return "(" + fieldName + ") has no value";},
+    INVALID_FIELD: function(fieldName, msg){return "Invalid input - (" + fieldName + (msg ? ") - " + msg : ")");},
+    LONG_LENGTH_FIELD: function(fieldName, msg){ return "(" + fieldName + ") is too long" + (msg ? " - " + msg : "");},
+    SHORT_LENGTH_FIELD: function(fieldName, msg){return "(" + fieldName + ") is too short" + (msg ? " - " + msg : "");},
+    VALUE_ALREADY_EXIST: function(fieldName){return "(" + fieldName + ") already exists ";},
+    DATE_IN_FUTURE: function(fieldName){return "(" + fieldName + ") can't be in future ";},
+    PASSWORD_NOT_MATCH: function(password1, password2){return "(" + password1 + ") doesn't match (" + password2 + ")";},
     //PASSWORD_EQ_USERNAME: "Error: Password can't be equal to Username",
-    NULL_FIELD: function(fieldName){return "Error: " + fieldName + " = null";},
+    NULL_FIELD: function(fieldName){return "(" + fieldName + ") = null";},
 
     INFO_0: "Logger File Opened Successfully",
-    info_1_Found: function(value){ return "Info 1: " + value + " is Successfully retrieved From Database";},
-    info_2_NotFound: function(value){ return "Info 2: " + value + " isn't found in the Database";},
-    info_3_SuccessfullyInserted: function(value){ return "Info 3: " + value + " is successfully inserted in the Database";},
-    info_4_AllFound: function(value){ return "Info 4: All " + value + " are Successfully retrieved From Database";},
-    info_5_AllNotFound: function(value){ return "Info 5: No " + value + " found in the Database";},
+    IS_SELECTED: function(value){ return "(" + value + ") is selected successfully from Database";},
+    IS_INSERTED: function(value){ return "(" + value + ") is inserted successfully in Database";},
+    IS_DELETED:  function(value){ return "(" + value + ") is deleted successfully from Database";},
+    IS_UPDATED:  function(value){ return "(" + value + ") is updated successfully in Database";},
+    IS_FOUND:    function(value){ return "(" + value + ") is found in Database";},
 
+    NOT_SELECTED: function(value){ return "(" + value + ") isn't selected from Database";},
+    NOT_INSERTED: function(value){ return "(" + value + ") isn't inserted in Database";},
+    NOT_DELETED:  function(value){ return "(" + value + ") isn't deleted from Database";},
+    NOT_UPDATED:  function(value){ return "(" + value + ") isn't updated in Database";},
+    NOT_FOUND:    function(value){ return "(" + value + ") isn't found in Database";},
+
+    DELETE_NOT_FOUND: function(value){ return "(" + value + ") isn't found in Database to be deleted";},
+    UPDATE_NOT_FOUND: function(value){ return "(" + value + ") isn't found in Database to be updated";},
+
+    ALL_NOT_SELECTED: function(value){ return "(" + value + ") aren't selected from Database";},
+    ALL_NOT_INSERTED: function(value){ return "(" + value + ") aren't inserted in Database";},
+
+    ALL_SELECTED: function(value){ return "All (" + value + ") are selected successfully from Database";},
+    ALL_INSERTED: function(value){ return "All (" + value + ") are inserted successfully in Database";},
+    ALL_DELETED:  function(value){ return "All (" + value + ") are deleted successfully from Database";},
+    ALL_UPDATED:  function(value){ return "All (" + value + ") are updated successfully in Database";},
+
+    MANY_SELECTED: function(value){ return "More than one (" + value + ") is selected from Database";},
+    MANY_DELETED:  function(value){ return "More than one (" + value + ") is to deleted from Database";},
+    MANY_UPDATED:  function(value){ return "More than one (" + value + ") is to updated in Database";},
+    MANY_FOUND:    function(value){ return "More than one (" + value + ") is found in Database";},
+
+    TRANS_ROLLBACK: "Transaction is rolled back",
     ERROR_MSG_DAY_1 : "It should be positive number in range of 01 to 31",
 
     ERROR_MSG_MONTH_1 : "It should be positive number in range of 01 to 12",
@@ -53,6 +76,7 @@ module.exports = {
     ERROR_MSG_NAME_2 : "It should be at most 15 Char",
 
     ERROR_MSG_GENDER : "It should be M (for Male) or F (for Female) only",
+
     createError: function(name, message){
         var err = new Error(message);
         err.status = 400;

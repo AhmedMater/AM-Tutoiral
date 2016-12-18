@@ -27,8 +27,7 @@ var showSuccessMessage = function(mainDivID, spanID){
 };
 
 var checkUserExist = function(isUserFoundURL){
-    $("#submitBtn").attr("disabled", "disabled");
-    //var userExistCheckURL = "http://localhost:3002/user/isUserFound";
+    //$("#submitBtn").attr("disabled", "disabled");
     var namePattern = /^[A-Za-z ]{1,45}$/;
     var passwordPattern = /^[A-Za-z0-9]{5,20}$/;
 
@@ -53,9 +52,9 @@ var checkUserExist = function(isUserFoundURL){
     };
 
     $(document).change(function() {
-        if($(inputIDs.userName).val() && $(inputIDs.password).val() && $(inputIDs.confirmPassword).val()
-            && $(inputIDs.email).val() && $(inputIDs.firstName).val() && $(inputIDs.lastName).val()
-            && $(inputIDs.gender).val()) $(inputIDs.submit).removeAttr("disabled");
+        //if($(inputIDs.userName).val() && $(inputIDs.password).val() && $(inputIDs.confirmPassword).val()
+        //    && $(inputIDs.email).val() && $(inputIDs.firstName).val() && $(inputIDs.lastName).val()
+        //    && $(inputIDs.gender).val()) $(inputIDs.submit).removeAttr("disabled");
     });
 
     $(inputIDs.userName).change(function(){

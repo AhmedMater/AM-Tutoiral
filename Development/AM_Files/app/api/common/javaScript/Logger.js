@@ -10,8 +10,8 @@ var ErrMsg = rootRequire('ErrorMessages');
 module.exports = {
 
     debug: function(folder, fn_name, message) {
-        var logMsg = SystemParam.AM_SYSTEM + " " + dateFormat(new Date(), SystemParam.datePattern) + " [Debug]: "
-            + folder + " - " + fn_name + ": " + message + "\n";
+        var logMsg = SystemParam.AM_SYSTEM + " " + dateFormat(new Date(), SystemParam.datePattern) + " [Debug]: ["
+            + folder + "] - [" + fn_name + "]: " + message + "\n";
         fs.appendFile(SystemParam.LogFilePath, logMsg, 'utf8');
     },
 
@@ -22,8 +22,8 @@ module.exports = {
     },
 
     error: function(folder, fn_name, errorMsg) {
-        var logMsg = SystemParam.AM_SYSTEM + " " + dateFormat(new Date(), SystemParam.datePattern) + " [Error]: "
-            + folder + " - " + fn_name + ": " + errorMsg + "\n";
+        var logMsg = SystemParam.AM_SYSTEM + " " + dateFormat(new Date(), SystemParam.datePattern) + " [Error]: ["
+            + folder + "] - [" + fn_name + "]: " + errorMsg + "\n";
         fs.appendFile(SystemParam.LogFilePath, logMsg, 'utf8');
     },
 

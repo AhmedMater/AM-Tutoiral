@@ -23,10 +23,10 @@ module.exports = {
             }
         );
     },
-    getUserRole_ByName: function(name, RESTCallBack) {
+    getUserRoleByName: function(name, RESTCallBack) {
         async.waterfall([
                 function(RepositoryCallBack) {
-                    lookupRepository.getUserRole_ByName(name, RepositoryCallBack);
+                    lookupRepository.selectUserRoleByName(name, RepositoryCallBack);
                 }],
             function(err, result) {
                 if(err != null)
@@ -36,7 +36,7 @@ module.exports = {
             }
         );
     },
-    getUserRole_ByID: function(id, RESTCallBack) {
+    getUserRoleByID: function(id, RESTCallBack) {
         async.waterfall([
                 function(RepositoryCallBack) {
                     lookupRepository.getUserRole_ByID(id, RepositoryCallBack);

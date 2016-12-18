@@ -1,5 +1,13 @@
 
 var Valid = rootRequire('Validation');
+var UserRepository = rootRequire('UserRepository');
+
+var async = require('async');
+var lookupRepository = rootRequire('LookupRepository');
+
+var SystemParam = rootRequire('SystemParameters');
+var ErrMsg = rootRequire('ErrorMessages');
+var Logger = rootRequire('Logger');
 
 // Validation Test Functions
 var testingTitleValidation = function(){
@@ -429,11 +437,69 @@ module.exports = {
 
     go : function(req, res, next) {
 
-        testingValidations(res);
+        //testingValidations(res);
 
-        //res.render('test', {
-        //    title: 'Test',
-        //    res: result
-        //});
+        var insertUser = function(RepositoryCallback){
+            var userData = {
+                userName: "Admin1_Test",
+                password: "ahmednight",
+                confirmPassword: "ahmednight",
+                userRoleID: 2,
+                firstName: "Ahmed",
+                lastName: "Mater",
+                email: "ahmedmotair@gmail.com",
+                gender: "M",
+                dateOfBirth: {
+                    day: "15",
+                    month: "5",
+                    year: "1993"
+                },
+                mailSubscribe: false
+            };
+            UserRepository.insertUser(userData, RepositoryCallback);
+        };
+        var selectUserID = function(results, RepositoryCallback) {
+            UserRepository.selectUserByID(results, RepositoryCallback);
+        };
+        var login = function(results, RepositoryCallback) {
+            UserRepository.selectUserByLoginData(results.userName,'ahmednight', RepositoryCallback);
+        };
+        var getAll = function(RepositoryCallback) {
+            UserRepository.selectAllUsers(RepositoryCallback);
+        };
+        var deleteUser = function(RepositoryCallback){
+            UserRepository.deleteUserByID(14, RepositoryCallback);
+        };
+        var updateUser = function(RepositoryCallback){
+            var newUserData = {
+                password: "2016",
+                userRoleID: 1,
+                firstName: "Ajlsdjaskdasd",
+                lastName: "asndansdkasnd",
+                dateOfBirth:{
+                    day: 5,
+                    month: 10,
+                    year: 2000
+                }
+            };
+            UserRepository.updateUserByID(4, newUserData, RepositoryCallback);
+        };
+        var isUserFound = function(RepositoryCallback){
+            //UserRepository.isUserFound("Ahmed_Mater12", null, RepositoryCallback);
+            //UserRepository.isUserFound(null, "ahmedmotair@gmail.com", RepositoryCallback);
+            UserRepository.isUserFound("Ahmed_Mater", "ahmedmotair@gmail.cossm", RepositoryCallback);
+        };
+        var isUserActive = function(RepositoryCallback){
+            UserRepository.isUserActive(1, RepositoryCallback);
+        };
+
+        async.waterfall([insertUser],
+            function(err, result) {
+                if(err != null)
+                    res.send(err.message);
+                else
+                    res.send(result);
+            }
+        );
     }
 };

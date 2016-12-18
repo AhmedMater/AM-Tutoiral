@@ -9,10 +9,15 @@
     <div class="logo">
         <h1 class="text-danger">Error {{status}} !</h1>
     </div>
-    <p class="lead text-muted">{{name}}: {{message}}</p>
 
-    <div class="clearfix"></div>
+    <div>{{name}}: {{message}}</div>
 
+    <div class="row">
+        <div class="form-group">
+            <label class="form-label">{{name}}</label>
+            {{message}}<label class='text-danger'>User Name is too long - It should be at most 25 Char</label>
+        </div>
+    </div>
     <div class="col-lg-4  col-lg-offset-4">
         <div class="btn-group btn-group-justified">
             <a href="{{baseURL}}" class="btn btn-success">Back</a>

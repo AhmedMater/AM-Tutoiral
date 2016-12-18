@@ -16,78 +16,44 @@ var SHA256 = rootRequire('SHA256');
 var exports = module.exports = {};
 
 var applyUserValidation = function(userData){
-    var errMsg = null;
+    var errMsg = [];
 
-    errMsg = Valid.userName(userData.userName);
-    if(errMsg != null)
-        return errMsg;
+    //Check if the Password isn't equal to Username or email
 
-    errMsg = Valid.password(userData.password);
-    if(errMsg != null)
-        return errMsg;
+    errMsg.push(Valid.userName(userData.userName));
+    errMsg.push(Valid.password(userData.password));
 
     if(userData.password != userData.confirmPassword)
-        return ErrMsg.PASSWORD_NOT_MATCH("Password and Confirm Password");
-    else if(userData.password == userData.userName)
-        return ErrMsg.PASSWORD_EQ_USERNAME;
+        errMsg.push(ErrMsg.PASSWORD_NOT_MATCH("Confirm Password", "Password"));
 
-    errMsg = Valid.email(userData.email);
-    if(errMsg != null)
-        return errMsg;
+    errMsg.push(Valid.email(userData.email));
+    errMsg.push(Valid.name(userData.firstName));
+    errMsg.push(Valid.name(userData.lastName));
+    errMsg.push(Valid.gender(userData.gender));
+    errMsg.push(Valid.date(userData.dateOfBirth));
 
-    errMsg = Valid.name(userData.firstName);
-    if(errMsg != null)
-        return errMsg;
+    var retMsg = null;
 
-    errMsg = Valid.name(userData.lastName);
-    if(errMsg != null)
-        return errMsg;
-
-    errMsg = Valid.gender(userData.gender);
-    if(errMsg != null)
-        return errMsg;
-
-    errMsg = Valid.date(userData.dateOfBirth);
-    if(errMsg != null)
-        return errMsg;
-
-    else if(!RegExp.day_month.test(userData.dateOfBirth.day) || !RegExp.day_month.test(userData.dateOfBirth.month) || !RegExp.year.test(userData.dateOfBirth.year)
-        || userData.dateOfBirth.day < 0 || userData.dateOfBirth.day > 31 || userData.dateOfBirth.month < 0 || userData.dateOfBirth.month > 12) {
-        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_12);
-        return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_12)
-    }
-    else if(((userData.dateOfBirth.month == 4 || userData.dateOfBirth.month == 6 || userData.dateOfBirth.month == 9 || userData.dateOfBirth.month == 11) && (userData.dateOfBirth.day > 30) ) ||
-        (userData.dateOfBirth.month == 2 && userData.dateOfBirth.day > 29)) {
-        Logger.error(config.SystemParam.SERVICES, fnName, ErrMsg.ERROR_13);
-        return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_13);
-    }
-    else if(!RegExp.name.test(userData.job)) {
-        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_9);
-        return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_9);
-    }
-    else if(!RegExp.name.test(userData.university)) {
-        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_10);
-        return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_10);
-    }
-    else if(!RegExp.name.test(userData.college)) {
-        Logger.error(SystemParam.SERVICES, fnName, ErrMsg.ERROR_11);
-        return ErrMsg.createError(SystemParam.SERVER_ERROR, 400, ErrMsg.ERROR_11);
+    if(errMsg != []) {
+        retMsg = "<label class='text-danger'>" + errMsg[0] + "</label>";
+        for (var i = 1; i < errMsg.length; i++)
+            retMsg += " <br /> <label class='text-danger'>" + errMsg[i] + "</label>";
     }
 
-    return null;
+    return retMsg;
 };
 
-exports.addNewUser = function(userData, RESTCallback) {
+exports.signUp = function(userData, RESTCallback){
     var fnName = "insertUser";
 
     var isError = applyUserValidation(userData);
 
     if(isError != null)
-        return RESTCallback(isError, null);
+        return RESTCallback(ErrMsg.createError(SystemParam.SERVER_ERROR, isError), null);
 
     async.waterfall([
             function(ServiceCallback) {
-                LookupServices.getUserRole_ByName(SystemParam.UserRole.USER, ServiceCallback);
+                LookupServices.getUserRoleByName(SystemParam.UserRole.USER, ServiceCallback);
             },
             function(userRole, RepositoryCallback) {
                 userData.password = SHA256.hash(userData.password);
