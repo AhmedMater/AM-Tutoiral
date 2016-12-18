@@ -85,3 +85,52 @@ exports.deleteRecord = function(query, repositoryName, fnName, recordName, Gener
         });
     });
 };
+
+exports.updateRecord = function(query, conditions, repositoryName, fnName, recordName, GenericCallback){
+    DB.beginTransaction(function(transactionError) {
+        // in case of Transaction Error
+        if (transactionError) {
+            Logger.error(repositoryName, fnName, transactionError.message);
+            return GenericCallback(ErrMsg.createError(DB_ERROR, transactionError.message), null);
+        }
+
+        DB.query(query, conditions, function (queryError, rows, fields) {
+
+            // in case of Query Error
+            if (queryError != null) {
+                Logger.error(repositoryName, fnName, queryError.message);
+                return GenericCallback(ErrMsg.createError(DB_ERROR, queryError.message), null);
+            }
+
+            // in case of only one record to be updated
+            else if (rows.affectedRows == 1) {
+                DB.commit(function (commitError) {
+                    if (commitError) {
+                        return DB.rollback(function () {
+                            Logger.error(repositoryName, fnName, commitError.message);
+                            Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                            return GenericCallback(ErrMsg.createError(DB_ERROR, commitError.message), null);
+                        });
+                    }
+                    Logger.debug(repositoryName, fnName, ErrMsg.IS_UPDATED(recordName));
+                    return GenericCallback(null, true);
+                });
+            }
+
+            // in case of no records to be updated
+            else if (rows.affectedRows == 0) {
+                Logger.debug(repositoryName, fnName, ErrMsg.UPDATE_NOT_FOUND(recordName));
+                return GenericCallback(null, false);
+            }
+
+            // in case of more than one record will be updated
+            else if (rows.affectedRows > 1) {
+                return DB.rollback(function () {
+                    Logger.error(repositoryName, fnName, ErrMsg.MANY_UPDATED(recordName));
+                    Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                    return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_UPDATED(recordName)), null);
+                });
+            }
+        });
+    });
+};

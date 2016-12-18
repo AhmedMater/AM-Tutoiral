@@ -313,52 +313,18 @@ exports.updateUserByID = function(userID, newUserData, RepositoryCallback){
 
     var query = "UPDATE users SET ? WHERE id = " + DB.escape(userID);
 
-    DB.beginTransaction(function(transactionError) {
-        // in case of Transaction Error
-        if (transactionError) {
-            Logger.error(REPOSITORY, fnName, transactionError.message);
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, transactionError.message), false);
+    async.waterfall([
+            function(GenericCallback){
+                Generic.updateRecord(query, conditions, REPOSITORY, fnName, USER, GenericCallback);
+            }],
+        function(err, userID) {
+            if(err != null)
+                return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+            else
+                return RepositoryCallback(null, userID);
         }
+    );
 
-        DB.query(query, conditions, function (queryError, rows, fields) {
-
-            // in case of Query Error
-            if (queryError != null) {
-                Logger.error(REPOSITORY, fnName, queryError.message);
-                return RepositoryCallback(ErrMsg.createError(DB_ERROR, queryError.message), false);
-            }
-
-            // in case of only one record to be updated
-            else if (rows.affectedRows == 1) {
-                DB.commit(function (commitError) {
-                    if (commitError) {
-                        return DB.rollback(function () {
-                            Logger.error(REPOSITORY, fnName, commitError.message);
-                            Logger.debug(REPOSITORY, fnName, ErrMsg.TRANS_ROLLBACK);
-                            return RepositoryCallback(ErrMsg.createError(DB_ERROR, commitError.message), false);
-                        });
-                    }
-                    Logger.debug(REPOSITORY, fnName, ErrMsg.IS_UPDATED(USER));
-                    return RepositoryCallback(commitError, true);
-                });
-            }
-
-            // in case of no records to be updated
-            else if (rows.affectedRows == 0) {
-                Logger.debug(REPOSITORY, fnName, ErrMsg.UPDATE_NOT_FOUND(USER));
-                return RepositoryCallback(queryError, false);
-            }
-
-            // in case of more than one record will be updated
-            else if (rows.affectedRows > 1) {
-                return DB.rollback(function () {
-                    Logger.error(REPOSITORY, fnName, ErrMsg.MANY_UPDATED(USER));
-                    Logger.debug(REPOSITORY, fnName, ErrMsg.TRANS_ROLLBACK);
-                    return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_UPDATED(USER)), false);
-                });
-            }
-        });
-    });
 };
 
 /**

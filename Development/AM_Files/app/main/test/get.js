@@ -482,7 +482,7 @@ module.exports = {
                     year: 2000
                 }
             };
-            UserRepository.updateUserByID(4, newUserData, RepositoryCallback);
+            UserRepository.updateUserByID(25, newUserData, RepositoryCallback);
         };
         var isUserFound = function(RepositoryCallback){
             //UserRepository.isUserFound("Ahmed_Mater12", null, RepositoryCallback);
@@ -493,7 +493,7 @@ module.exports = {
             UserRepository.isUserActive(1, RepositoryCallback);
         };
 
-        async.waterfall([insertUser],
+        async.waterfall([updateUser],
             function(err, result) {
                 if(err != null)
                     res.send(err.message);
