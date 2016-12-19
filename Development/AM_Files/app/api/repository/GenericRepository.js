@@ -15,7 +15,7 @@ exports.createSQLDate = function(dateObj){
     return dateObj.year + "-" + dateObj.month + "-" + dateObj.day;
 };
 
-exports.insertRecord = function(query, data, repositoryName, fnName, recordName, GenericCallback){
+exports.insertRecord = function(query, data, repositoryName, fnName, modelName, GenericCallback){
     DB.query(query, data, function (err, rows, fields) {
         // in case of an Error
         if (err != null) {
@@ -25,19 +25,19 @@ exports.insertRecord = function(query, data, repositoryName, fnName, recordName,
 
         // in case of inserting one record
         else if(rows.affectedRows == 1){
-            Logger.debug(repositoryName, fnName, ErrMsg.IS_INSERTED(recordName));
+            Logger.debug(repositoryName, fnName, ErrMsg.IS_INSERTED(modelName));
             return GenericCallback(null, rows.insertId);
         }
 
         // in case of inserting more than one record
         else{
-            Logger.error(repositoryName, fnName, ErrMsg.NOT_INSERTED(recordName));
-            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_INSERTED(recordName)), null);
+            Logger.error(repositoryName, fnName, ErrMsg.NOT_INSERTED(modelName));
+            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_INSERTED(modelName)), null);
         }
     });
 };
 
-exports.deleteRecord = function(query, repositoryName, fnName, recordName, GenericCallback){
+exports.deleteRecord = function(query, repositoryName, fnName, modelName, GenericCallback){
     DB.beginTransaction(function(transactionError) {
         // in case of Transaction Error
         if (transactionError) {
@@ -63,30 +63,30 @@ exports.deleteRecord = function(query, repositoryName, fnName, recordName, Gener
                             return GenericCallback(ErrMsg.createError(DB_ERROR, commitError.message), null);
                         });
                     }
-                    Logger.debug(repositoryName, fnName, ErrMsg.IS_DELETED(recordName));
+                    Logger.debug(repositoryName, fnName, ErrMsg.IS_DELETED(modelName));
                     return GenericCallback(null, true);
                 });
             }
 
             // in case of no records to be deleted
             else if (rows.affectedRows == 0) {
-                Logger.debug(repositoryName, fnName, ErrMsg.DELETE_NOT_FOUND(recordName));
+                Logger.debug(repositoryName, fnName, ErrMsg.DELETE_NOT_FOUND(modelName));
                 return GenericCallback(null, false);
             }
 
             // in case of more than one record will be deleted
             else if (rows.affectedRows > 1) {
                 return DB.rollback(function () {
-                    Logger.error(repositoryName, fnName, ErrMsg.MANY_DELETED(recordName));
+                    Logger.error(repositoryName, fnName, ErrMsg.MANY_DELETED(modelName));
                     Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
-                    return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_DELETED(recordName)), null);
+                    return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_DELETED(modelName)), null);
                 });
             }
         });
     });
 };
 
-exports.updateRecord = function(query, conditions, repositoryName, fnName, recordName, GenericCallback){
+exports.updateRecord = function(query, conditions, repositoryName, fnName, modelName, GenericCallback){
     DB.beginTransaction(function(transactionError) {
         // in case of Transaction Error
         if (transactionError) {
@@ -112,58 +112,86 @@ exports.updateRecord = function(query, conditions, repositoryName, fnName, recor
                             return GenericCallback(ErrMsg.createError(DB_ERROR, commitError.message), null);
                         });
                     }
-                    Logger.debug(repositoryName, fnName, ErrMsg.IS_UPDATED(recordName));
+                    Logger.debug(repositoryName, fnName, ErrMsg.IS_UPDATED(modelName));
                     return GenericCallback(null, true);
                 });
             }
 
             // in case of no records to be updated
             else if (rows.affectedRows == 0) {
-                Logger.debug(repositoryName, fnName, ErrMsg.UPDATE_NOT_FOUND(recordName));
+                Logger.debug(repositoryName, fnName, ErrMsg.UPDATE_NOT_FOUND(modelName));
                 return GenericCallback(null, false);
             }
 
             // in case of more than one record will be updated
             else if (rows.affectedRows > 1) {
                 return DB.rollback(function () {
-                    Logger.error(repositoryName, fnName, ErrMsg.MANY_UPDATED(recordName));
+                    Logger.error(repositoryName, fnName, ErrMsg.MANY_UPDATED(modelName));
                     Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
-                    return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_UPDATED(recordName)), null);
+                    return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_UPDATED(modelName)), null);
                 });
             }
         });
     });
 };
 
-exports.isRecordFound = function(query, repositoryName, fnName, recordName, GenericCallback){
+exports.isRecordFound = function(query, repositoryName, fnName, modelName, GenericCallback){
     DB.query(query, function (err, rows, fields) {
         if (err != null) {
             Logger.error(repositoryName, fnName, err.message);
             return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
         }else if(rows.length == 0) {
-            Logger.debug(repositoryName, fnName, ErrMsg.NOT_FOUND(recordName));
+            Logger.debug(repositoryName, fnName, ErrMsg.NOT_FOUND(modelName));
             return GenericCallback(null, false);
         }else{
-            Logger.debug(repositoryName, fnName, ErrMsg.IS_FOUND(recordName));
+            Logger.debug(repositoryName, fnName, ErrMsg.IS_FOUND(modelName));
             return GenericCallback(null, true);
         }
     });
 };
 
-exports.selectValue = function(query, repositoryName, fnName, recordName, GenericCallback){
+exports.selectValue = function(query, repositoryName, fnName, modelName, GenericCallback){
     DB.query(query, function (err, rows, fields) {
         if (err != null) {
             Logger.error(repositoryName, fnName, err.message);
             return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
         }else if(rows.length == 1) {
-            Logger.debug(repositoryName, fnName, ErrMsg.IS_SELECTED(recordName));
+            Logger.debug(repositoryName, fnName, ErrMsg.IS_SELECTED(modelName));
             return GenericCallback(err, (rows[0][0]));
         }else if(rows.length > 1){
-            Logger.error(repositoryName, fnName, ErrMsg.MANY_FOUND(recordName));
-            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_FOUND(recordName)), null);
+            Logger.error(repositoryName, fnName, ErrMsg.MANY_FOUND(modelName));
+            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_FOUND(modelName)), null);
         }else if(rows.length == 0) {
-            Logger.error(repositoryName, fnName, ErrMsg.NOT_FOUND(recordName));
-            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_FOUND(recordName)), null);
+            Logger.error(repositoryName, fnName, ErrMsg.NOT_FOUND(modelName));
+            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_FOUND(modelName)), null);
+        }
+    });
+};
+
+exports.selectRecord = function(query, repositoryName, fnName, modelName, GenericCallback){
+    DB.query(query, function (err, rows, fields) {
+        // in case of an error
+        if (err != null) {
+            Logger.error(repositoryName, fnName, err.message);
+            return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+        }
+
+        // in case of selecting only one row
+        else if(rows.length == 1){
+            Logger.debug(repositoryName, fnName, ErrMsg.IS_SELECTED(modelName));
+            return GenericCallback(null, rows[0]);
+        }
+
+        // case of no records is selected
+        else if(rows.length == 0) {
+            Logger.debug(repositoryName, fnName, ErrMsg.NOT_FOUND(modelName));
+            return GenericCallback(null, null);
+        }
+
+        // case of more than one record is selected
+        else if(rows.length > 1) {
+            Logger.error(repositoryName, fnName, ErrMsg.MANY_SELECTED(modelName));
+            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_SELECTED(modelName)), null);
         }
     });
 };

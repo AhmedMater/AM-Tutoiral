@@ -34,7 +34,6 @@ var exports = module.exports = {
         submitTask: '/admin/task/:lessonID/submit',
         removeTask: '/admin/task/:lessonID/remove',
 
-
             // Checks URL
         isUserFound: '/user/isUserFound?',
         isCourseFound: '/course/isCourseFound?',
@@ -64,6 +63,8 @@ var exports = module.exports = {
         "ArticleServices": "api/services/ArticleServices",
         "QuestionServices": "api/services/QuestionServices",
         "TaskServices": "api/services/TaskServices",
+
+        "UserModel": "api/model/User",
 
         "ErrorMessages": "api/common/javaScript/ErrorMessages",
         "Security": "api/common/javaScript/Security",

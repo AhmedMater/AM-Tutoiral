@@ -9,6 +9,7 @@ var SystemParam = rootRequire('SystemParameters');
 var ErrMsg = rootRequire('ErrorMessages');
 var Logger = rootRequire('Logger');
 var Generic = rootRequire('GenericRepository');
+var UserModel = rootRequire('UserModel');
 
 var USER = "User";
 var USERS = "Users";
@@ -42,13 +43,11 @@ exports.insertUser = function(userData, RepositoryCallback) {
         college: userData.college,
         job: userData.job,
         country: userData.country,
-        date_of_birth: Generic.createSQLDate(userData.dateOfBirth) //userData.dateOfBirth.year + '-' + userData.dateOfBirth.month + '-' + userData.dateOfBirth.day
+        date_of_birth: Generic.createSQLDate(userData.dateOfBirth)
     };
 
     async.waterfall([
-        function(GenericCallback){
-            Generic.insertRecord(query, recordData, REPOSITORY, fnName, USER, GenericCallback);
-        }],
+        function(GenericCallback){ Generic.insertRecord(query, recordData, REPOSITORY, fnName, USER, GenericCallback); }],
         function(err, userID) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -79,56 +78,66 @@ exports.selectUserByLoginData = function(userName, password, RepositoryCallback)
             "user_name = " + DB.escape(userName) + " AND " +
             "password = " + DB.escape(password) + ";";
 
-    DB.query(query, function (err, rows, fields) {
-        var User = null;
-
-        // in case of an error
-        if (err != null) {
-            Logger.error(REPOSITORY, fnName, err.message);
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), User);
+    async.waterfall([
+        function(GenericCallback){ Generic.selectRecord(query, REPOSITORY, fnName, USER, GenericCallback); },
+        function(data, ModelCallback){ UserModel.setUser(data, ModelCallback); }],
+        function(err, User) {
+            if(err != null)
+                return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+            else
+                return RepositoryCallback(null, User);
         }
-
-        // in case of selecting only one row
-        else if(rows.length == 1){
-            User = {
-                userID: rows[0].userID,
-                userName: rows[0].user_name,
-                email: rows[0].email,
-                userRole: {
-                    id: rows[0].roleID,
-                    name: rows[0].roleName,
-                    value: rows[0].roleValue
-                },
-                dateOfRegistration: rows[0].date_of_registration,
-                firstName: rows[0].first_name,
-                lastName: rows[0].last_name,
-                gender: (rows[0].gender == 'M') ? 'Male' : 'Female',
-                mailSubscribe: rows[0].mail_subscribe,
-                university: rows[0].university,
-                college: rows[0].college,
-                job: rows[0].job,
-                country: rows[0].country,
-                dateOfBirth: rows[0].date_of_birth,
-                mobileNumber: rows[0].mobile_number,
-                userPic: rows[0].profile_pic
-            };
-
-            Logger.debug(REPOSITORY, fnName, ErrMsg.IS_SELECTED(USER));
-            return RepositoryCallback(err, User);
-        }
-
-        // case of no records is selected
-        else if(rows.length == 0) {
-            Logger.debug(REPOSITORY, fnName, ErrMsg.NOT_FOUND(USER));
-            return RepositoryCallback(err, User);
-        }
-
-        // case of more than one record is selected
-        else if(rows.length > 1) {
-            Logger.error(REPOSITORY, fnName, ErrMsg.MANY_SELECTED(USER));
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_SELECTED(USER)), User);
-        }
-    });
+    );
+    //DB.query(query, function (err, rows, fields) {
+    //    var User = null;
+    //
+    //    // in case of an error
+    //    if (err != null) {
+    //        Logger.error(REPOSITORY, fnName, err.message);
+    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), User);
+    //    }
+    //
+    //    // in case of selecting only one row
+    //    else if(rows.length == 1){
+    //        User = {
+    //            userID: rows[0].userID,
+    //            userName: rows[0].user_name,
+    //            email: rows[0].email,
+    //            userRole: {
+    //                id: rows[0].roleID,
+    //                name: rows[0].roleName,
+    //                value: rows[0].roleValue
+    //            },
+    //            dateOfRegistration: rows[0].date_of_registration,
+    //            firstName: rows[0].first_name,
+    //            lastName: rows[0].last_name,
+    //            gender: (rows[0].gender == 'M') ? 'Male' : 'Female',
+    //            mailSubscribe: rows[0].mail_subscribe,
+    //            university: rows[0].university,
+    //            college: rows[0].college,
+    //            job: rows[0].job,
+    //            country: rows[0].country,
+    //            dateOfBirth: rows[0].date_of_birth,
+    //            mobileNumber: rows[0].mobile_number,
+    //            userPic: rows[0].profile_pic
+    //        };
+    //
+    //        Logger.debug(REPOSITORY, fnName, ErrMsg.IS_SELECTED(USER));
+    //        return RepositoryCallback(err, User);
+    //    }
+    //
+    //    // case of no records is selected
+    //    else if(rows.length == 0) {
+    //        Logger.debug(REPOSITORY, fnName, ErrMsg.NOT_FOUND(USER));
+    //        return RepositoryCallback(err, User);
+    //    }
+    //
+    //    // case of more than one record is selected
+    //    else if(rows.length > 1) {
+    //        Logger.error(REPOSITORY, fnName, ErrMsg.MANY_SELECTED(USER));
+    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_SELECTED(USER)), User);
+    //    }
+    //});
 };
 
 /**
