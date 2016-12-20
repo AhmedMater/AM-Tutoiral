@@ -458,11 +458,14 @@ module.exports = {
             };
             UserRepository.insertUser(userData, RepositoryCallback);
         };
-        var selectUserID = function(results, RepositoryCallback) {
-            UserRepository.selectUserByID(results, RepositoryCallback);
+        var selectUserID = function(RepositoryCallback) {
+            //UserRepository.selectUserByID(1, RepositoryCallback);
+            UserRepository.selectUserByID(25, RepositoryCallback);
         };
-        var login = function(results, RepositoryCallback) {
-            UserRepository.selectUserByLoginData(results.userName,'ahmednight', RepositoryCallback);
+        var login = function(RepositoryCallback) {
+            //UserRepository.selectUserByLoginData('Admin_Test1','ahmednight', RepositoryCallback);
+            //UserRepository.selectUserByLoginData('Admin_Test1','ahmednighta', RepositoryCallback);
+            UserRepository.selectUserByLoginData('Admin_Test1','ahmedniaghta', RepositoryCallback);
         };
         var getAll = function(RepositoryCallback) {
             UserRepository.selectAllUsers(RepositoryCallback);
@@ -482,21 +485,25 @@ module.exports = {
                     year: 2000
                 }
             };
-            UserRepository.updateUserByID(25, newUserData, RepositoryCallback);
+            UserRepository.updateUserByID(1, newUserData, RepositoryCallback);
         };
         var isUserFound = function(RepositoryCallback){
-            //UserRepository.isUserFound("Ahmed_Mater12", null, RepositoryCallback);
+            UserRepository.isUserFound("Ahmed_Mater12", null, RepositoryCallback);
             //UserRepository.isUserFound(null, "ahmedmotair@gmail.com", RepositoryCallback);
-            UserRepository.isUserFound("Ahmed_Mater", "ahmedmotair@gmail.cossm", RepositoryCallback);
+            //UserRepository.isUserFound("Ahmed_Mater", "ahmedmotair@gmail.cossm", RepositoryCallback);
         };
         var isUserActive = function(RepositoryCallback){
+            //UserRepository.isUserActive(1, RepositoryCallback);
+            //UserRepository.isUserActive(2, RepositoryCallback);
             UserRepository.isUserActive(1, RepositoryCallback);
         };
 
-        async.waterfall([updateUser],
+        async.waterfall([isUserActive],
             function(err, result) {
                 if(err != null)
                     res.send(err.message);
+                else if(typeof result === "object")
+                    res.send(result);
                 else
                     res.send('<h2>' + result + '</h2>');
             }

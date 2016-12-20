@@ -150,14 +150,14 @@ exports.isRecordFound = function(query, repositoryName, fnName, modelName, Gener
     });
 };
 
-exports.selectValue = function(query, repositoryName, fnName, modelName, GenericCallback){
+exports.selectValue = function(query, value, repositoryName, fnName, modelName, GenericCallback){
     DB.query(query, function (err, rows, fields) {
         if (err != null) {
             Logger.error(repositoryName, fnName, err.message);
             return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
         }else if(rows.length == 1) {
             Logger.debug(repositoryName, fnName, ErrMsg.IS_SELECTED(modelName));
-            return GenericCallback(err, (rows[0][0]));
+            return GenericCallback(err, (rows[0][value]));
         }else if(rows.length > 1){
             Logger.error(repositoryName, fnName, ErrMsg.MANY_FOUND(modelName));
             return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_FOUND(modelName)), null);
@@ -174,12 +174,31 @@ exports.selectRecord = function(query, repositoryName, fnName, modelName, Generi
         if (err != null) {
             Logger.error(repositoryName, fnName, err.message);
             return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+        }else if(rows.length == 1){
+            Logger.debug(repositoryName, fnName, ErrMsg.IS_SELECTED(modelName));
+            return GenericCallback(null, rows[0]);
+        }else if(rows.length > 1) {
+            Logger.error(repositoryName, fnName, ErrMsg.MANY_SELECTED(modelName));
+            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_SELECTED(modelName)), null);
+        }else if(rows.length == 0) {
+            Logger.debug(repositoryName, fnName, ErrMsg.NOT_FOUND(modelName));
+            return GenericCallback(null, null);
+        }
+    });
+};
+
+exports.selectAllRecords = function(query, repositoryName, fnName, modelName, GenericCallback){
+    DB.query(query, function (err, rows, fields) {
+        // in case of an error
+        if (err != null) {
+            Logger.error(repositoryName, fnName, err.message);
+            return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
         }
 
         // in case of selecting only one row
         else if(rows.length == 1){
             Logger.debug(repositoryName, fnName, ErrMsg.IS_SELECTED(modelName));
-            return GenericCallback(null, rows[0]);
+            return GenericCallback(null, rows);
         }
 
         // case of no records is selected

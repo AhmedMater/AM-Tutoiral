@@ -79,9 +79,9 @@ exports.selectUserByLoginData = function(userName, password, RepositoryCallback)
             "password = " + DB.escape(password) + ";";
 
     async.waterfall([
-        function(GenericCallback){ Generic.selectRecord(query, REPOSITORY, fnName, USER, GenericCallback); },
-        function(data, ModelCallback){ UserModel.setUser(data, ModelCallback); }],
-        function(err, User) {
+            function(GenericCallback){ Generic.selectRecord(query, REPOSITORY, fnName, USER, GenericCallback); },
+            function(data, ModelCallback){ UserModel.setUser(data, ModelCallback); }
+        ], function(err, User) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
             else
@@ -158,56 +158,67 @@ exports.selectUserByID = function(userID, RepositoryCallback) {
         "WHERE " +
             "user.id = " + DB.escape(userID) + ";";
 
-    DB.query(query, function (err, rows, fields) {
-        var User = null;
-
-        // in case of an error
-        if (err != null) {
-            Logger.error(REPOSITORY, fnName, err.message);
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), User);
+    async.waterfall([
+            function(GenericCallback){ Generic.selectRecord(query, REPOSITORY, fnName, USER, GenericCallback); },
+            function(data, ModelCallback){ UserModel.setUser(data, ModelCallback); }
+        ], function(err, User) {
+            if(err != null)
+                return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+            else
+                return RepositoryCallback(null, User);
         }
+    );
 
-        // in case of selecting only one row
-        else if(rows.length == 1){
-            User = {
-                userID: rows[0].userID,
-                userName: rows[0].user_name,
-                email: rows[0].email,
-                userRole: {
-                    id: rows[0].roleID,
-                    name: rows[0].roleName,
-                    value: rows[0].roleValue
-                },
-                dateOfRegistration: rows[0].date_of_registration,
-                firstName: rows[0].first_name,
-                lastName: rows[0].last_name,
-                gender: (rows[0].gender == 'M') ? 'Male' : 'Female',
-                mailSubscribe: rows[0].mail_subscribe,
-                university: rows[0].university,
-                college: rows[0].college,
-                job: rows[0].job,
-                country: rows[0].country,
-                dateOfBirth: rows[0].date_of_birth,
-                mobileNumber: rows[0].mobile_number,
-                userPic: rows[0].profile_pic
-            };
-
-            Logger.debug(REPOSITORY, fnName, ErrMsg.IS_SELECTED(USER));
-            return RepositoryCallback(err, User);
-        }
-
-        // case of no records is selected
-        else if(rows.length == 0) {
-            Logger.debug(REPOSITORY, fnName, ErrMsg.NOT_FOUND(USER));
-            return RepositoryCallback(err, User);
-        }
-
-        // case of more than one record is selected
-        else if(rows.length > 1) {
-            Logger.error(REPOSITORY, fnName, ErrMsg.MANY_SELECTED(USER));
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_SELECTED(USER)), User);
-        }
-    });
+    //DB.query(query, function (err, rows, fields) {
+    //    var User = null;
+    //
+    //    // in case of an error
+    //    if (err != null) {
+    //        Logger.error(REPOSITORY, fnName, err.message);
+    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), User);
+    //    }
+    //
+    //    // in case of selecting only one row
+    //    else if(rows.length == 1){
+    //        User = {
+    //            userID: rows[0].userID,
+    //            userName: rows[0].user_name,
+    //            email: rows[0].email,
+    //            userRole: {
+    //                id: rows[0].roleID,
+    //                name: rows[0].roleName,
+    //                value: rows[0].roleValue
+    //            },
+    //            dateOfRegistration: rows[0].date_of_registration,
+    //            firstName: rows[0].first_name,
+    //            lastName: rows[0].last_name,
+    //            gender: (rows[0].gender == 'M') ? 'Male' : 'Female',
+    //            mailSubscribe: rows[0].mail_subscribe,
+    //            university: rows[0].university,
+    //            college: rows[0].college,
+    //            job: rows[0].job,
+    //            country: rows[0].country,
+    //            dateOfBirth: rows[0].date_of_birth,
+    //            mobileNumber: rows[0].mobile_number,
+    //            userPic: rows[0].profile_pic
+    //        };
+    //
+    //        Logger.debug(REPOSITORY, fnName, ErrMsg.IS_SELECTED(USER));
+    //        return RepositoryCallback(err, User);
+    //    }
+    //
+    //    // case of no records is selected
+    //    else if(rows.length == 0) {
+    //        Logger.debug(REPOSITORY, fnName, ErrMsg.NOT_FOUND(USER));
+    //        return RepositoryCallback(err, User);
+    //    }
+    //
+    //    // case of more than one record is selected
+    //    else if(rows.length > 1) {
+    //        Logger.error(REPOSITORY, fnName, ErrMsg.MANY_SELECTED(USER));
+    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_SELECTED(USER)), User);
+    //    }
+    //});
 };
 
 /**
@@ -226,44 +237,55 @@ exports.selectAllUsers = function(RepositoryCallback){
         "FROM " +
             "users user LEFT JOIN lookup_user_role role ON user.user_role_id = role.id;";
 
-    DB.query(query, function (err, rows, fields) {
-        var users = [];
-
-        if (err != null) {
-            Logger.error(REPOSITORY, fnName, err.message);
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
-        }else if(rows.length == 0){
-            Logger.debug(REPOSITORY, fnName, ErrMsg.ALL_NOT_SELECTED(USERS));
-            return RepositoryCallback(err, users);
-        } else {
-            for (var i = 0; i < rows.length; i++)
-                users.push({
-                    userID: rows[0].userID,
-                    userName: rows[0].user_name,
-                    email: rows[0].email,
-                    userRole: {
-                        id: rows[0].roleID,
-                        name: rows[0].roleName,
-                        value: rows[0].roleValue
-                    },
-                    dateOfRegistration: rows[0].date_of_registration,
-                    firstName: rows[0].first_name,
-                    lastName: rows[0].last_name,
-                    gender: (rows[0].gender == 'M') ? 'Male' : 'Female',
-                    mailSubscribe: rows[0].mail_subscribe,
-                    university: rows[0].university,
-                    college: rows[0].college,
-                    job: rows[0].job,
-                    country: rows[0].country,
-                    dateOfBirth: rows[0].date_of_birth,
-                    mobileNumber: rows[0].mobile_number,
-                    userPic: rows[0].profile_pic
-                });
-
-            Logger.debug(REPOSITORY, fnName, ErrMsg.ALL_SELECTED(USERS));
-            return RepositoryCallback(err, users);
+    async.waterfall([
+            function(GenericCallback){ Generic.selectAllRecords(query, REPOSITORY, fnName, USER, GenericCallback); },
+            function(data, ModelCallback){ UserModel.setAllUsers(data, ModelCallback); }
+        ], function(err, Users) {
+            if(err != null)
+                return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+            else
+                return RepositoryCallback(null, Users);
         }
-    });
+    );
+
+    //DB.query(query, function (err, rows, fields) {
+    //    var users = [];
+    //
+    //    if (err != null) {
+    //        Logger.error(REPOSITORY, fnName, err.message);
+    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+    //    }else if(rows.length == 0){
+    //        Logger.debug(REPOSITORY, fnName, ErrMsg.ALL_NOT_SELECTED(USERS));
+    //        return RepositoryCallback(err, users);
+    //    } else {
+    //        for (var i = 0; i < rows.length; i++)
+    //            users.push({
+    //                userID: rows[0].userID,
+    //                userName: rows[0].user_name,
+    //                email: rows[0].email,
+    //                userRole: {
+    //                    id: rows[0].roleID,
+    //                    name: rows[0].roleName,
+    //                    value: rows[0].roleValue
+    //                },
+    //                dateOfRegistration: rows[0].date_of_registration,
+    //                firstName: rows[0].first_name,
+    //                lastName: rows[0].last_name,
+    //                gender: (rows[0].gender == 'M') ? 'Male' : 'Female',
+    //                mailSubscribe: rows[0].mail_subscribe,
+    //                university: rows[0].university,
+    //                college: rows[0].college,
+    //                job: rows[0].job,
+    //                country: rows[0].country,
+    //                dateOfBirth: rows[0].date_of_birth,
+    //                mobileNumber: rows[0].mobile_number,
+    //                userPic: rows[0].profile_pic
+    //            });
+    //
+    //        Logger.debug(REPOSITORY, fnName, ErrMsg.ALL_SELECTED(USERS));
+    //        return RepositoryCallback(err, users);
+    //    }
+    //});
 };
 
 /**
@@ -279,9 +301,7 @@ exports.deleteUserByID = function(userID, RepositoryCallback){
     var query = "DELETE FROM users WHERE id = " + DB.escape(userID);
 
     async.waterfall([
-        function(GenericCallback){
-            Generic.deleteRecord(query, REPOSITORY, fnName, USER, GenericCallback);
-        }],
+        function(GenericCallback){ Generic.deleteRecord(query, REPOSITORY, fnName, USER, GenericCallback); }],
         function(err, userID) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -322,7 +342,7 @@ exports.updateUserByID = function(userID, newUserData, RepositoryCallback){
 
     var query = "UPDATE users SET ? WHERE id = " + DB.escape(userID);
 
-    async.waterfall([function(GenericCallback){Generic.updateRecord(query, conditions, REPOSITORY, fnName, USER, GenericCallback);}],
+    async.waterfall([ function(GenericCallback){Generic.updateRecord(query, conditions, REPOSITORY, fnName, USER, GenericCallback); }],
         function(err, userID) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -350,11 +370,11 @@ exports.isUserFound = function(userName, email, RepositoryCallback){
             "email = " + DB.escape(email) + ";";
 
     async.waterfall([function(GenericCallback){Generic.isRecordFound(query, REPOSITORY, fnName, USER, GenericCallback);}],
-        function(err, userID) {
+        function(err, isFound) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
             else
-                return RepositoryCallback(null, userID);
+                return RepositoryCallback(null, isFound);
         }
     );
     //DB.query(query, function (err, rows, fields) {
@@ -384,21 +404,30 @@ exports.isUserActive = function(userID, RepositoryCallback){
 
     var query = "SELECT active FROM users WHERE id = " + DB.escape(userID);
 
-    DB.query(query, function (err, rows, fields) {
-        if (err != null) {
-            Logger.error(REPOSITORY, fnName, err.message);
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
-        }else if(rows.length == 1) {
-            Logger.debug(REPOSITORY, fnName, ErrMsg.IS_SELECTED(USER));
-            return RepositoryCallback(err, (rows[0].active == 1));
-        }else if(rows.length > 1){
-            Logger.error(REPOSITORY, fnName, ErrMsg.MANY_FOUND(USER));
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_FOUND(USER)), null);
-        }else if(rows.length == 0) {
-            Logger.error(REPOSITORY, fnName, ErrMsg.NOT_FOUND(USER));
-            return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_FOUND(USER)), null);
+    async.waterfall([function(GenericCallback){Generic.selectValue(query, "active", REPOSITORY, fnName, USER, GenericCallback);}],
+        function(err, isActive) {
+            if(err != null)
+                return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+            else
+                return RepositoryCallback(null, (isActive == 1));
         }
-    });
+    );
+
+    //DB.query(query, function (err, rows, fields) {
+    //    if (err != null) {
+    //        Logger.error(REPOSITORY, fnName, err.message);
+    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+    //    }else if(rows.length == 1) {
+    //        Logger.debug(REPOSITORY, fnName, ErrMsg.IS_SELECTED(USER));
+    //        return RepositoryCallback(err, (rows[0].active == 1));
+    //    }else if(rows.length > 1){
+    //        Logger.error(REPOSITORY, fnName, ErrMsg.MANY_FOUND(USER));
+    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_FOUND(USER)), null);
+    //    }else if(rows.length == 0) {
+    //        Logger.error(REPOSITORY, fnName, ErrMsg.NOT_FOUND(USER));
+    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_FOUND(USER)), null);
+    //    }
+    //});
 };
 
 /**
