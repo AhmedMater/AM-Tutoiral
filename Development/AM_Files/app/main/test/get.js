@@ -468,7 +468,7 @@ module.exports = {
             UserRepository.selectUserByLoginData('Admin_Test1','ahmedniaghta', RepositoryCallback);
         };
         var getAll = function(RepositoryCallback) {
-            UserRepository.selectAllUsers(RepositoryCallback);
+            UserRepository.selectAllUsers(null, "2000-01-11", "2016-01-11", 1, 'M', "2000-01-11", "2016-01-11", true, RepositoryCallback);
         };
         var deleteUser = function(RepositoryCallback){
             UserRepository.deleteUserByID(20, RepositoryCallback);
@@ -497,8 +497,11 @@ module.exports = {
             //UserRepository.isUserActive(2, RepositoryCallback);
             UserRepository.isUserActive(1, RepositoryCallback);
         };
+        var changePassword = function(RepositoryCallback){
+            UserRepository.changePassword(4, "Admin1_Test", "Kamal", "Kamal", RepositoryCallback);
+        };
 
-        async.waterfall([isUserActive],
+        async.waterfall([getAll],
             function(err, result) {
                 if(err != null)
                     res.send(err.message);

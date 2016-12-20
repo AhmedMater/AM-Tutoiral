@@ -226,19 +226,29 @@ exports.selectUserByID = function(userID, RepositoryCallback) {
  * @param RepositoryCallback
  * @return User[] Array of User Objects
  */
-exports.selectAllUsers = function(RepositoryCallback){
+exports.selectAllUsers = function(name, dateOfRegFrom, dateOfRegTo, roleID, gender, datOfBirthFrom, datOfBirthTo, isActive, RepositoryCallback){
     var fnName = "selectAllUsers";
 
     var query =
         "SELECT " +
-            "user.id userID, user_name, first_name, last_name, email, profile_pic, date_of_registration, gender, " +
+            "user.id userID, user_name, CONCAT(first_name, ' ', last_name) as fullName, email, profile_pic, date_of_registration, gender, " +
             "mail_subscribe, university, college, job, country, date_of_birth, mobile_number, " +
             "role.id AS roleID, role.name AS roleName, role.value AS roleValue " +
         "FROM " +
-            "users user LEFT JOIN lookup_user_role role ON user.user_role_id = role.id;";
+            "users user LEFT JOIN lookup_user_role role ON user.user_role_id = role.id ";
+
+    var conditions = [];
+
+    conditions.push({fieldName: "CONCAT(first_name, ' ', last_name)", operator: "LIKE", value: name});
+    conditions.push({fieldName: "user.user_role_id", operator: "=", value: roleID});
+    conditions.push({fieldName: "user.gender", operator: "=", value: gender});
+    conditions.push({fieldName: "user.active", operator: "=", value: isActive});
+    conditions.push({fieldName: "date_of_registration", type: "date", from: dateOfRegFrom, to: dateOfRegTo});
+    conditions.push({fieldName: "date_of_birth", type: "date", from: datOfBirthFrom, to: datOfBirthTo});
 
     async.waterfall([
-            function(GenericCallback){ Generic.selectAllRecords(query, REPOSITORY, fnName, USER, GenericCallback); },
+            function(DBUtilityCallback){ Generic.constructWhereStatement(conditions, DBUtilityCallback);},
+            function(whereStatement, GenericCallback){ Generic.selectAllRecords(query + ((whereStatement) ? whereStatement : ""), REPOSITORY, fnName, USER, GenericCallback); },
             function(data, ModelCallback){ UserModel.setAllUsers(data, ModelCallback); }
         ], function(err, Users) {
             if(err != null)
@@ -247,45 +257,6 @@ exports.selectAllUsers = function(RepositoryCallback){
                 return RepositoryCallback(null, Users);
         }
     );
-
-    //DB.query(query, function (err, rows, fields) {
-    //    var users = [];
-    //
-    //    if (err != null) {
-    //        Logger.error(REPOSITORY, fnName, err.message);
-    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
-    //    }else if(rows.length == 0){
-    //        Logger.debug(REPOSITORY, fnName, ErrMsg.ALL_NOT_SELECTED(USERS));
-    //        return RepositoryCallback(err, users);
-    //    } else {
-    //        for (var i = 0; i < rows.length; i++)
-    //            users.push({
-    //                userID: rows[0].userID,
-    //                userName: rows[0].user_name,
-    //                email: rows[0].email,
-    //                userRole: {
-    //                    id: rows[0].roleID,
-    //                    name: rows[0].roleName,
-    //                    value: rows[0].roleValue
-    //                },
-    //                dateOfRegistration: rows[0].date_of_registration,
-    //                firstName: rows[0].first_name,
-    //                lastName: rows[0].last_name,
-    //                gender: (rows[0].gender == 'M') ? 'Male' : 'Female',
-    //                mailSubscribe: rows[0].mail_subscribe,
-    //                university: rows[0].university,
-    //                college: rows[0].college,
-    //                job: rows[0].job,
-    //                country: rows[0].country,
-    //                dateOfBirth: rows[0].date_of_birth,
-    //                mobileNumber: rows[0].mobile_number,
-    //                userPic: rows[0].profile_pic
-    //            });
-    //
-    //        Logger.debug(REPOSITORY, fnName, ErrMsg.ALL_SELECTED(USERS));
-    //        return RepositoryCallback(err, users);
-    //    }
-    //});
 };
 
 /**
@@ -322,32 +293,32 @@ exports.deleteUserByID = function(userID, RepositoryCallback){
 exports.updateUserByID = function(userID, newUserData, RepositoryCallback){
     var fnName = "updateUserByID";
 
-    var conditions = {};
+    var attributes = {};
 
-    if(newUserData.email) conditions['email'] = newUserData.email;
-    if(newUserData.userRoleID) conditions['user_role_id'] = newUserData.userRoleID;
-    if(newUserData.firstName) conditions['first_name'] = newUserData.firstName;
-    if(newUserData.lastName) conditions['last_name'] = newUserData.lastName;
-    if(newUserData.gender) conditions['gender'] = newUserData.gender;
-    if(newUserData.mailSubscribe) conditions['mail_subscribe'] = newUserData.mailSubscribe;
-    if(newUserData.university) conditions['university'] = newUserData.university;
-    if(newUserData.college) conditions['college'] = newUserData.college;
-    if(newUserData.job) conditions['job'] = newUserData.job;
-    if(newUserData.country) conditions['country'] = newUserData.country;
-    if(newUserData.dateOfBirth) conditions['date_of_birth'] = newUserData.dateOfBirth.year + '-' + newUserData.dateOfBirth.month + '-' + newUserData.dateOfBirth.day;
-    if(newUserData.profilePic) conditions['profile_pic'] = newUserData.profilePic;
-    if(newUserData.mobileNumber) conditions['mobile_number'] = newUserData.mobileNumber;
+    if(newUserData.email) attributes['email'] = newUserData.email;
+    if(newUserData.userRoleID) attributes['user_role_id'] = newUserData.userRoleID;
+    if(newUserData.firstName) attributes['first_name'] = newUserData.firstName;
+    if(newUserData.lastName) attributes['last_name'] = newUserData.lastName;
+    if(newUserData.gender) attributes['gender'] = newUserData.gender;
+    if(newUserData.mailSubscribe) attributes['mail_subscribe'] = newUserData.mailSubscribe;
+    if(newUserData.university) attributes['university'] = newUserData.university;
+    if(newUserData.college) attributes['college'] = newUserData.college;
+    if(newUserData.job) attributes['job'] = newUserData.job;
+    if(newUserData.country) attributes['country'] = newUserData.country;
+    if(newUserData.dateOfBirth) attributes['date_of_birth'] = newUserData.dateOfBirth.year + '-' + newUserData.dateOfBirth.month + '-' + newUserData.dateOfBirth.day;
+    if(newUserData.profilePic) attributes['profile_pic'] = newUserData.profilePic;
+    if(newUserData.mobileNumber) attributes['mobile_number'] = newUserData.mobileNumber;
 
-    conditions['last_updated'] = new Date();
+    attributes['last_updated'] = new Date();
 
     var query = "UPDATE users SET ? WHERE id = " + DB.escape(userID);
 
-    async.waterfall([ function(GenericCallback){Generic.updateRecord(query, conditions, REPOSITORY, fnName, USER, GenericCallback); }],
-        function(err, userID) {
+    async.waterfall([ function(GenericCallback){Generic.updateRecord(query, attributes, REPOSITORY, fnName, USER, GenericCallback); }],
+        function(err, done) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
             else
-                return RepositoryCallback(null, userID);
+                return RepositoryCallback(null, done);
         }
     );
 };
@@ -412,22 +383,6 @@ exports.isUserActive = function(userID, RepositoryCallback){
                 return RepositoryCallback(null, (isActive == 1));
         }
     );
-
-    //DB.query(query, function (err, rows, fields) {
-    //    if (err != null) {
-    //        Logger.error(REPOSITORY, fnName, err.message);
-    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
-    //    }else if(rows.length == 1) {
-    //        Logger.debug(REPOSITORY, fnName, ErrMsg.IS_SELECTED(USER));
-    //        return RepositoryCallback(err, (rows[0].active == 1));
-    //    }else if(rows.length > 1){
-    //        Logger.error(REPOSITORY, fnName, ErrMsg.MANY_FOUND(USER));
-    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_FOUND(USER)), null);
-    //    }else if(rows.length == 0) {
-    //        Logger.error(REPOSITORY, fnName, ErrMsg.NOT_FOUND(USER));
-    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_FOUND(USER)), null);
-    //    }
-    //});
 };
 
 /**
@@ -443,69 +398,22 @@ exports.isUserActive = function(userID, RepositoryCallback){
 exports.changePassword = function(userID, userName, oldPassword, newPassword, RepositoryCallback) {
     var fnName = "changePassword";
 
-    var query =
-        "UPDATE user SET " +
-        "newPassword = " + DB.escape(newPassword) +
-        "WHERE " +
-        "id = " + DB.escape(userID) + " AND " +
-        "userName = " + DB.escape(userName) + " AND " +
-        "oldPassword = " + DB.escape(oldPassword);
+    var newData = { password: newPassword };
 
-    async.waterfall([function(GenericCallback){Generic.updateRecord(query, conditions, REPOSITORY, fnName, USER, GenericCallback);}],
-        function(err, userID) {
+    var query =
+        "UPDATE users SET ? WHERE " +
+            "id = " + DB.escape(userID) + " AND " +
+            "user_name = " + DB.escape(userName) + " AND " +
+            "password = " + DB.escape(oldPassword);
+
+    async.waterfall([function(GenericCallback){Generic.updateRecord(query, newData, REPOSITORY, fnName, USER, GenericCallback);}],
+        function(err, done) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
             else
-                return RepositoryCallback(null, userID);
+                return RepositoryCallback(null, done);
         }
     );
-
-    //DB.beginTransaction(function (transactionError) {
-    //    // in case of Transaction Error
-    //    if (transactionError) {
-    //        Logger.error(REPOSITORY, fnName, transactionError.message);
-    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, transactionError.message), false);
-    //    }
-    //
-    //    DB.query(query, function (queryError, rows, fields) {
-    //
-    //        // in case of Query Error
-    //        if (queryError != null) {
-    //            Logger.error(REPOSITORY, fnName, queryError.message);
-    //            return RepositoryCallback(ErrMsg.createError(DB_ERROR, queryError.message), false);
-    //        }
-    //
-    //        // in case of only one record to be updated
-    //        else if (rows.affectedRows == 1) {
-    //            DB.commit(function (commitError) {
-    //                if (commitError) {
-    //                    return DB.rollback(function () {
-    //                        Logger.error(REPOSITORY, fnName, commitError.message);
-    //                        Logger.debug(REPOSITORY, fnName, ErrMsg.TRANS_ROLLBACK);
-    //                        return RepositoryCallback(ErrMsg.createError(DB_ERROR, commitError.message), false);
-    //                    });
-    //                }
-    //                Logger.debug(REPOSITORY, fnName, ErrMsg.IS_UPDATED(USER));
-    //                return RepositoryCallback(commitError, true);
-    //            });
-    //        }
-    //
-    //        // in case of no records to be updated
-    //        else if (rows.affectedRows == 0) {
-    //            Logger.debug(REPOSITORY, fnName, ErrMsg.UPDATE_NOT_FOUND(USER));
-    //            return RepositoryCallback(queryError, false);
-    //        }
-    //
-    //        // in case of more than one record will be updated
-    //        else if (rows.affectedRows > 1) {
-    //            return DB.rollback(function () {
-    //                Logger.error(REPOSITORY, fnName, ErrMsg.MANY_UPDATED(USER));
-    //                Logger.debug(REPOSITORY, fnName, ErrMsg.TRANS_ROLLBACK);
-    //                return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_UPDATED(USER)), false);
-    //            });
-    //        }
-    //    });
-    //});
 };
 
 

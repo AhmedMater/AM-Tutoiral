@@ -14,6 +14,43 @@ var exports = module.exports = {};
 exports.createSQLDate = function(dateObj){
     return dateObj.year + "-" + dateObj.month + "-" + dateObj.day;
 };
+var createSQLDateCondition = function(fieldName, from, to){
+    if(from != null){
+        if(to != null)
+            return "DATE(`" + fieldName + "`) " + " BETWEEN " + DB.escape(from) + " AND " + DB.escape(to);
+        else
+            return "DATE(`" + fieldName + "`) " + " > " + DB.escape(from) ;
+    }else{
+        if(to != null)
+            return "DATE(`" + fieldName + "`) " + " < " + DB.escape(to);
+        else
+            return null;
+    }
+};
+var createSQLCondition = function(condition){
+    if(condition.type == "date")
+        return createSQLDateCondition(condition.fieldName, condition.from, condition.to);
+    else if(condition.value != null){
+        if(condition.type == "boolean")
+            return condition.fieldName + " " + condition.operator + " " + ((condition.value) ? DB.escape("1") : DB.escape("0"));
+        else
+            return condition.fieldName + " " + condition.operator + " " + DB.escape(condition.value);
+    else
+        return null;
+    }
+}
+
+exports.constructWhereStatement = function(conditions, DBUtilityCallback){
+    if(conditions.length == 0)
+        return DBUtilityCallback(null, null);
+
+    var statement = "WHERE " + createSQLCondition(conditions[0]);
+
+    for(var i=1; i<conditions.length; i++)
+        statement += " AND " + createSQLCondition(conditions[i]);
+
+    return DBUtilityCallback(null, statement);
+}
 
 exports.insertRecord = function(query, data, repositoryName, fnName, modelName, GenericCallback){
     DB.query(query, data, function (err, rows, fields) {
@@ -86,7 +123,7 @@ exports.deleteRecord = function(query, repositoryName, fnName, modelName, Generi
     });
 };
 
-exports.updateRecord = function(query, conditions, repositoryName, fnName, modelName, GenericCallback){
+exports.updateRecord = function(query, attributes, repositoryName, fnName, modelName, GenericCallback){
     DB.beginTransaction(function(transactionError) {
         // in case of Transaction Error
         if (transactionError) {
@@ -94,7 +131,7 @@ exports.updateRecord = function(query, conditions, repositoryName, fnName, model
             return GenericCallback(ErrMsg.createError(DB_ERROR, transactionError.message), null);
         }
 
-        DB.query(query, conditions, function (queryError, rows, fields) {
+        DB.query(query, attributes, function (queryError, rows, fields) {
 
             // in case of Query Error
             if (queryError != null) {
@@ -104,17 +141,22 @@ exports.updateRecord = function(query, conditions, repositoryName, fnName, model
 
             // in case of only one record to be updated
             else if (rows.affectedRows == 1) {
-                DB.commit(function (commitError) {
-                    if (commitError) {
-                        return DB.rollback(function () {
-                            Logger.error(repositoryName, fnName, commitError.message);
-                            Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
-                            return GenericCallback(ErrMsg.createError(DB_ERROR, commitError.message), null);
-                        });
-                    }
-                    Logger.debug(repositoryName, fnName, ErrMsg.IS_UPDATED(modelName));
-                    return GenericCallback(null, true);
-                });
+                if(rows.changedRows == 1) {
+                    DB.commit(function (commitError) {
+                        if (commitError) {
+                            return DB.rollback(function () {
+                                Logger.error(repositoryName, fnName, commitError.message);
+                                Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                                return GenericCallback(ErrMsg.createError(DB_ERROR, commitError.message), null);
+                            });
+                        }
+                        Logger.debug(repositoryName, fnName, ErrMsg.IS_UPDATED(modelName));
+                        return GenericCallback(null, true);
+                    });
+                } else {
+                    Logger.error(repositoryName, fnName, ErrMsg.INCOMPLETE_UPDATE(modelName));
+                    return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.INCOMPLETE_UPDATE(modelName)), null);
+                }
             }
 
             // in case of no records to be updated

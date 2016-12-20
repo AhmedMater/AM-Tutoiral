@@ -33,6 +33,7 @@ module.exports = {
 
     ALL_NOT_SELECTED: function(value){ return "(" + value + ") aren't selected from Database";},
     ALL_NOT_INSERTED: function(value){ return "(" + value + ") aren't inserted in Database";},
+    INCOMPLETE_UPDATE: function(value){ return "(" + value + ") record isn't updated as it already has the same new values in database"; },
 
     ALL_SELECTED: function(value){ return "All (" + value + ") are selected successfully from Database";},
     ALL_INSERTED: function(value){ return "All (" + value + ") are inserted successfully in Database";},
