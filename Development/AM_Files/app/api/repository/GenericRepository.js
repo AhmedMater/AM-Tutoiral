@@ -3,6 +3,7 @@
  */
 
 var DB = rootRequire('AM-Database');
+var async = require('async');
 
 var SystemParam = rootRequire('SystemParameters');
 var ErrMsg = rootRequire('ErrorMessages');
@@ -277,7 +278,29 @@ exports.selectAllRecords = function(query, repositoryName, fnName, modelName, Ge
     });
 };
 
-exports.multiInsertRecords = function(queries, attributes, repositoryName, fnName, modelName, GenericCallback){
+exports.multiRecordInsert = function(query, records, repositoryName, fnName, modelName, GenericCallback){
+    DB.query(query, records, function (err, rows, fields) {
+        // in case of an Error
+        if (err != null) {
+            Logger.error(repositoryName, fnName, err.message);
+            return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+        }
+
+        // in case of inserting one record
+        else if(rows.affectedRows >= 1){
+            Logger.debug(repositoryName, fnName, ErrMsg.ALL_INSERTED(modelName));
+            return GenericCallback(null, true);
+        }
+
+        // in case of inserting more than one record
+        else{
+            Logger.error(repositoryName, fnName, ErrMsg.NOT_INSERTED(modelName));
+            return GenericCallback(null, false);
+        }
+    });
+};
+
+exports.multiTableInsert = function(queries, repositoryName, fnName, GenericCallback){
     DB.beginTransaction(function(transactionError) {
         // in case of Transaction Error
         if (transactionError) {
@@ -285,46 +308,84 @@ exports.multiInsertRecords = function(queries, attributes, repositoryName, fnNam
             return GenericCallback(ErrMsg.createError(DB_ERROR, transactionError.message), null);
         }
 
-        var recordID = null;
-        DB.query(queries[0], attributes[0], function (queryError, rows, fields) {
+        DB.query(queries[0].query, queries[0].attributes, function (queryError, rows, fields) {
             // in case of an Error
-            if (err != null) {
-                Logger.error(repositoryName, fnName, err.message);
-                return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+            if (queryError != null) {
+                Logger.error(repositoryName, fnName, queryError.message);
+                return GenericCallback(ErrMsg.createError(DB_ERROR, queryError.message), null);
+            }
+
+            // in case of no records inserted
+            else if (rows.affectedRows == 0) {
+                Logger.error(repositoryName, fnName, ErrMsg.NOT_INSERTED(queries[0].modelName));
+                return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_INSERTED(queries[0].modelName)), null);
             }
 
             // in case of inserting more than one record
-            else if(rows.affectedRows != 1){
-                Logger.error(repositoryName, fnName, ErrMsg.NOT_INSERTED(modelName[0]));
-                return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_INSERTED(modelName[0])), null);
+            else if (rows.affectedRows > 1) {
+                Logger.error(repositoryName, fnName, ErrMsg.MANY_INSERTED(queries[0].modelName));
+                return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_INSERTED(queries[0].modelName)), null);
             }
 
             // in case of inserting one record
-            else if(rows.affectedRows == 1){
-                Logger.debug(repositoryName, fnName, ErrMsg.IS_INSERTED(modelName[0]));
-                recordID = rows.insertId;
+            else if (rows.affectedRows == 1) {
+                Logger.debug(repositoryName, fnName, ErrMsg.IS_INSERTED(queries[0].modelName));
+                var recordID = rows.insertId;
+                var failed = false;
+                var totalErrors = [];
 
-                for(var i=1; i<queries.length; i++){
-                    DB.query(queries[i], attributes[i], function (queryError, rows, fields) {
-                        // in case of an Error
-                        if (err != null) {
-                            Logger.error(repositoryName, fnName, err.message);
-                            return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
-                        }
+                queries.forEach(function(item, index, array){
+                    if(item.attributes == null)
+                        Logger.debug(repositoryName, fnName, ErrMsg.NOT_INSERTED(item.modelName));
+                    else if(index != 0) {
+                        item.attributes.forEach(function (element) {
+                            element.push(recordID);
+                        });
 
-                        // in case of inserting more than one record
-                        else if(rows.affectedRows != 1){
-                            Logger.error(repositoryName, fnName, ErrMsg.NOT_INSERTED(modelName[i]));
-                            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_INSERTED(modelName[i])), null);
-                        }
+                        DB.query(item.query, [item.attributes], function (queryError2, rows2, fields) {
+                            // in case of an Error
+                            if (queryError2 != null) {
+                                failed = true;
+                                Logger.error(repositoryName, fnName, queryError2.message);
+                                totalErrors.push(queryError2.message);
+                                if(index == array.length - 1 && failed)
+                                    return DB.rollback(function () {
+                                        Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                                        return GenericCallback(ErrMsg.createError(DB_ERROR, totalErrors), null);
+                                    });
+                            }
 
-                        // in case of inserting one record
-                        else if(rows.affectedRows == 1) {
-                            Logger.debug(repositoryName, fnName, ErrMsg.IS_INSERTED(modelName[i]));
-                        }
-                    });
-                }
+                            // in case of inserting more than one record
+                            else if (rows2.affectedRows >= 1) {
+                                Logger.debug(repositoryName, fnName, ErrMsg.ALL_INSERTED(item.modelName));
+                                if (index == array.length - 1 && !failed) {
+                                    DB.commit(function (commitError) {
+                                        if (commitError) {
+                                            return DB.rollback(function () {
+                                                Logger.error(repositoryName, fnName, commitError.message);
+                                                Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                                                return GenericCallback(ErrMsg.createError(DB_ERROR, commitError.message), null);
+                                            });
+                                        }else{
+                                            Logger.debug(repositoryName, fnName, ErrMsg.FULL_INSERTED(array[0].modelName));
+                                            return GenericCallback(null, true);
+                                        }
+                                    });
+                                }
+                            }
+
+                            // in case of no records inserted
+                            else if (rows2.affectedRows == 0) {
+                                return DB.rollback(function () {
+                                    Logger.error(repositoryName, fnName, ErrMsg.NOT_INSERTED(item.modelName));
+                                    Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                                    return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_INSERTED(item.modelName)), null);
+                                });
+                            }
+                        });
+                    }
+                });
             }
-
+        });
     });
 };

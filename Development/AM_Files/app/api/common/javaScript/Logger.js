@@ -32,7 +32,7 @@ module.exports = {
             if (err) {
                 return console.error(err);
             }
-            module.exports.debug(SystemParam.Logger, "openLogFile", ErrMsg.INFO_0);
+            //module.exports.debug(SystemParam.Logger, "openLogFile", ErrMsg.INFO_0);
         });
     }
 

@@ -65,6 +65,7 @@ var exports = module.exports = {
         "TaskServices": "api/services/TaskServices",
 
         "UserModel": "api/model/User",
+        "CourseModel": "api/model/Course",
 
         "ErrorMessages": "api/common/javaScript/ErrorMessages",
         "Security": "api/common/javaScript/Security",

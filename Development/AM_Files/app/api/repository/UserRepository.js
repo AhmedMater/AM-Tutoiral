@@ -92,7 +92,7 @@ exports.selectUserByLoginData = function(userName, password, RepositoryCallback)
 
 /**
  * It's a Repository function responsible for retrieving all the Data of the User from the Database by its User ID
- * @param serID
+ * @param userID
  * @param RepositoryCallback
  * @return User Object has the full data of the user from the Database
  */
@@ -300,5 +300,3 @@ exports.changePassword = function(userID, userName, oldPassword, newPassword, Re
         }
     );
 };
-
-

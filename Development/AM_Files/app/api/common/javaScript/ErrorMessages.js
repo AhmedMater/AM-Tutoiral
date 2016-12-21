@@ -41,9 +41,12 @@ module.exports = {
     ALL_UPDATED:  function(value){ return "All (" + value + ") are updated successfully in Database";},
 
     MANY_SELECTED: function(value){ return "More than one (" + value + ") is selected from Database";},
+    MANY_INSERTED: function(value){ return "More than one (" + value + ") is to be inserted in Database";},
     MANY_DELETED:  function(value){ return "More than one (" + value + ") is to deleted from Database";},
     MANY_UPDATED:  function(value){ return "More than one (" + value + ") is to updated in Database";},
     MANY_FOUND:    function(value){ return "More than one (" + value + ") is found in Database";},
+
+    FULL_INSERTED: function(value){ return "(" + value + ") data is fully inserted in Database";},
 
     TRANS_ROLLBACK: "Transaction is rolled back",
     ERROR_MSG_DAY_1 : "It should be positive number in range of 01 to 31",

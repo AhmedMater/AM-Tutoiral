@@ -1,6 +1,7 @@
 
 var Valid = rootRequire('Validation');
 var UserRepository = rootRequire('UserRepository');
+var CourseRepository = rootRequire('CourseRepository');
 
 var async = require('async');
 var lookupRepository = rootRequire('LookupRepository');
@@ -507,12 +508,78 @@ var testingUserRepository = function(res){
         }
     );
 };
+var testingCourseRepository = function(res){
+    var courseData = {
+        courseName: "Operating System I",
+        coursePeriod: 30,
+        courseLevelID: 1,
+        courseTypeID: 2,
+        youTubePlaylist: "https://www.youtube.com/playlist?list=PLqItuIAASZlNc3tcI7-a7VupWm1h2nEXl",
+        courseDescription: "It's a new Course for teaching the Basics and Principles for the Operating Systems"
+    };
+
+    var  courseContents = [
+        ["1", 'Content 1'],
+        ["2", 'Content 2'],
+        ["3", 'Content 3'],
+        ["4", 'Content 4']
+    ];
+
+    var  courseObjectives = [
+        ["1", 'Objective 1'],
+        ["2", 'Objective 2'],
+        ["3", 'Objective 3'],
+        ["4", 'Objective 4'],
+        ["5", 'Objective 5'],
+        ["6", 'Objective 6'],
+        ["7", 'Objective 7']
+    ];
+
+    var  coursePreRequisites = [
+        ['Java Programming SE', "https://www.youtube.com/watch?v=LCSD8XKKNN0"],
+        ["Computer Organization", "https://www.youtube.com/watch?v=J09uZAR4dXg"],
+        ["Oracle DB Course", "https://www.youtube.com/playlist?list=PLqItuIAASZlMBrvsen4NXFQKkkdLn3Mmx"]
+    ];
+
+    var  courseReferences = [
+        ["Ref Name 1", "1", "https://www.amazon.com/Java-Complete-Reference-Herbert-Schildt/dp/0071808558"],
+        ["Ref Name 2", "2", "https://www.youtube.com/watch?v=DaX5ml3XPso"],
+        ["Ref Name 3", "1", "https://www.amazon.com/C-Programming-Language-4th/dp/0321563840"],
+        ["Ref Name 4", "1", "https://www.amazon.com/Programming-Principles-Practice-Using-2nd/dp/0321992784"],
+        ["Ref Name 5", "2", "https://www.youtube.com/watch?v=IcYZOizikwA&list=RDIcYZOizikwA"],
+        ["Ref Name 6", "1", "http://www.wrox.com/WileyCDA/WroxTitle/Professional-C-6-and-NET-Core-1-0.productCd-111909660X.html"]
+    ];
+
+    async.waterfall([
+        function(RepositoryCallback){
+            //CourseRepository.insertFullCourse(courseData, courseContents, courseObjectives, coursePreRequisites,
+            //    courseReferences, RepositoryCallback);
+
+            //CourseRepository.selectCourseByID(1, RepositoryCallback);
+            //CourseRepository.selectAllCourseContentsByID(1, RepositoryCallback);
+            //CourseRepository.selectAllCourseObjectivesByID(1, RepositoryCallback);
+            //CourseRepository.selectAllCoursePrerequisitesByID(1, RepositoryCallback);
+            //CourseRepository.selectAllCourseReferencesByID(1, RepositoryCallback);
+            //CourseRepository.insertCourse(courseData, RepositoryCallback);
+            CourseRepository.insertCourseContents(2, courseContents, RepositoryCallback);
+        }
+    ],
+        function(err, result) {
+            if(err != null)
+                res.send(err.message);
+            else if(typeof result === "object")
+                res.send(result);
+            else
+                res.send('<h2>' + result + '</h2>');
+        }
+    );
+};
 
 module.exports = {
 
     go : function(req, res, next) {
 
-        //testingValidations(res);
+        testingCourseRepository(res);
 
 
     }
