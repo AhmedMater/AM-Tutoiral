@@ -410,6 +410,68 @@ var testingYouTubeValidation = function(){
     ];
 };
 
+var insertUser = function(RepositoryCallback){
+    var userData = {
+        userName: "Admin1_Test",
+        password: "ahmednight",
+        confirmPassword: "ahmednight",
+        userRoleID: 2,
+        firstName: "Ahmed",
+        lastName: "Mater",
+        email: "ahmedmotair@gmail.com",
+        gender: "M",
+        dateOfBirth: {
+            day: "15",
+            month: "5",
+            year: "1993"
+        },
+        mailSubscribe: false
+    };
+    UserRepository.insertUser(userData, RepositoryCallback);
+};
+var selectUserID = function(RepositoryCallback) {
+    //UserRepository.selectUserByID(1, RepositoryCallback);
+    UserRepository.selectUserByID(25, RepositoryCallback);
+};
+var login = function(RepositoryCallback) {
+    //UserRepository.selectUserByLoginData('Admin_Test1','ahmednight', RepositoryCallback);
+    //UserRepository.selectUserByLoginData('Admin_Test1','ahmednighta', RepositoryCallback);
+    UserRepository.selectUserByLoginData('Admin_Test1','ahmedniaghta', RepositoryCallback);
+};
+var getAll = function(RepositoryCallback) {
+    UserRepository.selectAllUsers(null, "1800-01-11", null, 2, 'M', "1993-5-15", "1993-5-15", null, RepositoryCallback);
+};
+var deleteUser = function(RepositoryCallback){
+    UserRepository.deleteUserByID(20, RepositoryCallback);
+};
+var updateUser = function(RepositoryCallback){
+    var newUserData = {
+        password: "2016",
+        userRoleID: 1,
+        firstName: "Ajlsdjaskdasd",
+        lastName: "asndansdkasnd",
+        dateOfBirth:{
+            day: 5,
+            month: 10,
+            year: 2000
+        }
+    };
+    UserRepository.updateUserByID(1, newUserData, RepositoryCallback);
+};
+var isUserFound = function(RepositoryCallback){
+    UserRepository.isUserFound("Ahmed_Mater12", null, RepositoryCallback);
+    //UserRepository.isUserFound(null, "ahmedmotair@gmail.com", RepositoryCallback);
+    //UserRepository.isUserFound("Ahmed_Mater", "ahmedmotair@gmail.cossm", RepositoryCallback);
+};
+var isUserActive = function(RepositoryCallback){
+    //UserRepository.isUserActive(1, RepositoryCallback);
+    //UserRepository.isUserActive(2, RepositoryCallback);
+    UserRepository.isUserActive(1, RepositoryCallback);
+};
+var changePassword = function(RepositoryCallback){
+    UserRepository.changePassword(4, "Admin1_Test", "Kamal", "Kamal", RepositoryCallback);
+};
+
 var testingValidations = function(res){
     var result = [];
 
@@ -432,6 +494,19 @@ var testingValidations = function(res){
         results: result
     });
 };
+var testingUserRepository = function(res){
+
+    async.waterfall([getAll],
+        function(err, result) {
+            if(err != null)
+                res.send(err.message);
+            else if(typeof result === "object")
+                res.send(result);
+            else
+                res.send('<h2>' + result + '</h2>');
+        }
+    );
+};
 
 module.exports = {
 
@@ -439,77 +514,6 @@ module.exports = {
 
         //testingValidations(res);
 
-        var insertUser = function(RepositoryCallback){
-            var userData = {
-                userName: "Admin1_Test",
-                password: "ahmednight",
-                confirmPassword: "ahmednight",
-                userRoleID: 2,
-                firstName: "Ahmed",
-                lastName: "Mater",
-                email: "ahmedmotair@gmail.com",
-                gender: "M",
-                dateOfBirth: {
-                    day: "15",
-                    month: "5",
-                    year: "1993"
-                },
-                mailSubscribe: false
-            };
-            UserRepository.insertUser(userData, RepositoryCallback);
-        };
-        var selectUserID = function(RepositoryCallback) {
-            //UserRepository.selectUserByID(1, RepositoryCallback);
-            UserRepository.selectUserByID(25, RepositoryCallback);
-        };
-        var login = function(RepositoryCallback) {
-            //UserRepository.selectUserByLoginData('Admin_Test1','ahmednight', RepositoryCallback);
-            //UserRepository.selectUserByLoginData('Admin_Test1','ahmednighta', RepositoryCallback);
-            UserRepository.selectUserByLoginData('Admin_Test1','ahmedniaghta', RepositoryCallback);
-        };
-        var getAll = function(RepositoryCallback) {
-            UserRepository.selectAllUsers(null, "2000-01-11", "2016-01-11", 1, 'M', "2000-01-11", "2016-01-11", true, RepositoryCallback);
-        };
-        var deleteUser = function(RepositoryCallback){
-            UserRepository.deleteUserByID(20, RepositoryCallback);
-        };
-        var updateUser = function(RepositoryCallback){
-            var newUserData = {
-                password: "2016",
-                userRoleID: 1,
-                firstName: "Ajlsdjaskdasd",
-                lastName: "asndansdkasnd",
-                dateOfBirth:{
-                    day: 5,
-                    month: 10,
-                    year: 2000
-                }
-            };
-            UserRepository.updateUserByID(1, newUserData, RepositoryCallback);
-        };
-        var isUserFound = function(RepositoryCallback){
-            UserRepository.isUserFound("Ahmed_Mater12", null, RepositoryCallback);
-            //UserRepository.isUserFound(null, "ahmedmotair@gmail.com", RepositoryCallback);
-            //UserRepository.isUserFound("Ahmed_Mater", "ahmedmotair@gmail.cossm", RepositoryCallback);
-        };
-        var isUserActive = function(RepositoryCallback){
-            //UserRepository.isUserActive(1, RepositoryCallback);
-            //UserRepository.isUserActive(2, RepositoryCallback);
-            UserRepository.isUserActive(1, RepositoryCallback);
-        };
-        var changePassword = function(RepositoryCallback){
-            UserRepository.changePassword(4, "Admin1_Test", "Kamal", "Kamal", RepositoryCallback);
-        };
 
-        async.waterfall([getAll],
-            function(err, result) {
-                if(err != null)
-                    res.send(err.message);
-                else if(typeof result === "object")
-                    res.send(result);
-                else
-                    res.send('<h2>' + result + '</h2>');
-            }
-        );
     }
 };

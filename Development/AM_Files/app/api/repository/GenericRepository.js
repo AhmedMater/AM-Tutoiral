@@ -11,18 +11,28 @@ var DB_ERROR = SystemParam.DATABASE_ERROR;
 
 var exports = module.exports = {};
 
+exports.setCondition = function(fieldName, value, operator, type, dateFrom, dateTo){
+    return {
+        fieldName: fieldName,
+        operator: (operator) ? operator : null,
+        value: (value) ? value : null,
+        type: (type) ? type : null,
+        from: (dateFrom) ? dateFrom : null,
+        to: (dateTo) ? dateTo : null
+    };
+};
 exports.createSQLDate = function(dateObj){
     return dateObj.year + "-" + dateObj.month + "-" + dateObj.day;
 };
 var createSQLDateCondition = function(fieldName, from, to){
     if(from != null){
         if(to != null)
-            return "DATE(`" + fieldName + "`) " + " BETWEEN " + DB.escape(from) + " AND " + DB.escape(to);
+            return "DATE(`" + fieldName + "`)" + " BETWEEN " + DB.escape(from) + " AND " + DB.escape(to);
         else
-            return "DATE(`" + fieldName + "`) " + " > " + DB.escape(from) ;
+            return "DATE(`" + fieldName + "`)" + " > " + DB.escape(from) ;
     }else{
         if(to != null)
-            return "DATE(`" + fieldName + "`) " + " < " + DB.escape(to);
+            return "DATE(`" + fieldName + "`)" + " < " + DB.escape(to);
         else
             return null;
     }
@@ -30,27 +40,37 @@ var createSQLDateCondition = function(fieldName, from, to){
 var createSQLCondition = function(condition){
     if(condition.type == "date")
         return createSQLDateCondition(condition.fieldName, condition.from, condition.to);
-    else if(condition.value != null){
-        if(condition.type == "boolean")
-            return condition.fieldName + " " + condition.operator + " " + ((condition.value) ? DB.escape("1") : DB.escape("0"));
+    else if(condition.value != null)
+        if (condition.type == "boolean")
+            return condition.fieldName + " " + ((condition.operator) ? condition.operator : "=")
+                + " " + ((condition.value) ? DB.escape("1") : DB.escape("0"));
         else
-            return condition.fieldName + " " + condition.operator + " " + DB.escape(condition.value);
+            return condition.fieldName + " " + ((condition.operator) ? condition.operator : "=")
+                + " " + DB.escape(condition.value);
     else
         return null;
-    }
-}
+};
 
 exports.constructWhereStatement = function(conditions, DBUtilityCallback){
     if(conditions.length == 0)
         return DBUtilityCallback(null, null);
 
-    var statement = "WHERE " + createSQLCondition(conditions[0]);
+    var fullConditions = [];
 
-    for(var i=1; i<conditions.length; i++)
-        statement += " AND " + createSQLCondition(conditions[i]);
+    for(var i=1; i<conditions.length; i++) {
+        var conditionStr = createSQLCondition(conditions[i]);
+
+        if (conditionStr != null)
+            fullConditions.push(conditionStr);
+    }
+
+    var statement = "WHERE " + fullConditions[0];
+
+    for(var i=1; i<fullConditions.length; i++)
+        statement += " AND " + fullConditions[i];
 
     return DBUtilityCallback(null, statement);
-}
+};
 
 exports.insertRecord = function(query, data, repositoryName, fnName, modelName, GenericCallback){
     DB.query(query, data, function (err, rows, fields) {
@@ -251,8 +271,8 @@ exports.selectAllRecords = function(query, repositoryName, fnName, modelName, Ge
 
         // case of more than one record is selected
         else if(rows.length > 1) {
-            Logger.error(repositoryName, fnName, ErrMsg.MANY_SELECTED(modelName));
-            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_SELECTED(modelName)), null);
+            Logger.error(repositoryName, fnName, ErrMsg.ALL_SELECTED(modelName));
+            return GenericCallback(null, rows);
         }
     });
 };

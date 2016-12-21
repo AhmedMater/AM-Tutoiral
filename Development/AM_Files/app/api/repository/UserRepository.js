@@ -88,56 +88,6 @@ exports.selectUserByLoginData = function(userName, password, RepositoryCallback)
                 return RepositoryCallback(null, User);
         }
     );
-    //DB.query(query, function (err, rows, fields) {
-    //    var User = null;
-    //
-    //    // in case of an error
-    //    if (err != null) {
-    //        Logger.error(REPOSITORY, fnName, err.message);
-    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), User);
-    //    }
-    //
-    //    // in case of selecting only one row
-    //    else if(rows.length == 1){
-    //        User = {
-    //            userID: rows[0].userID,
-    //            userName: rows[0].user_name,
-    //            email: rows[0].email,
-    //            userRole: {
-    //                id: rows[0].roleID,
-    //                name: rows[0].roleName,
-    //                value: rows[0].roleValue
-    //            },
-    //            dateOfRegistration: rows[0].date_of_registration,
-    //            firstName: rows[0].first_name,
-    //            lastName: rows[0].last_name,
-    //            gender: (rows[0].gender == 'M') ? 'Male' : 'Female',
-    //            mailSubscribe: rows[0].mail_subscribe,
-    //            university: rows[0].university,
-    //            college: rows[0].college,
-    //            job: rows[0].job,
-    //            country: rows[0].country,
-    //            dateOfBirth: rows[0].date_of_birth,
-    //            mobileNumber: rows[0].mobile_number,
-    //            userPic: rows[0].profile_pic
-    //        };
-    //
-    //        Logger.debug(REPOSITORY, fnName, ErrMsg.IS_SELECTED(USER));
-    //        return RepositoryCallback(err, User);
-    //    }
-    //
-    //    // case of no records is selected
-    //    else if(rows.length == 0) {
-    //        Logger.debug(REPOSITORY, fnName, ErrMsg.NOT_FOUND(USER));
-    //        return RepositoryCallback(err, User);
-    //    }
-    //
-    //    // case of more than one record is selected
-    //    else if(rows.length > 1) {
-    //        Logger.error(REPOSITORY, fnName, ErrMsg.MANY_SELECTED(USER));
-    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_SELECTED(USER)), User);
-    //    }
-    //});
 };
 
 /**
@@ -168,61 +118,10 @@ exports.selectUserByID = function(userID, RepositoryCallback) {
                 return RepositoryCallback(null, User);
         }
     );
-
-    //DB.query(query, function (err, rows, fields) {
-    //    var User = null;
-    //
-    //    // in case of an error
-    //    if (err != null) {
-    //        Logger.error(REPOSITORY, fnName, err.message);
-    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), User);
-    //    }
-    //
-    //    // in case of selecting only one row
-    //    else if(rows.length == 1){
-    //        User = {
-    //            userID: rows[0].userID,
-    //            userName: rows[0].user_name,
-    //            email: rows[0].email,
-    //            userRole: {
-    //                id: rows[0].roleID,
-    //                name: rows[0].roleName,
-    //                value: rows[0].roleValue
-    //            },
-    //            dateOfRegistration: rows[0].date_of_registration,
-    //            firstName: rows[0].first_name,
-    //            lastName: rows[0].last_name,
-    //            gender: (rows[0].gender == 'M') ? 'Male' : 'Female',
-    //            mailSubscribe: rows[0].mail_subscribe,
-    //            university: rows[0].university,
-    //            college: rows[0].college,
-    //            job: rows[0].job,
-    //            country: rows[0].country,
-    //            dateOfBirth: rows[0].date_of_birth,
-    //            mobileNumber: rows[0].mobile_number,
-    //            userPic: rows[0].profile_pic
-    //        };
-    //
-    //        Logger.debug(REPOSITORY, fnName, ErrMsg.IS_SELECTED(USER));
-    //        return RepositoryCallback(err, User);
-    //    }
-    //
-    //    // case of no records is selected
-    //    else if(rows.length == 0) {
-    //        Logger.debug(REPOSITORY, fnName, ErrMsg.NOT_FOUND(USER));
-    //        return RepositoryCallback(err, User);
-    //    }
-    //
-    //    // case of more than one record is selected
-    //    else if(rows.length > 1) {
-    //        Logger.error(REPOSITORY, fnName, ErrMsg.MANY_SELECTED(USER));
-    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_SELECTED(USER)), User);
-    //    }
-    //});
 };
 
 /**
- * It's a Repository function responsible for retrieving all the User Data from the Database
+ * It's a Repository function responsible for retrieving all the User Data according to filtering criteria from the Database
  * @param RepositoryCallback
  * @return User[] Array of User Objects
  */
@@ -231,20 +130,19 @@ exports.selectAllUsers = function(name, dateOfRegFrom, dateOfRegTo, roleID, gend
 
     var query =
         "SELECT " +
-            "user.id userID, user_name, CONCAT(first_name, ' ', last_name) as fullName, email, profile_pic, date_of_registration, gender, " +
-            "mail_subscribe, university, college, job, country, date_of_birth, mobile_number, " +
-            "role.id AS roleID, role.name AS roleName, role.value AS roleValue " +
+            "user.id userID, CONCAT(first_name, ' ', last_name) as fullName, date_of_registration, gender, " +
+            "university, college, job, country, date_of_birth, role.name AS roleName " +
         "FROM " +
             "users user LEFT JOIN lookup_user_role role ON user.user_role_id = role.id ";
 
     var conditions = [];
 
-    conditions.push({fieldName: "CONCAT(first_name, ' ', last_name)", operator: "LIKE", value: name});
-    conditions.push({fieldName: "user.user_role_id", operator: "=", value: roleID});
-    conditions.push({fieldName: "user.gender", operator: "=", value: gender});
-    conditions.push({fieldName: "user.active", operator: "=", value: isActive});
-    conditions.push({fieldName: "date_of_registration", type: "date", from: dateOfRegFrom, to: dateOfRegTo});
-    conditions.push({fieldName: "date_of_birth", type: "date", from: datOfBirthFrom, to: datOfBirthTo});
+    conditions.push(Generic.setCondition("CONCAT(first_name, ' ', last_name)", name, "LIKE"));
+    conditions.push(Generic.setCondition("user.user_role_id", roleID));
+    conditions.push(Generic.setCondition("user.gender", gender));
+    conditions.push(Generic.setCondition("user.active", isActive));
+    conditions.push(Generic.setCondition("date_of_registration", null, null, "date", dateOfRegFrom, dateOfRegTo));
+    conditions.push(Generic.setCondition("date_of_birth", null, null, "date", datOfBirthFrom, datOfBirthTo));
 
     async.waterfall([
             function(DBUtilityCallback){ Generic.constructWhereStatement(conditions, DBUtilityCallback);},
@@ -348,19 +246,6 @@ exports.isUserFound = function(userName, email, RepositoryCallback){
                 return RepositoryCallback(null, isFound);
         }
     );
-    //DB.query(query, function (err, rows, fields) {
-    //
-    //    if (err != null) {
-    //        Logger.error(REPOSITORY, fnName, err.message);
-    //        return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
-    //    }else if(rows.length == 0) {
-    //        Logger.debug(REPOSITORY, fnName, ErrMsg.NOT_FOUND(USER));
-    //        return RepositoryCallback(err, false);
-    //    }else{
-    //        Logger.debug(REPOSITORY, fnName, ErrMsg.IS_FOUND(USER));
-    //        return RepositoryCallback(err, true);
-    //    }
-    //});
 };
 
 /**

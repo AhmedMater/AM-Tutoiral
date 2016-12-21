@@ -44,25 +44,15 @@ exports.setAllUsers = function(rows, ModelCallback){
         for(var i=0; i<rows.length; i++)
             Users.push({
                 userID: rows[i].userID,
-                userName: rows[i].user_name,
-                email: rows[i].email,
-                userRole: {
-                    id: rows[i].roleID,
-                    name: rows[i].roleName,
-                    value: rows[i].roleValue
-                },
+                userRole: rows[i].roleName,
+                fullName: rows[i].fullName,
                 dateOfRegistration: rows[i].date_of_registration,
-                firstName: rows[i].first_name,
-                lastName: rows[i].last_name,
                 gender: (rows[i].gender == 'M') ? 'Male' : 'Female',
-                mailSubscribe: rows[i].mail_subscribe,
                 university: rows[i].university,
                 college: rows[i].college,
                 job: rows[i].job,
                 country: rows[i].country,
-                dateOfBirth: rows[i].date_of_birth,
-                mobileNumber: rows[i].mobile_number,
-                userPic: rows[i].profile_pic
+                dateOfBirth: rows[i].date_of_birth
             });            
 
         return ModelCallback(null, Users);
