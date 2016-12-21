@@ -276,3 +276,55 @@ exports.selectAllRecords = function(query, repositoryName, fnName, modelName, Ge
         }
     });
 };
+
+exports.multiInsertRecords = function(queries, attributes, repositoryName, fnName, modelName, GenericCallback){
+    DB.beginTransaction(function(transactionError) {
+        // in case of Transaction Error
+        if (transactionError) {
+            Logger.error(repositoryName, fnName, transactionError.message);
+            return GenericCallback(ErrMsg.createError(DB_ERROR, transactionError.message), null);
+        }
+
+        var recordID = null;
+        DB.query(queries[0], attributes[0], function (queryError, rows, fields) {
+            // in case of an Error
+            if (err != null) {
+                Logger.error(repositoryName, fnName, err.message);
+                return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+            }
+
+            // in case of inserting more than one record
+            else if(rows.affectedRows != 1){
+                Logger.error(repositoryName, fnName, ErrMsg.NOT_INSERTED(modelName[0]));
+                return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_INSERTED(modelName[0])), null);
+            }
+
+            // in case of inserting one record
+            else if(rows.affectedRows == 1){
+                Logger.debug(repositoryName, fnName, ErrMsg.IS_INSERTED(modelName[0]));
+                recordID = rows.insertId;
+
+                for(var i=1; i<queries.length; i++){
+                    DB.query(queries[i], attributes[i], function (queryError, rows, fields) {
+                        // in case of an Error
+                        if (err != null) {
+                            Logger.error(repositoryName, fnName, err.message);
+                            return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+                        }
+
+                        // in case of inserting more than one record
+                        else if(rows.affectedRows != 1){
+                            Logger.error(repositoryName, fnName, ErrMsg.NOT_INSERTED(modelName[i]));
+                            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_INSERTED(modelName[i])), null);
+                        }
+
+                        // in case of inserting one record
+                        else if(rows.affectedRows == 1) {
+                            Logger.debug(repositoryName, fnName, ErrMsg.IS_INSERTED(modelName[i]));
+                        }
+                    });
+                }
+            }
+
+    });
+};
