@@ -9,13 +9,9 @@ var SystemParam = rootRequire('SystemParameters');
 var ErrMsg = rootRequire('ErrorMessages');
 var Logger = rootRequire('Logger');
 var Generic = rootRequire('GenericRepository');
-var CourseModel = rootRequire('CourseModel');
+var Models = rootRequire('Models');
 
 var COURSE = "Course";
-var COURSE_OBJECTIVES = "Course Objectives";
-var COURSE_CONTENTS = "Course Contents";
-var COURSE_PREREQUISITES = "Course Prerequisites";
-var COURSE_REFERENCES = "Course References";
 var COURSES = "Courses";
 var DB_ERROR = SystemParam.DATABASE_ERROR;
 var REPOSITORY = COURSE + SystemParam.REPOSITORY;
@@ -25,7 +21,8 @@ var exports = module.exports = {};
 /**
  * It's a Repository function responsible for inserting new Course Record into the Database
  * Also inserting its Contents, Objectives, Prerequisites, References
- * @param courseData
+ * @param userID ID of the User adding this Course
+ * @param courseData Main Info of the Course
  * @param courseContentArray as Array of [num, content]
  * @param courseObjectivesArray as Array of [num, objective]
  * @param coursePreRequisitesArray as Array of [name, url]
@@ -33,7 +30,7 @@ var exports = module.exports = {};
  * @param RepositoryCallback
  * @param Boolean true - if succeeded <br/> false - if failed
  */
-exports.insertFullCourse = function(courseData, courseContentArray, courseObjectivesArray,
+exports.insertFullCourse = function(userID, courseData, courseContentArray, courseObjectivesArray,
             coursePreRequisitesArray, courseReferencesArray, RepositoryCallback) {
     var fnName = "insertFullCourse";
     var totalQueries = [];
@@ -47,7 +44,8 @@ exports.insertFullCourse = function(courseData, courseContentArray, courseObject
             course_level_id: courseData.courseLevelID,
             course_type_id: courseData.courseTypeID,
             playlist_link: courseData.youTubePlaylist,
-            description: courseData.courseDescription
+            description: courseData.courseDescription,
+            user_id: userID
         }
     };
     totalQueries.push(courseQuery);
@@ -93,11 +91,12 @@ exports.insertFullCourse = function(courseData, courseContentArray, courseObject
 
 /**
  * It's a Repository function responsible for inserting new Course record in the Database
+ * @param userID ID of the User adding this Course
  * @param courseData Course Data extracted from the New Course form
  * @param RepositoryCallback
- * @return int CourseID of the record in Database
+ * @return Integer CourseID of the record in Database
  */
-exports.insertCourse = function(courseData, RepositoryCallback) {
+exports.insertCourse = function(userID, courseData, RepositoryCallback) {
     var fnName = "insertCourse";
 
     var query = 'INSERT INTO course SET ?';
@@ -107,7 +106,8 @@ exports.insertCourse = function(courseData, RepositoryCallback) {
         course_level_id: courseData.courseLevelID,
         course_type_id: courseData.courseTypeID,
         playlist_link: courseData.youTubePlaylist,
-        description: courseData.courseDescription
+        description: courseData.courseDescription,
+        user_id: userID
     };
 
     async.waterfall([
@@ -117,29 +117,6 @@ exports.insertCourse = function(courseData, RepositoryCallback) {
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
             else
                 return RepositoryCallback(null, courseID);
-        }
-    );
-};
-
-/**
- * It's a Repository function responsible for inserting new Course record in the Database
- * @param courseData Course Data extracted from the New Course form
- * @param RepositoryCallback
- * @return true if Contents are inserted otherwise false
- */
-exports.insertCourseContents = function(courseID, courseContentArray, RepositoryCallback) {
-    var fnName = "insertCourse";
-
-    var query = 'INSERT INTO course_content (num, content, course_id) VALUES ?';
-    courseContentArray.forEach(function(element){element.push(courseID);});
-
-    async.waterfall([
-            function(GenericCallback){ Generic.multiRecordInsert(query, [courseContentArray], REPOSITORY, fnName, COURSE, GenericCallback); }],
-        function(err, done) {
-            if(err != null)
-                return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
-            else
-                return RepositoryCallback(null, done);
         }
     );
 };
@@ -155,16 +132,17 @@ exports.selectCourseByID = function(courseID, RepositoryCallback) {
     var query =
         "SELECT " +
             "c.name courseName, period, level.name courseLevel, type.name courseType, playlist_link, " +
-            "description, date_of_course, last_update " +
+            "description, date_of_course, c.last_updated, CONCAT(u.first_name, ' ', u.last_name) fullName " +
         "FROM course c " +
             "LEFT JOIN lookup_course_level level ON course_level_id = level.id " +
             "LEFT JOIN lookup_course_type type ON course_type_id = type.id " +
+            "LEFT JOIN users u ON user_id = u.id " +
         "WHERE " +
             "c.id = " + DB.escape(courseID);
 
     async.waterfall([
             function(GenericCallback){ Generic.selectRecord(query, REPOSITORY, fnName, COURSE, GenericCallback); },
-            function(data, ModelCallback){ CourseModel.setCourse(data, ModelCallback); }
+            function(data, ModelCallback){ Models.setCourse(data, ModelCallback); }
         ], function(err, User) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -175,118 +153,87 @@ exports.selectCourseByID = function(courseID, RepositoryCallback) {
 };
 
 /**
- * It's a Repository function responsible for retrieving all the Contents of a Course by its ID from the Database
+ * It's a Repository function responsible for updating the Course Data in the Database
+ * @param courseID ID of the Course to be updated
+ * @param newCourseData new data to be updated as a JSON with columns are the keys
  * @param RepositoryCallback
- * @return CourseContent[] Array of Course Contents Objects
+ * @return Boolean true if Update succeeded <br/>
+ *                false if Update failed
  */
-exports.selectAllCourseContentsByID = function(courseID, RepositoryCallback){
-    var fnName = "selectAllCourseContentsByID";
+exports.updateCourseByID = function(courseID, newCourseData, RepositoryCallback){
+    var fnName = "updateCourseByID";
 
-    var query =
-        "SELECT " +
-            "cc.num, cc.content " +
-        "FROM " +
-            "course_content cc " +
-                "LEFT JOIN course c ON c.id = cc.course_id " +
-        "WHERE " +
-            "c.id = " + DB.escape(courseID);
+    var attributes = {};
 
-    async.waterfall([
-            function(GenericCallback){ Generic.selectAllRecords(query, REPOSITORY, fnName, COURSE_CONTENTS, GenericCallback); },
-            function(data, ModelCallback){ CourseModel.setAllCourseContents(data, ModelCallback); }
-        ], function(err, courseContents) {
+    if(newCourseData.courseName) attributes['name'] = newCourseData.courseName;
+    if(newCourseData.coursePeriod) attributes['period'] = newCourseData.coursePeriod;
+    if(newCourseData.courseLevelID) attributes['course_level_id'] = newCourseData.courseLevelID;
+    if(newCourseData.courseTypeID) attributes['course_type_id'] = newCourseData.courseTypeID;
+    if(newCourseData.youtTubePlayist) attributes['playlist_link'] = newCourseData.youtTubePlayist;
+    if(newCourseData.courseDescription) attributes['description'] = newCourseData.courseDescription;
+
+    attributes['last_updated'] = new Date();
+
+    var query = "UPDATE course SET ? WHERE id = " + DB.escape(courseID);
+
+    async.waterfall([ function(GenericCallback){Generic.updateRecord(query, attributes, REPOSITORY, fnName, COURSE, GenericCallback); }],
+        function(err, done) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
             else
-                return RepositoryCallback(null, courseContents);
+                return RepositoryCallback(null, done);
         }
     );
 };
 
 /**
- * It's a Repository function responsible for retrieving all the Objectives of a Course by its ID from the Database
+ * It's a Repository function responsible for deleting the Course from the Database
+ * But not fully delete only hidden the course
+ * @param courseID ID of the Course to be deleted
  * @param RepositoryCallback
- * @return CourseObjective[] Array of Course Objectives Objects
+ * @return Boolean true if Deleting succeeded <br/>
+ *                false if Deleting failed
  */
-exports.selectAllCourseObjectivesByID = function(courseID, RepositoryCallback){
-    var fnName = "selectAllCourseObjectivesByID";
+exports.deleteCourseByID = function(courseID, RepositoryCallback){
+    var fnName = "deleteCourseByID";
 
-    var query =
-        "SELECT " +
-            "co.num, co.objective " +
-        "FROM " +
-            "course_objective co " +
-                "LEFT JOIN course c ON c.id = co.course_id " +
-        "WHERE " +
-            "c.id = " + DB.escape(courseID);
+    var attributes = {};
 
-    async.waterfall([
-            function(GenericCallback){ Generic.selectAllRecords(query, REPOSITORY, fnName, COURSE_OBJECTIVES, GenericCallback); },
-            function(data, ModelCallback){ CourseModel.setAllCourseObjectives(data, ModelCallback); }
-        ], function(err, courseObjectives) {
+    attributes['is_deleted'] = 1;
+    attributes['last_updated'] = new Date();
+
+    var query = "UPDATE course SET ? WHERE id = " + DB.escape(courseID);
+
+    async.waterfall([ function(GenericCallback){Generic.updateRecord(query, attributes, REPOSITORY, fnName, COURSE, GenericCallback); }],
+        function(err, done) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
             else
-                return RepositoryCallback(null, courseObjectives);
+                return RepositoryCallback(null, done);
         }
     );
 };
 
 /**
- * It's a Repository function responsible for retrieving all the Prerequisites of a Course by its ID from the Database
+ * It's a Repository function responsible for Delete Course record from the Database
+ * It's fully Deletion from the Database
+ * @param courseID
  * @param RepositoryCallback
- * @return Prerequisite[] Array of Course Prerequisites Objects
+ * @return Boolean - true if Deleting Successfully Done <br/>
+ *                  false if Deleting failed
  */
-exports.selectAllCoursePrerequisitesByID = function(courseID, RepositoryCallback){
-    var fnName = "selectAllCoursePrerequisitesByID";
+exports.fullDeleteCourseByID = function(courseID, RepositoryCallback){
+    var fnName = "fullDeleteCourseByID";
 
-    var query =
-        "SELECT " +
-        "cp.name, cp.url " +
-        "FROM " +
-        "course_pre_requisite cp " +
-        "LEFT JOIN course c ON c.id = cp.course_id " +
-        "WHERE " +
-        "c.id = " + DB.escape(courseID);
+    var query = "DELETE FROM course WHERE id = " + DB.escape(courseID);
 
     async.waterfall([
-            function(GenericCallback){ Generic.selectAllRecords(query, REPOSITORY, fnName, COURSE_PREREQUISITES, GenericCallback); },
-            function(data, ModelCallback){ CourseModel.setAllCoursePrerequisites(data, ModelCallback); }
-        ], function(err, coursePrerequisites) {
+            function(GenericCallback){ Generic.deleteRecord(query, REPOSITORY, fnName, COURSE, GenericCallback); }],
+        function(err, done) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
             else
-                return RepositoryCallback(null, coursePrerequisites);
-        }
-    );
-};
-
-/**
- * It's a Repository function responsible for retrieving all the References of a Course by its ID from the Database
- * @param RepositoryCallback
- * @return Reference[] Array of Course References Objects
- */
-exports.selectAllCourseReferencesByID = function(courseID, RepositoryCallback){
-    var fnName = "selectAllCourseReferencesByID";
-
-    var query =
-        "SELECT " +
-            "cr.name, l.name typeName, cr.url " +
-        "FROM " +
-        "course_reference cr " +
-            "LEFT JOIN course c ON cr.course_id = c.id " +
-            "LEFT JOIN lookup_reference_type l ON cr.type_id = l.id " +
-        "WHERE " +
-            "c.id = " + DB.escape(courseID);
-
-    async.waterfall([
-            function(GenericCallback){ Generic.selectAllRecords(query, REPOSITORY, fnName, COURSE_REFERENCES, GenericCallback); },
-            function(data, ModelCallback){ CourseModel.setAllCourseReferences(data, ModelCallback); }
-        ], function(err, courseReferences) {
-            if(err != null)
-                return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
-            else
-                return RepositoryCallback(null, courseReferences);
+                return RepositoryCallback(null, done);
         }
     );
 };

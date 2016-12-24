@@ -44,10 +44,15 @@ var exports = module.exports = {
     Routes: {
         "test_get": "main/test/get",
         "index-routes": "index-routes",
+        "Models": "api/Models",
 
         "GenericRepository": "api/repository/GenericRepository",
         "UserRepository": "api/repository/UserRepository",
         "LookupRepository": "api/repository/LookupRepository",
+        "ContentRepository": "api/repository/ContentRepository",
+        "ObjectiveRepository": "api/repository/ObjectiveRepository",
+        "PrerequisiteRepository": "api/repository/PrerequisiteRepository",
+        "ReferenceRepository": "api/repository/ReferenceRepository",
         "CourseRepository": "api/repository/CourseRepository",
         "ChapterRepository": "api/repository/ChapterRepository",
         "LessonRepository": "api/repository/LessonRepository",
@@ -63,9 +68,6 @@ var exports = module.exports = {
         "ArticleServices": "api/services/ArticleServices",
         "QuestionServices": "api/services/QuestionServices",
         "TaskServices": "api/services/TaskServices",
-
-        "UserModel": "api/model/User",
-        "CourseModel": "api/model/Course",
 
         "ErrorMessages": "api/common/javaScript/ErrorMessages",
         "Security": "api/common/javaScript/Security",

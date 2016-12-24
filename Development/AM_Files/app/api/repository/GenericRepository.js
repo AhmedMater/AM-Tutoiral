@@ -52,6 +52,13 @@ var createSQLCondition = function(condition){
         return null;
 };
 
+/**
+ * It's a DB Utility function responsible for constructing the WHERE statement for a selecting Query
+ * It loops over the conditions and create the condition SQL statement, then concatenate them into the WHERE statement
+ * @param conditions As an array of condition Objects (fieldName, value, operator[=, LIKES], type[date, boolean], dateFrom, dateTo)
+ * @param DBUtilityCallback
+ * @returns String - String - WHERE statement <br/> - null - if the conditions are all nulls
+ */
 exports.constructWhereStatement = function(conditions, DBUtilityCallback){
     if(conditions.length == 0)
         return DBUtilityCallback(null, null);
@@ -73,28 +80,83 @@ exports.constructWhereStatement = function(conditions, DBUtilityCallback){
     return DBUtilityCallback(null, statement);
 };
 
+/**
+ * It's a DB Utility function responsible for inserting a new Record in the Database
+ * @param query The Insert SQL Statement
+ * @param data The data of the Record as a JSON with keys equal to the column names
+ * @param repositoryName - The Repository Class Name that using this function
+ * @param fnName The Repository function name using this function
+ * @param modelName The Repository Model name
+ * @param GenericCallback
+ * @return Integer - ID of the record inserted <br/> - -1 if no records inserted
+ * @throws DBError - If Transactional Error happens
+ * @throws DBError - If SQL Error happens
+ * @throws DBError - If Commit Error happens
+ * @throws DBError - If More than One record Inserted (Rollback)
+ */
 exports.insertRecord = function(query, data, repositoryName, fnName, modelName, GenericCallback){
-    DB.query(query, data, function (err, rows, fields) {
-        // in case of an Error
-        if (err != null) {
-            Logger.error(repositoryName, fnName, err.message);
-            return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+    DB.beginTransaction(function(transactionError) {
+        // in case of Transaction Error
+        if (transactionError) {
+            Logger.error(repositoryName, fnName, transactionError.message);
+            return GenericCallback(ErrMsg.createError(DB_ERROR, transactionError.message), null);
         }
 
-        // in case of inserting one record
-        else if(rows.affectedRows == 1){
-            Logger.debug(repositoryName, fnName, ErrMsg.IS_INSERTED(modelName));
-            return GenericCallback(null, rows.insertId);
-        }
+        DB.query(query, data, function (err, rows, fields) {
+            // in case of an Error
+            if (err != null) {
+                Logger.error(repositoryName, fnName, err.message);
+                return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+            }
 
-        // in case of inserting more than one record
-        else{
-            Logger.error(repositoryName, fnName, ErrMsg.NOT_INSERTED(modelName));
-            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_INSERTED(modelName)), null);
-        }
+            // in case of inserting one record
+            else if (rows.affectedRows == 1) {
+                DB.commit(function (commitError) {
+                    if (commitError) {
+                        return DB.rollback(function () {
+                            Logger.error(repositoryName, fnName, commitError.message);
+                            Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                            return GenericCallback(ErrMsg.createError(DB_ERROR, commitError.message), null);
+                        });
+                    }
+                    Logger.debug(repositoryName, fnName, ErrMsg.IS_INSERTED(modelName));
+                    return GenericCallback(null, rows.insertId);
+                });
+            }
+
+            // in case of inserting more than one record
+            else if (rows.affectedRows == 0) {
+                Logger.debug(repositoryName, fnName, ErrMsg.NOT_INSERTED(modelName));
+                //return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.NOT_INSERTED(modelName)), null);
+                return GenericCallback(null, -1);
+            }
+
+            // in case of inserting More than one record
+            else if (rows.affectedRows > 1) {
+                return DB.rollback(function () {
+                    Logger.error(repositoryName, fnName, ErrMsg.MANY_INSERTED(modelName));
+                    Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                    return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_INSERTED(modelName)), null);
+                });
+            }
+        });
     });
 };
 
+/**
+ * It's a DB Utility function responsible for deleting a record from the Database
+ * @param query The Delete SQL Statement
+ * @param repositoryName - The Repository Class Name that using this function
+ * @param fnName The Repository function name using this function
+ * @param modelName The Repository Model name
+ * @param GenericCallback
+ * @return Boolean - true if One record is deleted successfully <br/>
+ *                 - false if no records are deleted
+ * @throws DBError - If Transactional Error happens
+ * @throws DBError - If SQL Error happens
+ * @throws DBError - If Commit Error happens
+ * @throws DBError - If More than one record is deleted (Rollback)
+ */
 exports.deleteRecord = function(query, repositoryName, fnName, modelName, GenericCallback){
     DB.beginTransaction(function(transactionError) {
         // in case of Transaction Error
@@ -144,6 +206,22 @@ exports.deleteRecord = function(query, repositoryName, fnName, modelName, Generi
     });
 };
 
+/**
+ * It's a DB Utility function responsible for updating a record in the Database
+ * @param query The Update SQL Statement
+ * @param attributes The new Values to be updated in the Database
+ * @param repositoryName - The Repository Class Name that using this function
+ * @param fnName The Repository function name using this function
+ * @param modelName The Repository Model name
+ * @param GenericCallback
+ * @return Boolean - true if One record is updated successfully <br/>
+ *                 - false if no records are updated
+ * @throws DBError - If Transactional Error happens
+ * @throws DBError - If SQL Error happens
+ * @throws DBError - If Commit Error happens
+ * @throws DBError - If More than one record is updated (Rollback)
+ * @throws DBError - If new values are the same in the Database
+ */
 exports.updateRecord = function(query, attributes, repositoryName, fnName, modelName, GenericCallback){
     DB.beginTransaction(function(transactionError) {
         // in case of Transaction Error
@@ -198,6 +276,16 @@ exports.updateRecord = function(query, attributes, repositoryName, fnName, model
     });
 };
 
+/**
+ * It's a DB Utility function responsible for checking a record is found in the Database
+ * @param query The SELECT SQL Statement
+ * @param repositoryName - The Repository Class Name that using this function
+ * @param fnName The Repository function name using this function
+ * @param modelName The Repository Model name
+ * @param GenericCallback
+ * @return Boolean - true if record found <br/> - false if record isn't found
+ * @throws DBError - If Transactional Error happens
+ */
 exports.isRecordFound = function(query, repositoryName, fnName, modelName, GenericCallback){
     DB.query(query, function (err, rows, fields) {
         if (err != null) {

@@ -2,6 +2,7 @@
 var Valid = rootRequire('Validation');
 var UserRepository = rootRequire('UserRepository');
 var CourseRepository = rootRequire('CourseRepository');
+var ContentRepository = rootRequire('ContentRepository');
 
 var async = require('async');
 var lookupRepository = rootRequire('LookupRepository');
@@ -510,60 +511,100 @@ var testingUserRepository = function(res){
 };
 var testingCourseRepository = function(res){
     var courseData = {
-        courseName: "Operating System I",
-        coursePeriod: 30,
-        courseLevelID: 1,
-        courseTypeID: 2,
-        youTubePlaylist: "https://www.youtube.com/playlist?list=PLqItuIAASZlNc3tcI7-a7VupWm1h2nEXl",
-        courseDescription: "It's a new Course for teaching the Basics and Principles for the Operating Systems"
+        courseName: "SQL Database Fundmentals",
+        coursePeriod: 40,
+        courseLevelID: 2,
+        courseTypeID: 1,
+        youTubePlaylist: "https://www.youtube.com/playlist?list=PLqItuIAxcvxcvNc3tcI7-a7VupWm12312h2nEXl",
+        courseDescription: "It's a new Course for teaching the Basics and Principles for the SQL Language of the Database"
     };
 
-    var  courseContents = [
-        ["1", 'Content 1'],
-        ["2", 'Content 2'],
-        ["3", 'Content 3'],
-        ["4", 'Content 4']
-    ];
-
     var  courseObjectives = [
-        ["1", 'Objective 1'],
-        ["2", 'Objective 2'],
-        ["3", 'Objective 3'],
-        ["4", 'Objective 4'],
-        ["5", 'Objective 5'],
-        ["6", 'Objective 6'],
-        ["7", 'Objective 7']
+        ["1", 'SQL Objective 1'],
+        ["2", 'SQL Objective 2'],
+        ["3", 'SQL Objective 3'],
+        ["4", 'SQL Objective 4'],
+        ["5", 'SQL Objective 5']
     ];
 
     var  coursePreRequisites = [
-        ['Java Programming SE', "https://www.youtube.com/watch?v=LCSD8XKKNN0"],
-        ["Computer Organization", "https://www.youtube.com/watch?v=J09uZAR4dXg"],
-        ["Oracle DB Course", "https://www.youtube.com/playlist?list=PLqItuIAASZlMBrvsen4NXFQKkkdLn3Mmx"]
+        ['SQL for Dummies', "https://www.youtube.com/watch?v=LCSD8xcvxcvxcvNN0"],
+        ["Computer SQL ", "https://www.youtube.com/watch?v=J09uZAR4dXg"],
+        ["Oracle DB SQL", "https://www.youtube.com/playlist?list=PLqItuIAASZlMBrvsen4NXFQsdfsdfKkkdLn3Mmx"]
     ];
 
     var  courseReferences = [
-        ["Ref Name 1", "1", "https://www.amazon.com/Java-Complete-Reference-Herbert-Schildt/dp/0071808558"],
-        ["Ref Name 2", "2", "https://www.youtube.com/watch?v=DaX5ml3XPso"],
-        ["Ref Name 3", "1", "https://www.amazon.com/C-Programming-Language-4th/dp/0321563840"],
-        ["Ref Name 4", "1", "https://www.amazon.com/Programming-Principles-Practice-Using-2nd/dp/0321992784"],
-        ["Ref Name 5", "2", "https://www.youtube.com/watch?v=IcYZOizikwA&list=RDIcYZOizikwA"],
-        ["Ref Name 6", "1", "http://www.wrox.com/WileyCDA/WroxTitle/Professional-C-6-and-NET-Core-1-0.productCd-111909660X.html"]
+        ["SQL Ref Name 1", "1", "https://www.amazon.com/Java-Complete-Reference-Herbert-Schildt/dp/0071808558"],
+        ["SQL Ref Name 2", "2", "https://www.youtube.com/watch?v=DaX5ml3XPso"],
+        ["SQL Ref Name 3", "1", "https://www.amazon.com/C-Programming-Language-4th/dp/0321563840"],
+        ["SQL Ref Name 4", "1", "https://www.amazon.com/Programming-Principles-Practice-Using-2nd/dp/0321992784"]
     ];
 
     async.waterfall([
         function(RepositoryCallback){
-            //CourseRepository.insertFullCourse(courseData, courseContents, courseObjectives, coursePreRequisites,
+            //CourseRepository.insertFullCourse(1, courseData, courseContents, courseObjectives, coursePreRequisites,
             //    courseReferences, RepositoryCallback);
 
-            //CourseRepository.selectCourseByID(1, RepositoryCallback);
+            //CourseRepository.insertCourse(2, courseData, RepositoryCallback);
+            //CourseRepository.insertCourseContents(2, courseContents, RepositoryCallback);
+            //CourseRepository.insertCourseObjectives(2, courseObjectives, RepositoryCallback);
+            //CourseRepository.insertCoursePrerequisites(2, coursePreRequisites, RepositoryCallback);
+            //CourseRepository.insertCourseReferences(2, courseReferences, RepositoryCallback);
+
+            CourseRepository.updateCourseByID(2, courseData, RepositoryCallback);
+        }, function (courseID, RepositoryCallback) {
+            CourseRepository.selectCourseByID(1, RepositoryCallback);
             //CourseRepository.selectAllCourseContentsByID(1, RepositoryCallback);
-            //CourseRepository.selectAllCourseObjectivesByID(1, RepositoryCallback);
-            //CourseRepository.selectAllCoursePrerequisitesByID(1, RepositoryCallback);
-            //CourseRepository.selectAllCourseReferencesByID(1, RepositoryCallback);
-            //CourseRepository.insertCourse(courseData, RepositoryCallback);
-            CourseRepository.insertCourseContents(2, courseContents, RepositoryCallback);
+            //CourseRepository.selectAllCourseObjectivesByID(2, RepositoryCallback);
+            //CourseRepository.selectAllCoursePrerequisitesByID(2, RepositoryCallback);
+            //CourseRepository.selectAllCourseReferencesByID(2, RepositoryCallback);
         }
     ],
+        function(err, result) {
+            if(err != null)
+                res.send(err.message);
+            else if(typeof result === "object")
+                res.send(result);
+            else
+                res.send('<h2>' + result + '</h2>');
+        }
+    );
+};
+var testingCourseContentRepository = function(res){
+    var  courseContents = [
+        {
+            prev_content_id: 0,
+            content: "Content 1",
+            course_id: 3
+        },
+        {
+            prev_content_id: 0,
+            content: "Content 2",
+            course_id: 3
+        },
+        {
+            prev_content_id: 0,
+            content: "Content 3",
+            course_id: 3
+        },
+        {
+            prev_content_id: 0,
+            content: "Content 4",
+            course_id: 3
+        },
+        {
+            prev_content_id: 0,
+            content: "Content 5",
+            course_id: 3
+        },
+        {
+            prev_content_id: 0,
+            content: "Content 6",
+            course_id: 3
+        }
+    ];
+
+    async.waterfall([ function(RepositoryCallback){ContentRepository.insertCourseContents(courseContents, RepositoryCallback);}],
         function(err, result) {
             if(err != null)
                 res.send(err.message);
@@ -579,7 +620,8 @@ module.exports = {
 
     go : function(req, res, next) {
 
-        testingCourseRepository(res);
+        //testingCourseRepository(res);
+        testingCourseContentRepository(res);
 
 
     }

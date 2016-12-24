@@ -9,7 +9,7 @@ var SystemParam = rootRequire('SystemParameters');
 var ErrMsg = rootRequire('ErrorMessages');
 var Logger = rootRequire('Logger');
 var Generic = rootRequire('GenericRepository');
-var UserModel = rootRequire('UserModel');
+var Models = rootRequire('Models');
 
 var USER = "User";
 var USERS = "Users";
@@ -80,7 +80,7 @@ exports.selectUserByLoginData = function(userName, password, RepositoryCallback)
 
     async.waterfall([
             function(GenericCallback){ Generic.selectRecord(query, REPOSITORY, fnName, USER, GenericCallback); },
-            function(data, ModelCallback){ UserModel.setUser(data, ModelCallback); }
+            function(data, ModelCallback){ Models.setUser(data, ModelCallback); }
         ], function(err, User) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -110,7 +110,7 @@ exports.selectUserByID = function(userID, RepositoryCallback) {
 
     async.waterfall([
             function(GenericCallback){ Generic.selectRecord(query, REPOSITORY, fnName, USER, GenericCallback); },
-            function(data, ModelCallback){ UserModel.setUser(data, ModelCallback); }
+            function(data, ModelCallback){ Models.setUser(data, ModelCallback); }
         ], function(err, User) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -147,7 +147,7 @@ exports.selectAllUsers = function(name, dateOfRegFrom, dateOfRegTo, roleID, gend
     async.waterfall([
             function(DBUtilityCallback){ Generic.constructWhereStatement(conditions, DBUtilityCallback);},
             function(whereStatement, GenericCallback){ Generic.selectAllRecords(query + ((whereStatement) ? whereStatement : ""), REPOSITORY, fnName, USER, GenericCallback); },
-            function(data, ModelCallback){ UserModel.setAllUsers(data, ModelCallback); }
+            function(data, ModelCallback){ Models.setAllUsers(data, ModelCallback); }
         ], function(err, Users) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -171,11 +171,11 @@ exports.deleteUserByID = function(userID, RepositoryCallback){
 
     async.waterfall([
         function(GenericCallback){ Generic.deleteRecord(query, REPOSITORY, fnName, USER, GenericCallback); }],
-        function(err, userID) {
+        function(err, done) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
             else
-                return RepositoryCallback(null, userID);
+                return RepositoryCallback(null, done);
         }
     );
 };
