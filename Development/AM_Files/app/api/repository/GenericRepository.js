@@ -477,3 +477,32 @@ exports.multiTableInsert = function(queries, repositoryName, fnName, GenericCall
         });
     });
 };
+
+exports.insertLinkedList = function(query, prev_record_id, recordsDataArray, repositoryName, fnName, modelName, MainGenericCallback){
+    var j = 1;
+
+    if(recordsDataArray.length == 0)
+        return MainGenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.EMPTY_ARRAY(modelName)), null);
+
+    var insertFirstRecord = function(GenericCallback){
+        exports.insertRecord(query, recordsDataArray[0], repositoryName, fnName, modelName, GenericCallback);
+    };
+
+    var insertMoreRecords = function(prevRecordID, GenericCallback){
+        recordsDataArray[j][prev_record_id] = prevRecordID;
+        exports.insertRecord(query, recordsDataArray[j++], repositoryName, fnName, modelName, GenericCallback);
+    };
+
+    var insertRecordsArray = [insertFirstRecord];
+
+    for(var i=0; i<recordsDataArray.length-1; i++)
+        insertRecordsArray.push(insertMoreRecords);
+
+    async.waterfall(insertRecordsArray, function(err, lastRecordID) {
+        if (err != null)
+            return MainGenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+        else
+            return MainGenericCallback(null, lastRecordID);
+
+    });
+};

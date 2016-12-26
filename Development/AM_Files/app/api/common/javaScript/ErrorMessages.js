@@ -14,6 +14,7 @@ module.exports = {
     PASSWORD_NOT_MATCH: function(password1, password2){return "(" + password1 + ") doesn't match (" + password2 + ")";},
     //PASSWORD_EQ_USERNAME: "Error: Password can't be equal to Username",
     NULL_FIELD: function(fieldName){return "(" + fieldName + ") = null";},
+    EMPTY_ARRAY: function(fieldName){return "(" + fieldName + ") Array is Empty";},
 
     INFO_0: "Logger File Opened Successfully",
     IS_SELECTED: function(value){ return "(" + value + ") is selected successfully from Database";},

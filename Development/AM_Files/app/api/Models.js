@@ -99,6 +99,20 @@ exports.setAllCourses = function(rows, ModelCallback){
     }
 };
 
+exports.setContent = function(row, ModelCallback){
+    if(row == null)
+        return ModelCallback(null, null);
+    else {
+        var CourseContent = {
+            id: row.id,
+            prevContentID: row.prev_content_id,
+            content: row.content
+        };
+
+        return ModelCallback(null, CourseContent);
+    }
+};
+
 exports.setAllContents = function(rows, ModelCallback){
     if(rows == null)
         return ModelCallback(null, null);
@@ -107,7 +121,8 @@ exports.setAllContents = function(rows, ModelCallback){
 
         for(var i=0; i<rows.length; i++)
             CourseContents.push({
-                num: rows[i].num,
+                id: rows[i].id,
+                prevContentID: rows[i].prev_content_id,
                 content: rows[i].content
             });
 

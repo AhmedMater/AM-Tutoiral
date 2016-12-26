@@ -570,41 +570,61 @@ var testingCourseRepository = function(res){
         }
     );
 };
-var testingCourseContentRepository = function(res){
-    var  courseContents = [
-        {
-            prev_content_id: 0,
-            content: "Content 1",
-            course_id: 3
-        },
-        {
-            prev_content_id: 0,
-            content: "Content 2",
-            course_id: 3
-        },
-        {
-            prev_content_id: 0,
-            content: "Content 3",
-            course_id: 3
-        },
-        {
-            prev_content_id: 0,
-            content: "Content 4",
-            course_id: 3
-        },
-        {
-            prev_content_id: 0,
-            content: "Content 5",
-            course_id: 3
-        },
-        {
-            prev_content_id: 0,
-            content: "Content 6",
-            course_id: 3
-        }
-    ];
 
-    async.waterfall([ function(RepositoryCallback){ContentRepository.insertCourseContents(courseContents, RepositoryCallback);}],
+
+var testingCourseContentRepository = function(res){
+
+    var insertAllContents = function(RepositoryCallback){
+        var  courseContents = [
+            {
+                prev_content_id: 0,
+                content: "Content 1",
+                course_id: 3
+            },
+            {
+                prev_content_id: 0,
+                content: "Content 2",
+                course_id: 3
+            },
+            {
+                prev_content_id: 0,
+                content: "Content 3",
+                course_id: 3
+            },
+            {
+                prev_content_id: 0,
+                content: "Content 4",
+                course_id: 3
+            },
+            {
+                prev_content_id: 0,
+                content: "Content 5",
+                course_id: 3
+            },
+            {
+                prev_content_id: 0,
+                content: "Content 6",
+                course_id: 3
+            }
+        ];
+        ContentRepository.insertCourseContents(courseContents, RepositoryCallback);
+    };
+
+    var selectContent = function(RepositoryCallback){
+        var courseID = 3;
+        var prevContentID = 14;
+        ContentRepository.selectCourseContentByID_PrevID(courseID, prevContentID, RepositoryCallback);
+    };
+
+    var insertContent = function(RepositoryCallback){
+        var courseID = 3;
+        var prevContentID = 12;
+        var nextContentID = 13;
+        var content = 'Content First';
+        ContentRepository.insertCourseContent(courseID, prevContentID, content, nextContentID, RepositoryCallback);
+    };
+
+    async.waterfall([insertContent],
         function(err, result) {
             if(err != null)
                 res.send(err.message);
