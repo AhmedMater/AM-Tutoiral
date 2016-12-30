@@ -228,7 +228,7 @@ exports.fullDeleteCourseByID = function(courseID, RepositoryCallback){
     var query = "DELETE FROM course WHERE id = " + DB.escape(courseID);
 
     async.waterfall([
-            function(GenericCallback){ Generic.deleteRecord(query, REPOSITORY, fnName, COURSE, GenericCallback); }],
+            function(GenericCallback){ Generic.deleteRecords(query, false, REPOSITORY, fnName, COURSE, GenericCallback); }],
         function(err, done) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);

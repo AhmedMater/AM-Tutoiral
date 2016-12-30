@@ -11,8 +11,14 @@ module.exports = {
 
     SERVER_ERROR: "Server Error",
     DATABASE_ERROR: "Database Error",
+    MODEL_ERROR: "Model Error",
     FRONTEND_ERROR: "Front-End Error",
     AUTHORIZATION_ERROR: "Authorization Error",
+
+    INSERT_QUERY: 'I',
+    SELECT_QUERY: 'S',
+    UPDATE_QUERY: 'U',
+    DELETE_QUERY: 'D',
 
     SECRET_WORD: 'Ahmed Mater',
     LogFilePath: 'C:\\AMPro\\log.txt',

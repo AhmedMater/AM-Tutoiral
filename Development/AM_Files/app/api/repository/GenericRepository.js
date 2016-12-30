@@ -157,7 +157,7 @@ exports.insertRecord = function(query, data, repositoryName, fnName, modelName, 
  * @throws DBError - If Commit Error happens
  * @throws DBError - If More than one record is deleted (Rollback)
  */
-exports.deleteRecord = function(query, repositoryName, fnName, modelName, GenericCallback){
+exports.deleteRecords = function(query, multiRecords, repositoryName, fnName, modelName, GenericCallback){
     DB.beginTransaction(function(transactionError) {
         // in case of Transaction Error
         if (transactionError) {
@@ -196,11 +196,24 @@ exports.deleteRecord = function(query, repositoryName, fnName, modelName, Generi
 
             // in case of more than one record will be deleted
             else if (rows.affectedRows > 1) {
-                return DB.rollback(function () {
-                    Logger.error(repositoryName, fnName, ErrMsg.MANY_DELETED(modelName));
-                    Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
-                    return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_DELETED(modelName)), null);
-                });
+                if(!multiRecords)
+                    return DB.rollback(function () {
+                        Logger.error(repositoryName, fnName, ErrMsg.MANY_DELETED(modelName));
+                        Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                        return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_DELETED(modelName)), null);
+                    });
+                else
+                    DB.commit(function (commitError) {
+                        if (commitError) {
+                            return DB.rollback(function () {
+                                Logger.error(repositoryName, fnName, commitError.message);
+                                Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                                return GenericCallback(ErrMsg.createError(DB_ERROR, commitError.message), null);
+                            });
+                        }
+                        Logger.debug(repositoryName, fnName, ErrMsg.ALL_DELETED(modelName));
+                        return GenericCallback(null, true);
+                    });
             }
         });
     });
@@ -476,6 +489,192 @@ exports.multiTableInsert = function(queries, repositoryName, fnName, GenericCall
             }
         });
     });
+};
+
+exports.insertLinkedListRecord = function(queries, repositoryName, fnName, modelName, GenericCallback){
+    DB.beginTransaction(function(transactionError) {
+        // in case of Transaction Error
+        if (transactionError) {
+            Logger.error(repositoryName, fnName, transactionError.message);
+            return GenericCallback(ErrMsg.createError(DB_ERROR, transactionError.message), null);
+        }
+
+        DB.query(queries.insertQuery, queries.insertData, function (err, rows, fields) {
+            // in case of an Error
+            if (err != null) {
+                Logger.error(repositoryName, fnName, err.message);
+                return GenericCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+            }
+
+            // in case of inserting one record
+            else if (rows.affectedRows == 1) {
+                Logger.debug(repositoryName, fnName, ErrMsg.IS_INSERTED(modelName));
+
+                var attributes = {};
+                if(queries.updateFieldName != null) attributes[queries.updateFieldName] = rows.insertId;
+
+                DB.query(queries.updateQuery, attributes, function (queryError, rows, fields) {
+
+                    // in case of Query Error
+                    if (queryError != null) {
+                        return DB.rollback(function () {
+                            Logger.error(repositoryName, fnName, queryError.message);
+                            Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                            return GenericCallback(ErrMsg.createError(DB_ERROR, queryError.message), null);
+                        });
+                    }
+
+                    // in case of only one record to be updated
+                    else if (rows.affectedRows == 1) {
+                        if(rows.changedRows == 1) {
+                            DB.commit(function (commitError) {
+                                if (commitError) {
+                                    return DB.rollback(function () {
+                                        Logger.error(repositoryName, fnName, commitError.message);
+                                        Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                                        return GenericCallback(ErrMsg.createError(DB_ERROR, commitError.message), null);
+                                    });
+                                }
+                                Logger.debug(repositoryName, fnName, ErrMsg.IS_UPDATED(modelName));
+                                return GenericCallback(null, true);
+                            });
+                        } else {
+                            Logger.error(repositoryName, fnName, ErrMsg.INCOMPLETE_UPDATE(modelName));
+                            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.INCOMPLETE_UPDATE(modelName)), null);
+                        }
+                    }
+
+                    // in case of no records to be updated
+                    else if (rows.affectedRows == 0) {
+                        Logger.debug(repositoryName, fnName, ErrMsg.UPDATE_NOT_FOUND(modelName));
+                        return GenericCallback(null, false);
+                    }
+
+                    // in case of more than one record will be updated
+                    else if (rows.affectedRows > 1) {
+                        return DB.rollback(function () {
+                            Logger.error(repositoryName, fnName, ErrMsg.MANY_UPDATED(modelName));
+                            Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_UPDATED(modelName)), null);
+                        });
+                    }
+                });
+            }
+
+            // in case of inserting more than one record
+            else if (rows.affectedRows == 0) {
+                Logger.debug(repositoryName, fnName, ErrMsg.NOT_INSERTED(modelName));
+                return GenericCallback(null, -1);
+            }
+
+            // in case of inserting More than one record
+            else if (rows.affectedRows > 1) {
+                return DB.rollback(function () {
+                    Logger.error(repositoryName, fnName, ErrMsg.MANY_INSERTED(modelName));
+                    Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                    return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_INSERTED(modelName)), null);
+                });
+            }
+        });
+    });
+};
+
+exports.deleteLinkedListRecord = function(queries, repositoryName, fnName, modelName, GenericCallback){
+    DB.beginTransaction(function(transactionError) {
+        // in case of Transaction Error
+        if (transactionError) {
+            Logger.error(repositoryName, fnName, transactionError.message);
+            return GenericCallback(ErrMsg.createError(DB_ERROR, transactionError.message), null);
+        }
+
+        DB.query(queries.deleteQuery, function (queryError, rows, fields) {
+
+            // in case of Query Error
+            if (queryError != null) {
+                Logger.error(repositoryName, fnName, queryError.message);
+                return GenericCallback(ErrMsg.createError(DB_ERROR, queryError.message), null);
+            }
+
+            // in case of only one record to be deleted
+            else if (rows.affectedRows == 1) {
+                //DB.commit(function (commitError) {
+                //    if (commitError) {
+                //        return DB.rollback(function () {
+                //            Logger.error(repositoryName, fnName, commitError.message);
+                //            Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                //            return GenericCallback(ErrMsg.createError(DB_ERROR, commitError.message), null);
+                //        });
+                //    }
+                //    Logger.debug(repositoryName, fnName, ErrMsg.IS_DELETED(modelName));
+                //    return GenericCallback(null, true);
+                //});
+
+                Logger.debug(repositoryName, fnName, ErrMsg.IS_DELETED(modelName));
+                DB.query(queries.updateQuery, queries.updateAttributes, function (queryError, rows, fields) {
+
+                    // in case of Query Error
+                    if (queryError != null) {
+                        return DB.rollback(function () {
+                            Logger.error(repositoryName, fnName, queryError.message);
+                            Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                            return GenericCallback(ErrMsg.createError(DB_ERROR, queryError.message), null);
+                        });
+                    }
+
+                    // in case of only one record to be updated
+                    else if (rows.affectedRows == 1) {
+                        if(rows.changedRows == 1) {
+                            DB.commit(function (commitError) {
+                                if (commitError) {
+                                    return DB.rollback(function () {
+                                        Logger.error(repositoryName, fnName, commitError.message);
+                                        Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                                        return GenericCallback(ErrMsg.createError(DB_ERROR, commitError.message), null);
+                                    });
+                                }
+                                Logger.debug(repositoryName, fnName, ErrMsg.IS_UPDATED(modelName));
+                                return GenericCallback(null, true);
+                            });
+                        } else {
+                            Logger.error(repositoryName, fnName, ErrMsg.INCOMPLETE_UPDATE(modelName));
+                            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.INCOMPLETE_UPDATE(modelName)), null);
+                        }
+                    }
+
+                    // in case of no records to be updated
+                    else if (rows.affectedRows == 0) {
+                        Logger.debug(repositoryName, fnName, ErrMsg.UPDATE_NOT_FOUND(modelName));
+                        return GenericCallback(null, false);
+                    }
+
+                    // in case of more than one record will be updated
+                    else if (rows.affectedRows > 1) {
+                        return DB.rollback(function () {
+                            Logger.error(repositoryName, fnName, ErrMsg.MANY_UPDATED(modelName));
+                            Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                            return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_UPDATED(modelName)), null);
+                        });
+                    }
+            });
+            }
+
+            // in case of no records to be deleted
+            else if (rows.affectedRows == 0) {
+                Logger.debug(repositoryName, fnName, ErrMsg.DELETE_NOT_FOUND(modelName));
+                return GenericCallback(null, false);
+            }
+
+            // in case of more than one record will be deleted
+            else if (rows.affectedRows > 1) {
+                return DB.rollback(function () {
+                    Logger.error(repositoryName, fnName, ErrMsg.MANY_DELETED(modelName));
+                    Logger.debug(repositoryName, fnName, ErrMsg.TRANS_ROLLBACK);
+                    return GenericCallback(ErrMsg.createError(DB_ERROR, ErrMsg.MANY_DELETED(modelName)), null);
+                });
+            }
+        });
+    });
+
 };
 
 exports.insertLinkedList = function(query, prev_record_id, recordsDataArray, repositoryName, fnName, modelName, MainGenericCallback){

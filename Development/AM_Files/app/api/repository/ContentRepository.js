@@ -18,15 +18,20 @@ var REPOSITORY = COURSE_CONTENTS + SystemParam.REPOSITORY;
 
 var exports = module.exports = {};
 
+var queries = {
+    insertCourseContent: 'INSERT INTO course_content SET ?',
+    deleteCourseContent: function(contentID){ return "DELETE FROM course_content WHERE id = " + DB.escape(contentID);},
+    updateCourseContent: function(contentID){ return "UPDATE course_content SET ? WHERE id = " + DB.escape(contentID);}
+};
+
 /**
  * It's a Repository function responsible for inserting new records of the Course Contents in the Database
- * @param courseID Course ID of the contents
- * @param courseContentArray as Array of [num, content]
+ * @param courseContentArray as Array of [prevID, content, courseID]
  * @param RepositoryCallback
  * @return Boolean - true if the records are inserted successfully <br/> - false if it failed to insert the records
  */
-exports.insertCourseContents = function(courseContentArray, RepositoryCallback) {
-    var fnName = "insertCourseContents";
+exports.insertAllCourseContents = function(courseContentArray, RepositoryCallback) {
+    var fnName = "insertAllCourseContents";
 
     var query = 'INSERT INTO course_content SET ?';
     var attribute = 'prev_content_id';
@@ -47,14 +52,16 @@ exports.insertCourseContents = function(courseContentArray, RepositoryCallback) 
  * @param RepositoryCallback
  * @return CourseContent[] Array of Course Contents Objects
  */
-exports.selectAllCourseContentsByID = function(courseID, RepositoryCallback){
-    var fnName = "selectAllCourseContentsByID";
+exports.selectAllCourseContents = function(courseID, RepositoryCallback){
+    var fnName = "selectAllCourseContents";
 
-    var query = "SELECT num, content FROM course_content WHERE course_id = " + DB.escape(courseID);
+    var query = "SELECT id, prev_content_id, content, course_id FROM course_content " +
+        "WHERE course_id = " + DB.escape(courseID);
 
     async.waterfall([
             function(GenericCallback){ Generic.selectAllRecords(query, REPOSITORY, fnName, COURSE_CONTENTS, GenericCallback); },
-            function(data, ModelCallback){ Models.setAllContents(data, ModelCallback); }
+            function(data, ModelCallback){ Models.setAllCourseContents(data, ModelCallback); },
+            function(courseContentArray, ModelCallback){ Models.orderLinkedListArray(courseContentArray, ModelCallback); }
         ], function(err, courseContents) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -72,13 +79,13 @@ exports.selectAllCourseContentsByID = function(courseID, RepositoryCallback){
  * @return Boolean - true if Deleting Successfully Done <br/>
  *                  false if Deleting failed
  */
-exports.deleteAllCourseContentsByID = function(courseID, RepositoryCallback){
-    var fnName = "deleteAllCourseContentsByID";
+exports.deleteAllCourseContents = function(courseID, RepositoryCallback){
+    var fnName = "deleteAllCourseContents";
 
     var query = "DELETE FROM course_content WHERE course_id = " + DB.escape(courseID);
 
     async.waterfall([
-            function(GenericCallback){ Generic.deleteRecord(query, REPOSITORY, fnName, COURSE_CONTENTS, GenericCallback); }],
+            function(GenericCallback){ Generic.deleteRecords(query, true, REPOSITORY, fnName, COURSE_CONTENTS, GenericCallback); }],
         function(err, done) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -93,15 +100,15 @@ exports.deleteAllCourseContentsByID = function(courseID, RepositoryCallback){
  * @param RepositoryCallback
  * @return CourseContent[] Array of Course Contents Objects
  */
-exports.selectCourseContentByID_PrevID = function(courseID, prevContentID, RepositoryCallback){
-    var fnName = "selectAllCourseContentsByID";
+exports.selectCourseContentByID = function(contentID, RepositoryCallback){
+    var fnName = "selectCourseContentByID";
 
-    var query = "SELECT id, prev_content_id, content FROM course_content " +
-        "WHERE course_id = " + DB.escape(courseID) + " AND prev_content_id = " + DB.escape(prevContentID);
+    var query = "SELECT id, prev_content_id, content, course_id FROM course_content " +
+        "WHERE id = " + DB.escape(contentID);
 
     async.waterfall([
             function(GenericCallback){ Generic.selectRecord(query, REPOSITORY, fnName, COURSE_CONTENTS, GenericCallback); },
-            function(data, ModelCallback){ Models.setContent(data, ModelCallback); }
+            function(data, ModelCallback){ Models.setCourseContent(data, ModelCallback); }
         ], function(err, courseContent) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -119,15 +126,15 @@ exports.selectCourseContentByID_PrevID = function(courseID, prevContentID, Repos
  * @return Boolean true if Update succeeded <br/>
  *                false if Update failed
  */
-exports.updateCourseContentByID_PrevID = function(contentID, newContentData, RepositoryCallback){
-    var fnName = "updateCourseContentByID_PrevID";
+exports.updateCourseContentByID = function(contentID, newContentData, RepositoryCallback){
+    var fnName = "updateCourseContentByID";
 
     var attributes = {};
 
-    if(newContentData.prevContentID != null) attributes['prev_content_id'] = newContentData.prevContentID;
+    if(newContentData.prevID != null) attributes['prev_content_id'] = newContentData.prevID;
     if(newContentData.content != null) attributes['content'] = newContentData.content;
 
-    var query = "UPDATE course_content SET ? WHERE id = " + DB.escape(contentID);
+    var query = queries.updateCourseContent(contentID);
 
     async.waterfall([ function(GenericCallback){Generic.updateRecord(query, attributes, REPOSITORY, fnName, COURSE_CONTENT, GenericCallback); }],
         function(err, done) {
@@ -147,13 +154,18 @@ exports.updateCourseContentByID_PrevID = function(contentID, newContentData, Rep
  * @return Boolean - true if Deleting Successfully Done <br/>
  *                  false if Deleting failed
  */
-exports.deleteCourseContentByID_Num = function(courseID, num, RepositoryCallback){
-    var fnName = "deleteCourseContentByID_Num";
+exports.deleteCourseContentByID = function(prevID, currentID, nextID, RepositoryCallback){
+    var fnName = "deleteCourseContentByID";
 
-    var query = "DELETE FROM course_content WHERE num = " + DB.escape(num);
+    var transactionQueries = {
+        deleteQuery: queries.deleteCourseContent(currentID),
+        updateQuery: queries.updateCourseContent(nextID),
+        updateAttributes: {prev_content_id: prevID}
+    };
 
-    async.waterfall([
-            function(GenericCallback){ Generic.deleteRecord(query, REPOSITORY, fnName, COURSE_CONTENT, GenericCallback); }],
+    async.waterfall([function(GenericCallback){
+            Generic.deleteLinkedListRecord(transactionQueries, REPOSITORY, fnName, COURSE_CONTENT, GenericCallback)
+        }],
         function(err, done) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -161,28 +173,41 @@ exports.deleteCourseContentByID_Num = function(courseID, num, RepositoryCallback
                 return RepositoryCallback(null, done);
         }
     );
+    //var query = queries.deleteCourseContent(currentID);
+    //
+    //async.waterfall([
+    //    function(GenericCallback){
+    //        Generic.deleteRecords(query, false, REPOSITORY, fnName, COURSE_CONTENT, GenericCallback);
+    //    },
+    //    function(done, GenericCallback){
+    //        exports.updateCourseContentByID(nextID, {prevID: prevID},  GenericCallback);
+    //    }],
+    //    function(err, done) {
+    //        if(err != null)
+    //            return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+    //        else
+    //            return RepositoryCallback(null, done);
+    //    }
+    //);
 };
 
-exports.insertCourseContent = function(courseID, prevContentID, content, nextContentID, RepositoryCallback){
+exports.insertCourseContent = function(contentData, nextContentID, RepositoryCallback)  {
     var fnName = 'insertCourseContent';
-    var query = 'INSERT INTO course_content SET ?';
 
-    var selectPrevContent = function(GenericCallback){
-        exports.selectCourseContentByID_PrevID(courseID, prevContentID, GenericCallback);
-    };
-    var insertNewContent = function(courseContent, GenericCallback){
-        var newCourseContent = {
-            prev_content_id: courseContent.id,
-            content: content,
-            course_id: courseID
-        };
-        Generic.insertRecord(query, newCourseContent, REPOSITORY, fnName, COURSE_CONTENT, GenericCallback);
-    };
-    var updateNextContent = function(newCourseContentID, GenericCallback){
-        exports.updateCourseContentByID_PrevID(nextContentID, {prevContentID: newCourseContentID},  GenericCallback);
+    var transactionQueries = {
+        insertQuery: queries.insertCourseContent,
+        insertData: {
+            prev_content_id: contentData.prevID,
+            content: contentData.content,
+            course_id: contentData.courseID
+        },
+        updateQuery: queries.updateCourseContent(nextContentID),
+        updateFieldName: 'prev_content_id'
     };
 
-    async.waterfall([selectPrevContent, insertNewContent, updateNextContent],
+    async.waterfall([function(GenericCallback){
+        Generic.insertLinkedListRecord(transactionQueries, REPOSITORY, fnName, COURSE_CONTENT, GenericCallback)
+    }],
         function(err, done) {
             if(err != null)
                 return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
@@ -190,5 +215,25 @@ exports.insertCourseContent = function(courseID, prevContentID, content, nextCon
                 return RepositoryCallback(null, done);
         }
     );
+    //var query = queries.insertCourseContent;
+    //var insertNewContent = function(GenericCallback){
+    //    Generic.insertRecord(query, {
+    //        prev_content_id: contentData.prevID,
+    //        content: contentData.content,
+    //        course_id: contentData.courseID
+    //    }, REPOSITORY, fnName, COURSE_CONTENT, GenericCallback);
+    //};
+    //var updateNextContent = function(newContentID, GenericCallback){
+    //    exports.updateCourseContentByID(nextContentID, {prevID: newContentID},  GenericCallback);
+    //};
+    //
+    //async.waterfall([insertNewContent, updateNextContent],
+    //    function(err, done) {
+    //        if(err != null)
+    //            return RepositoryCallback(ErrMsg.createError(DB_ERROR, err.message), null);
+    //        else
+    //            return RepositoryCallback(null, done);
+    //    }
+    //);
 };
 

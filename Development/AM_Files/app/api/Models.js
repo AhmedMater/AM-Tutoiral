@@ -1,6 +1,12 @@
 /**
  * Created by Ahmed Mater on 12/24/2016.
  */
+var SystemParam = rootRequire('SystemParameters');
+var ErrMsg = rootRequire('ErrorMessages');
+var Logger = rootRequire('Logger');
+
+var MODEL_ERROR = SystemParam.MODEL_ERROR;
+var MODELS = 'Models';
 
 var exports = module.exports = {};
 
@@ -99,21 +105,22 @@ exports.setAllCourses = function(rows, ModelCallback){
     }
 };
 
-exports.setContent = function(row, ModelCallback){
+exports.setCourseContent = function(row, ModelCallback){
     if(row == null)
         return ModelCallback(null, null);
     else {
         var CourseContent = {
             id: row.id,
-            prevContentID: row.prev_content_id,
-            content: row.content
+            prevID: row.prev_content_id,
+            content: row.content,
+            courseID: row.course_id
         };
 
         return ModelCallback(null, CourseContent);
     }
 };
 
-exports.setAllContents = function(rows, ModelCallback){
+exports.setAllCourseContents = function(rows, ModelCallback){
     if(rows == null)
         return ModelCallback(null, null);
     else {
@@ -122,8 +129,9 @@ exports.setAllContents = function(rows, ModelCallback){
         for(var i=0; i<rows.length; i++)
             CourseContents.push({
                 id: rows[i].id,
-                prevContentID: rows[i].prev_content_id,
-                content: rows[i].content
+                prevID: rows[i].prev_content_id,
+                content: rows[i].content,
+                courseID: rows[i].course_id
             });
 
         return ModelCallback(null, CourseContents);
@@ -173,5 +181,47 @@ exports.setAllReferences = function(rows, ModelCallback){
             });
 
         return ModelCallback(null, CourseReferences);
+    }
+};
+
+exports.orderLinkedListArray = function(linkedListArray, ModelCallback){
+    var fnName = 'orderLinkedListArray';
+    var orderedArray = [];
+
+    // If the Array to be ordered is empty
+    if(linkedListArray.length == 0) {
+        Logger.debug(MODELS, fnName, "No Elements to be ordered");
+        return ModelCallback(null, null);
+    }
+
+    // Get the first element
+    for(var i=0; i<linkedListArray.length; i++)
+        if(linkedListArray[i].prevID == 0) {
+            orderedArray.push(linkedListArray[i]);
+            linkedListArray.splice(i, 1);
+            break;
+        }
+
+    // If It failes to find the first element
+    if(orderedArray.length == 0) {
+        Logger.error(MODELS, fnName, "Can't find the first Element");
+        return ModelCallback(ErrMsg.createError(MODEL_ERROR, "Can't find the first Element"), null);
+    }
+
+    // Order the linked List elements
+    for(var i=0; i<linkedListArray.length; i++)
+        if(linkedListArray[i].prevID == orderedArray[orderedArray.length-1].id) {
+            orderedArray.push(linkedListArray[i]);
+            linkedListArray.splice(i, 1);
+            i=-1;
+        }
+
+    // if the Array isn't fully ordered
+    if(linkedListArray.length == 0) {
+        Logger.error(MODELS, fnName, "Still some elements not Ordered");
+        return ModelCallback(ErrMsg.createError(MODEL_ERROR, "Still some elements not Ordered"), null);
+    }else{
+        Logger.debug(MODELS, fnName, "Array is Ordered Successfully");
+        ModelCallback(null, orderedArray);
     }
 };

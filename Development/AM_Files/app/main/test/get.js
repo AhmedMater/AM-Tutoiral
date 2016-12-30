@@ -607,29 +607,44 @@ var testingCourseContentRepository = function(res){
                 course_id: 3
             }
         ];
-        ContentRepository.insertCourseContents(courseContents, RepositoryCallback);
+        ContentRepository.insertAllCourseContents(courseContents, RepositoryCallback);
     };
 
     var selectContent = function(RepositoryCallback){
-        var courseID = 3;
-        var prevContentID = 14;
-        ContentRepository.selectCourseContentByID_PrevID(courseID, prevContentID, RepositoryCallback);
+        ContentRepository.selectCourseContentByID(30, RepositoryCallback);
     };
-
     var insertContent = function(RepositoryCallback){
-        var courseID = 3;
-        var prevContentID = 12;
-        var nextContentID = 13;
-        var content = 'Content First';
-        ContentRepository.insertCourseContent(courseID, prevContentID, content, nextContentID, RepositoryCallback);
+        ContentRepository.insertCourseContent({
+            prevID: 42,
+            content: 'Between 1 and 2',
+            courseID: 3,
+        }, 43, RepositoryCallback);
     };
 
+    var deleteContent = function(RepositoryCallback){
+        ContentRepository.deleteCourseContentByID(37, 41, 38, RepositoryCallback);
+    };
+    var updateContent = function(RepositoryCallback){
+        ContentRepository.updateCourseContentByID(30,{
+            content: 'Ahmed',
+            prevID: 1
+        }, RepositoryCallback);
+    };
+    var selectAllCourseContents = function(RepositoryCallback){
+        ContentRepository.selectAllCourseContents(3, RepositoryCallback);
+    };
+    var deleteAll = function(RepositoryCallback){
+        ContentRepository.deleteAllCourseContents(3, RepositoryCallback);
+    };
     async.waterfall([insertContent],
         function(err, result) {
             if(err != null)
                 res.send(err.message);
             else if(typeof result === "object")
-                res.send(result);
+            res.render('test',{
+                results: result
+            });
+                //res.send(result);
             else
                 res.send('<h2>' + result + '</h2>');
         }
