@@ -1,0 +1,479 @@
+AM-Logger 2016-12-20 05:51:38 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-20 05:51:41 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-20 05:51:41 [Debug]: [UserRepository] - [isUserActive]: (User) is selected successfully from Database
+AM-Logger 2016-12-20 05:52:28 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-20 05:52:33 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-20 05:52:34 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-20 05:52:34 [Debug]: [UserRepository] - [isUserActive]: (User) is selected successfully from Database
+AM-Logger 2016-12-20 05:52:48 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-20 05:52:49 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-20 05:52:49 [Debug]: [UserRepository] - [isUserActive]: (User) is selected successfully from Database
+AM-Logger 2016-12-20 05:53:02 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-20 05:53:04 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-20 05:53:04 [Error]: [UserRepository] - [isUserActive]: (User) isn't found in Database
+AM-Logger 2016-12-20 05:53:18 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-20 05:53:34 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-20 05:53:36 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-20 05:53:36 [Error]: [UserRepository] - [isUserActive]: More than one (User) is found in Database
+AM-Logger 2016-12-20 05:53:54 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-20 05:53:55 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-20 05:53:55 [Error]: [UserRepository] - [isUserActive]: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'users WHERE id = 1' at line 1
+AM-Logger 2016-12-20 05:54:15 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:14:39 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:15:02 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:15:02 [Error]: [UserRepository] - [selectAllUsers]: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'null 1 AND user.gender null 'M' AND user.active null true AND null AND DATE(`dat' at line 1
+AM-Logger 2016-12-21 04:22:09 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:22:11 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:22:35 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:22:40 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:23:01 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:23:18 [Error]: [DB_Connection] - [connect]: connect ETIMEDOUT
+AM-Logger 2016-12-21 04:23:22 [Error]: [UserRepository] - [selectAllUsers]: connect ETIMEDOUT
+AM-Logger 2016-12-21 04:24:57 [Error]: [UserRepository] - [selectAllUsers]: Cannot enqueue Query after fatal error.
+AM-Logger 2016-12-21 04:25:02 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:25:08 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:26:07 [Error]: [UserRepository] - [selectAllUsers]: More than one (User) is selected from Database
+AM-Logger 2016-12-21 04:30:03 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:30:08 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:30:08 [Error]: [UserRepository] - [selectAllUsers]: All (User) are selected successfully from Database
+AM-Logger 2016-12-21 04:30:41 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:30:48 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:31:26 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:31:27 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:31:27 [Debug]: [UserRepository] - [selectAllUsers]: (User) isn't found in Database
+AM-Logger 2016-12-21 04:31:34 [Debug]: [UserRepository] - [selectAllUsers]: (User) isn't found in Database
+AM-Logger 2016-12-21 04:31:53 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:31:55 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:31:55 [Debug]: [UserRepository] - [selectAllUsers]: (User) isn't found in Database
+AM-Logger 2016-12-21 04:33:21 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:33:21 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:33:21 [Debug]: [UserRepository] - [selectAllUsers]: (User) isn't found in Database
+AM-Logger 2016-12-21 04:33:38 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:33:40 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:33:47 [Debug]: [UserRepository] - [selectAllUsers]: (User) isn't found in Database
+AM-Logger 2016-12-21 04:33:59 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:34:00 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:34:04 [Error]: [UserRepository] - [selectAllUsers]: All (User) are selected successfully from Database
+AM-Logger 2016-12-21 04:35:29 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:35:37 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:35:37 [Error]: [UserRepository] - [selectAllUsers]: All (User) are selected successfully from Database
+AM-Logger 2016-12-21 04:36:29 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:36:30 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:37:15 [Error]: [UserRepository] - [selectAllUsers]: All (User) are selected successfully from Database
+AM-Logger 2016-12-21 04:37:30 [Error]: [UserRepository] - [selectAllUsers]: All (User) are selected successfully from Database
+AM-Logger 2016-12-21 04:37:49 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:37:58 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:38:26 [Error]: [UserRepository] - [selectAllUsers]: All (User) are selected successfully from Database
+AM-Logger 2016-12-21 04:38:42 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:38:51 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:39:47 [Debug]: [UserRepository] - [selectAllUsers]: (User) isn't found in Database
+AM-Logger 2016-12-21 04:40:07 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:40:13 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-21 04:40:16 [Error]: [UserRepository] - [selectAllUsers]: All (User) are selected successfully from Database
+AM-Logger 2016-12-21 04:44:23 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 04:47:35 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 05:03:49 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 05:05:23 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 05:06:51 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-21 05:09:41 [Debug]: [Logger] - [openLogFile]: Logger File Opened Successfully
+AM-Logger 2016-12-23 06:59:52 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 06:59:52 [Debug]: [CourseRepository] - [insertFullCourse]: (Course) is inserted successfully in Database
+AM-Logger 2016-12-23 06:59:52 [Debug]: [CourseRepository] - [insertFullCourse]: All (Course Contents) are inserted successfully in Database
+AM-Logger 2016-12-23 06:59:52 [Debug]: [CourseRepository] - [insertFullCourse]: All (Course Objectives) are inserted successfully in Database
+AM-Logger 2016-12-23 06:59:52 [Debug]: [CourseRepository] - [insertFullCourse]: All (Course Prerequisites) are inserted successfully in Database
+AM-Logger 2016-12-23 06:59:52 [Debug]: [CourseRepository] - [insertFullCourse]: All (Course References) are inserted successfully in Database
+AM-Logger 2016-12-23 06:59:52 [Debug]: [CourseRepository] - [insertFullCourse]: (Course) data is fully inserted in Database
+AM-Logger 2016-12-23 07:03:27 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:03:27 [Debug]: [CourseRepository] - [selectCourseByID]: (Course) isn't found in Database
+AM-Logger 2016-12-23 07:04:41 [Debug]: [CourseRepository] - [selectCourseByID]: (Course) isn't found in Database
+AM-Logger 2016-12-23 07:05:47 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:05:47 [Debug]: [CourseRepository] - [insertCourse]: (Course) is inserted successfully in Database
+AM-Logger 2016-12-23 07:06:25 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:06:25 [Debug]: [CourseRepository] - [insertCourse]: All (Course) are inserted successfully in Database
+AM-Logger 2016-12-23 07:08:43 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:08:43 [Debug]: [CourseRepository] - [selectCourseByID]: (Course) is selected successfully from Database
+AM-Logger 2016-12-23 07:24:36 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:24:36 [Debug]: [CourseRepository] - [insertCourseObjectives]: All (Course) are inserted successfully in Database
+AM-Logger 2016-12-23 07:24:36 [Error]: [CourseRepository] - [selectAllCourseObjectivesByID]: All (Course Objectives) are selected successfully from Database
+AM-Logger 2016-12-23 07:38:54 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:38:54 [Debug]: [CourseRepository] - [insertCoursePrerequisites]: All (Course) are inserted successfully in Database
+AM-Logger 2016-12-23 07:38:54 [Error]: [CourseRepository] - [selectAllCoursePrerequisitesByID]: All (Course Prerequisites) are selected successfully from Database
+AM-Logger 2016-12-23 07:39:22 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:39:22 [Debug]: [CourseRepository] - [insertCourseReferences]: All (Course) are inserted successfully in Database
+AM-Logger 2016-12-23 07:39:22 [Error]: [CourseRepository] - [selectAllCourseReferencesByID]: All (Course References) are selected successfully from Database
+AM-Logger 2016-12-23 07:54:36 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:54:55 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:54:55 [Error]: [CourseRepository] - [updateCourseByID]: ER_NO_SUCH_TABLE: Table 'am.courses' doesn't exist
+AM-Logger 2016-12-23 07:55:07 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:55:07 [Debug]: [CourseRepository] - [updateCourseByID]: (Course) is updated successfully in Database
+AM-Logger 2016-12-23 07:55:07 [Error]: [CourseRepository] - [selectCourseByID]: ER_BAD_FIELD_ERROR: Unknown column 'last_update' in 'field list'
+AM-Logger 2016-12-23 07:55:39 [Debug]: [CourseRepository] - [updateCourseByID]: (Course) is updated successfully in Database
+AM-Logger 2016-12-23 07:55:39 [Error]: [CourseRepository] - [selectCourseByID]: ER_BAD_FIELD_ERROR: Unknown column 'last_update' in 'field list'
+AM-Logger 2016-12-23 07:56:34 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:56:34 [Debug]: [CourseRepository] - [updateCourseByID]: (Course) is updated successfully in Database
+AM-Logger 2016-12-23 07:56:34 [Error]: [CourseRepository] - [selectCourseByID]: ER_BAD_FIELD_ERROR: Unknown column 'last_update' in 'field list'
+AM-Logger 2016-12-23 07:57:03 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:57:03 [Debug]: [CourseRepository] - [updateCourseByID]: (Course) is updated successfully in Database
+AM-Logger 2016-12-23 07:57:03 [Error]: [CourseRepository] - [selectCourseByID]: ER_BAD_FIELD_ERROR: Unknown column 'last_update' in 'field list'
+AM-Logger 2016-12-23 07:57:37 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:57:37 [Debug]: [CourseRepository] - [updateCourseByID]: (Course) is updated successfully in Database
+AM-Logger 2016-12-23 07:57:37 [Error]: [CourseRepository] - [selectCourseByID]: ER_NON_UNIQ_ERROR: Column 'last_updated' in field list is ambiguous
+AM-Logger 2016-12-23 07:58:41 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:58:41 [Debug]: [CourseRepository] - [updateCourseByID]: (Course) is updated successfully in Database
+AM-Logger 2016-12-23 07:58:41 [Debug]: [CourseRepository] - [selectCourseByID]: (Course) is selected successfully from Database
+AM-Logger 2016-12-23 07:59:14 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-23 07:59:14 [Debug]: [CourseRepository] - [updateCourseByID]: (Course) is updated successfully in Database
+AM-Logger 2016-12-23 07:59:14 [Debug]: [CourseRepository] - [selectCourseByID]: (Course) is selected successfully from Database
+AM-Logger 2016-12-25 00:14:00 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:14:01 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:14:07 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:14:14 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:14:14 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:14:14 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:14:14 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:07 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:15:07 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:07 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:07 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:07 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:07 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:07 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:31 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:34 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:36 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:46 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:46 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:46 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:55 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:15:55 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:55 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:55 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:55 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:55 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:55 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:55 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:55 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:55 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:55 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:55 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:15:55 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:16:46 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:16:47 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:16:52 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:16:55 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:16:56 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:16:57 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:17:23 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:17:23 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:17:24 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:17:24 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:17:24 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:17:24 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:17:24 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:17:24 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:17:24 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:17:24 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:17:24 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:17:24 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:17:24 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:18:09 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:18:09 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:18:09 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:18:09 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:18:09 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:18:09 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:18:35 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:18:35 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:18:35 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:18:35 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:18:35 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:18:35 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:18:35 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:19:44 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:19:44 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:19:44 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:19:44 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:19:44 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:19:44 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:20:35 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:20:35 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:20:35 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:20:35 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:20:35 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:20:35 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:22:42 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:22:42 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:11 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:47 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:23:48 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:48 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:48 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:48 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:48 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:48 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:49 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:49 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:49 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:49 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:49 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:23:49 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:24:25 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:24:25 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:24:25 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:24:25 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:24:25 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:24:25 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:24:25 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:25:16 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:25:16 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:25:16 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:25:16 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:25:16 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:25:16 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:26:28 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:28:01 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:29:13 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:32:15 [Error]: [DB_Connection] - [connect]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:32:17 [Error]: [Course ContentsRepository] - [insertCourseContents]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:32:15 [Error]: [Course ContentsRepository] - [insertCourseContents]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:42:05 [Error]: [Course ContentsRepository] - [insertCourseContents]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:42:05 [Error]: [Course ContentsRepository] - [insertCourseContents]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:32:16 [Error]: [Course ContentsRepository] - [insertCourseContents]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:42:05 [Error]: [Course ContentsRepository] - [insertCourseContents]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:42:15 [Error]: [Course ContentsRepository] - [insertCourseContents]: Cannot enqueue Query after fatal error.
+AM-Logger 2016-12-25 00:42:15 [Error]: [Course ContentsRepository] - [insertCourseContents]: Cannot enqueue Query after fatal error.
+AM-Logger 2016-12-25 00:42:15 [Error]: [Course ContentsRepository] - [insertCourseContents]: Cannot enqueue Query after fatal error.
+AM-Logger 2016-12-25 00:42:15 [Error]: [Course ContentsRepository] - [insertCourseContents]: Cannot enqueue Query after fatal error.
+AM-Logger 2016-12-25 00:42:15 [Error]: [Course ContentsRepository] - [insertCourseContents]: Cannot enqueue Query after fatal error.
+AM-Logger 2016-12-25 00:42:15 [Error]: [Course ContentsRepository] - [insertCourseContents]: Cannot enqueue Query after fatal error.
+AM-Logger 2016-12-25 00:42:49 [Error]: [DB_Connection] - [connect]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:42:49 [Error]: [Course ContentsRepository] - [insertCourseContents]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:42:52 [Error]: [Course ContentsRepository] - [insertCourseContents]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:42:52 [Error]: [Course ContentsRepository] - [insertCourseContents]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:42:52 [Error]: [Course ContentsRepository] - [insertCourseContents]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:42:52 [Error]: [Course ContentsRepository] - [insertCourseContents]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:42:52 [Error]: [Course ContentsRepository] - [insertCourseContents]: connect ETIMEDOUT
+AM-Logger 2016-12-25 00:44:22 [Error]: [Course ContentsRepository] - [insertCourseContents]: Cannot enqueue Query after fatal error.
+AM-Logger 2016-12-25 00:44:22 [Error]: [Course ContentsRepository] - [insertCourseContents]: Cannot enqueue Query after fatal error.
+AM-Logger 2016-12-25 00:44:22 [Error]: [Course ContentsRepository] - [insertCourseContents]: Cannot enqueue Query after fatal error.
+AM-Logger 2016-12-25 00:44:22 [Error]: [Course ContentsRepository] - [insertCourseContents]: Cannot enqueue Query after fatal error.
+AM-Logger 2016-12-25 00:44:22 [Error]: [Course ContentsRepository] - [insertCourseContents]: Cannot enqueue Query after fatal error.
+AM-Logger 2016-12-25 00:44:22 [Error]: [Course ContentsRepository] - [insertCourseContents]: Cannot enqueue Query after fatal error.
+AM-Logger 2016-12-25 00:47:17 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:47:17 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:47:17 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:47:17 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:47:17 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:47:17 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:47:17 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:47:36 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:47:39 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:47:43 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:47:43 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:47:43 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:47:43 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:49:17 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:49:17 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:49:17 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:49:17 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:49:17 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:49:17 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:49:36 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:49:36 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:49:36 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:49:36 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:49:36 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:49:36 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 00:52:44 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:55:20 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:56:57 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 00:58:14 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 01:04:27 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 01:05:52 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 01:08:10 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-25 01:08:10 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 01:08:19 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 01:08:28 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 01:08:28 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-25 01:08:28 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-26 03:45:13 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-26 03:45:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-26 03:45:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-26 03:45:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-26 03:45:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-26 03:45:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-26 03:45:13 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-26 03:45:59 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-26 03:45:59 [Debug]: [Course ContentsRepository] - [insertCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-26 03:46:47 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-26 03:46:47 [Error]: [Course ContentsRepository] - [insertCourseContents]: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '?' at line 1
+AM-Logger 2016-12-26 03:51:40 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-26 04:32:54 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-26 04:33:20 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-26 04:33:20 [Debug]: [Course ContentsRepository] - [selectAllCourseContentsByID]: (Course Contents) is selected successfully from Database
+AM-Logger 2016-12-26 04:33:20 [Error]: [Course ContentsRepository] - [insertCourseContent]: ER_NO_DEFAULT_FOR_FIELD: Field 'course_id' doesn't have a default value
+AM-Logger 2016-12-26 04:34:16 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-26 04:34:16 [Debug]: [Course ContentsRepository] - [selectAllCourseContentsByID]: (Course Contents) is selected successfully from Database
+AM-Logger 2016-12-26 04:34:16 [Error]: [Course ContentsRepository] - [insertCourseContent]: ER_BAD_NULL_ERROR: Column 'prev_content_id' cannot be null
+AM-Logger 2016-12-26 04:34:28 [Debug]: [Course ContentsRepository] - [selectAllCourseContentsByID]: (Course Contents) is selected successfully from Database
+AM-Logger 2016-12-26 04:35:28 [Error]: [Course ContentsRepository] - [insertCourseContent]: ER_BAD_NULL_ERROR: Column 'prev_content_id' cannot be null
+AM-Logger 2016-12-26 04:35:35 [Debug]: [Course ContentsRepository] - [selectAllCourseContentsByID]: (Course Contents) is selected successfully from Database
+AM-Logger 2016-12-26 04:37:32 [Error]: [Course ContentsRepository] - [insertCourseContent]: ER_BAD_NULL_ERROR: Column 'prev_content_id' cannot be null
+AM-Logger 2016-12-26 04:37:32 [Debug]: [Course ContentsRepository] - [selectAllCourseContentsByID]: (Course Contents) is selected successfully from Database
+AM-Logger 2016-12-26 04:37:49 [Error]: [Course ContentsRepository] - [insertCourseContent]: ER_BAD_NULL_ERROR: Column 'prev_content_id' cannot be null
+AM-Logger 2016-12-26 05:17:25 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-26 05:17:25 [Debug]: [Course ContentsRepository] - [selectAllCourseContentsByID]: (Course Contents) is selected successfully from Database
+AM-Logger 2016-12-26 05:17:59 [Debug]: [Course ContentsRepository] - [selectAllCourseContentsByID]: (Course Contents) is selected successfully from Database
+AM-Logger 2016-12-26 05:18:57 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-26 05:18:57 [Debug]: [Course ContentsRepository] - [selectAllCourseContentsByID]: (Course Contents) is selected successfully from Database
+AM-Logger 2016-12-26 05:19:52 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-26 05:19:52 [Debug]: [Course ContentsRepository] - [selectAllCourseContentsByID]: (Course Contents) is selected successfully from Database
+AM-Logger 2016-12-26 05:19:56 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-26 05:22:40 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-26 05:22:40 [Debug]: [Course ContentsRepository] - [selectAllCourseContentsByID]: (Course Contents) is selected successfully from Database
+AM-Logger 2016-12-26 05:22:40 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-26 05:22:40 [Debug]: [Course ContentsRepository] - [updateCourseContentByID_PrevID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-26 05:23:12 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-26 05:23:12 [Debug]: [Course ContentsRepository] - [selectAllCourseContentsByID]: (Course Contents) is selected successfully from Database
+AM-Logger 2016-12-26 05:23:12 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-26 05:23:12 [Debug]: [Course ContentsRepository] - [updateCourseContentByID_PrevID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-26 05:23:48 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-26 05:23:48 [Debug]: [Course ContentsRepository] - [selectAllCourseContentsByID]: (Course Contents) is selected successfully from Database
+AM-Logger 2016-12-26 05:23:48 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-26 05:23:48 [Debug]: [Course ContentsRepository] - [updateCourseContentByID_PrevID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-27 04:56:58 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-27 04:56:58 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-27 04:56:58 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-27 04:56:58 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-27 04:56:58 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-27 04:56:58 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-27 04:56:58 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-27 20:26:11 [Error]: [DB_Connection] - [connect]: connect ECONNREFUSED 127.0.0.1:3306
+AM-Logger 2016-12-27 20:26:11 [Error]: [Course ContentsRepository] - [insertAllCourseContents]: connect ECONNREFUSED 127.0.0.1:3306
+AM-Logger 2016-12-27 20:27:11 [Error]: [DB_Connection] - [connect]: connect ECONNREFUSED 127.0.0.1:3306
+AM-Logger 2016-12-30 02:31:49 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 02:31:49 [Error]: [Course ContentsRepository] - [insertCourseContent]: ER_BAD_NULL_ERROR: Column 'prev_content_id' cannot be null
+AM-Logger 2016-12-30 02:32:04 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 02:32:04 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 02:32:04 [Debug]: [Course ContentsRepository] - [updateCourseContentByID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-30 02:32:46 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 02:32:46 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 02:32:46 [Debug]: [Course ContentsRepository] - [updateCourseContentByID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-30 02:33:23 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 02:33:23 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 02:33:23 [Debug]: [Course ContentsRepository] - [updateCourseContentByID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-30 02:34:16 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 02:34:16 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 02:34:16 [Debug]: [Course ContentsRepository] - [updateCourseContentByID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-30 02:35:15 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 02:36:03 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 02:36:29 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 02:36:29 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 02:39:28 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 02:40:18 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 02:40:18 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 02:40:49 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 02:42:08 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 02:42:08 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 02:42:41 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 02:42:41 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 02:42:41 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 02:42:53 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 02:47:42 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 02:47:42 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 02:48:01 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 02:51:45 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 02:51:52 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 02:52:11 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 02:52:53 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 02:52:53 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 03:14:45 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:14:45 [Debug]: [Course ContentsRepository] - [deleteCourseContentByID_Num]: (Course Content) is deleted successfully from Database
+AM-Logger 2016-12-30 03:15:53 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:15:53 [Debug]: [Course ContentsRepository] - [updateCourseContentByID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-30 03:16:36 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:16:36 [Error]: [Course ContentsRepository] - [insertCourseContent]: ER_BAD_NULL_ERROR: Column 'prev_content_id' cannot be null
+AM-Logger 2016-12-30 03:16:44 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:16:44 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 03:16:44 [Debug]: [Course ContentsRepository] - [updateCourseContentByID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-30 03:18:14 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:18:14 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 03:18:14 [Debug]: [Course ContentsRepository] - [updateCourseContentByID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-30 03:18:29 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:18:29 [Debug]: [Course ContentsRepository] - [selectCourseContentByID]: (Course Contents) isn't found in Database
+AM-Logger 2016-12-30 03:18:45 [Debug]: [Course ContentsRepository] - [selectCourseContentByID]: (Course Contents) isn't found in Database
+AM-Logger 2016-12-30 03:18:58 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:18:58 [Debug]: [Course ContentsRepository] - [selectCourseContentByID]: (Course Contents) is selected successfully from Database
+AM-Logger 2016-12-30 03:19:47 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:19:48 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 03:21:09 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 03:21:39 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:21:39 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 03:21:39 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 03:21:39 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 03:21:39 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 03:21:39 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 03:21:39 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 03:22:08 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:22:08 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 03:22:08 [Debug]: [Course ContentsRepository] - [updateCourseContentByID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-30 03:22:27 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:22:27 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 03:22:27 [Debug]: [Course ContentsRepository] - [updateCourseContentByID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-30 03:22:38 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:22:38 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 03:28:47 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 03:32:22 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:32:22 [Debug]: [Course ContentsRepository] - [deleteCourseContentByID]: (Course Content) is deleted successfully from Database
+AM-Logger 2016-12-30 03:35:02 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:35:02 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 03:35:28 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:35:28 [Debug]: [Course ContentsRepository] - [deleteCourseContentByID]: (Course Content) is deleted successfully from Database
+AM-Logger 2016-12-30 03:35:28 [Debug]: [Course ContentsRepository] - [updateCourseContentByID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-30 03:35:35 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:35:35 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 03:36:07 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:36:07 [Debug]: [Course ContentsRepository] - [deleteCourseContentByID]: (Course Content) is deleted successfully from Database
+AM-Logger 2016-12-30 03:36:07 [Debug]: [Course ContentsRepository] - [updateCourseContentByID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-30 03:36:19 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:36:19 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 03:37:09 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:37:09 [Debug]: [Course ContentsRepository] - [deleteCourseContentByID]: (Course Content) is deleted successfully from Database
+AM-Logger 2016-12-30 03:37:09 [Debug]: [Course ContentsRepository] - [updateCourseContentByID]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-30 03:37:09 [Error]: [Course ContentsRepository] - [selectAllCourseContents]: All (Course Contents) are selected successfully from Database
+AM-Logger 2016-12-30 03:38:36 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:38:36 [Debug]: [Course ContentsRepository] - [deleteCourseContentByID]: (Course Content) is deleted successfully from Database
+AM-Logger 2016-12-30 03:38:36 [Error]: [Course ContentsRepository] - [updateCourseContentByID]: (Course Content) record isn't updated as it already has the same new values in database
+AM-Logger 2016-12-30 03:38:59 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 03:39:10 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 06:26:41 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 06:26:41 [Debug]: [Course ContentsRepository] - [deleteAllCourseContents]: All (Course Contents) are deleted successfully from Database
+AM-Logger 2016-12-30 06:27:01 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 06:27:01 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 06:27:01 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 06:27:01 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 06:27:01 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 06:27:01 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 06:27:01 [Debug]: [Course ContentsRepository] - [insertAllCourseContents]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 06:58:27 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 06:58:27 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 06:58:27 [Error]: [Course ContentsRepository] - [insertCourseContent]: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '? WHERE id = 43' at line 1
+AM-Logger 2016-12-30 06:59:47 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 07:02:10 [Error]: [Course ContentsRepository] - [insertCourseContent]: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '? WHERE id = 43' at line 1
+AM-Logger 2016-12-30 07:02:13 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 07:03:25 [Error]: [Course ContentsRepository] - [insertCourseContent]: ER_PARSE_ERROR: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '? WHERE id = 43' at line 1
+AM-Logger 2016-12-30 07:03:34 [Info]: connect: Connected to Database Successfully
+AM-Logger 2016-12-30 07:03:34 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 07:03:43 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is updated successfully in Database
+AM-Logger 2016-12-30 07:04:00 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is inserted successfully in Database
+AM-Logger 2016-12-30 07:04:00 [Debug]: [Course ContentsRepository] - [insertCourseContent]: (Course Content) is updated successfully in Database
